@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">WhackAWord</string>
+
+    <string name="hole1">hole1</string>
+    <string name="hole2">hole2</string>
+    <string name="hole3">hole3</string>
+    <string name="hole4">hole4</string>
+    <string name="hole5">hole5</string>
+
+</resources>
