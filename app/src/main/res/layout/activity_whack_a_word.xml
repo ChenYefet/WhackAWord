@@ -7,13 +7,14 @@
     tools:context=".WhackAWordActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="1278dp"
-        android:layout_height="198dp"
+        android:id="@+id/sky_constraint_layout"
         android:background="@drawable/sky_background"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -25,48 +26,47 @@
         app:layout_constraintGuide_percent="0.25" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ground_constraint_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/ground_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@id/guideline">
 
         <ImageView
             android:id="@+id/hole1"
             android:layout_width="208dp"
             android:layout_height="92dp"
             android:layout_marginStart="55dp"
-            android:layout_marginTop="96dp"
-            android:src="@drawable/hole"
+            android:layout_marginBottom="412dp"
             android:contentDescription="@string/hole1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:src="@drawable/hole"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/hole2"
             android:layout_width="208dp"
             android:layout_height="92dp"
-            android:layout_marginTop="96dp"
-            android:src="@drawable/hole"
+            android:layout_marginBottom="412dp"
             android:contentDescription="@string/hole2"
-            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/hole"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageView
             android:id="@+id/hole3"
             android:layout_width="208dp"
             android:layout_height="92dp"
-            android:layout_marginTop="96dp"
             android:layout_marginEnd="55dp"
-            android:src="@drawable/hole"
+            android:layout_marginBottom="412dp"
             android:contentDescription="@string/hole3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:src="@drawable/hole"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
             android:id="@+id/hole4"
@@ -74,8 +74,8 @@
             android:layout_height="92dp"
             android:layout_marginStart="316dp"
             android:layout_marginBottom="150dp"
-            android:src="@drawable/hole"
             android:contentDescription="@string/hole4"
+            android:src="@drawable/hole"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -85,11 +85,182 @@
             android:layout_height="92dp"
             android:layout_marginEnd="316dp"
             android:layout_marginBottom="150dp"
-            android:src="@drawable/hole"
             android:contentDescription="@string/hole5"
+            android:src="@drawable/hole"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <FrameLayout
+        android:visibility="invisible"
+        android:id="@+id/card1"
+        android:layout_width="183.125dp"
+        android:layout_height="257.6dp"
+        android:layout_marginStart="67dp"
+        android:layout_marginBottom="404dp"
+        android:contentDescription="@string/card1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/card"
+        tools:showIn="@layout/activity_whack_a_word" >
+
+        <ImageView
+            android:id="@+id/image_view_for_card_1"
+            android:layout_width="match_parent"
+            android:layout_height="179dp"
+            android:layout_margin="10dp"
+            android:contentDescription="@string/variable_food_item_for_card1" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:visibility="invisible"
+        android:id="@+id/card2"
+        android:layout_width="183.125dp"
+        android:layout_height="257.6dp"
+        android:layout_marginBottom="404dp"
+        android:contentDescription="@string/card2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/card"
+        tools:showIn="@layout/activity_whack_a_word" >
+
+        <ImageView
+            android:id="@+id/image_view_for_card_2"
+            android:layout_width="match_parent"
+            android:layout_height="179dp"
+            android:layout_margin="10dp"
+            android:contentDescription="@string/variable_food_item_for_card2" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:visibility="invisible"
+        android:id="@+id/card3"
+        android:layout_width="183.125dp"
+        android:layout_height="257.6dp"
+        android:layout_marginBottom="404dp"
+        android:layout_marginEnd="67dp"
+        android:contentDescription="@string/card3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/card"
+        tools:showIn="@layout/activity_whack_a_word" >
+
+        <ImageView
+            android:id="@+id/image_view_for_card_3"
+            android:layout_width="match_parent"
+            android:layout_height="179dp"
+            android:layout_margin="10dp"
+            android:contentDescription="@string/variable_food_item_for_card3" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:visibility="invisible"
+        android:id="@+id/card4"
+        android:layout_width="183.125dp"
+        android:layout_height="257.6dp"
+        android:layout_marginStart="329dp"
+        android:layout_marginBottom="140dp"
+        android:contentDescription="@string/card4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/card"
+        tools:showIn="@layout/activity_whack_a_word" >
+
+        <ImageView
+            android:id="@+id/image_view_for_card_4"
+            android:layout_width="match_parent"
+            android:layout_height="179dp"
+            android:layout_margin="10dp"
+            android:contentDescription="@string/variable_food_item_for_card4" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:visibility="invisible"
+        android:id="@+id/card5"
+        android:layout_width="183.125dp"
+        android:layout_height="257.6dp"
+        android:layout_marginEnd="329dp"
+        android:layout_marginBottom="140dp"
+        android:contentDescription="@string/card5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/card"
+        tools:showIn="@layout/activity_whack_a_word" >
+
+        <ImageView
+            android:id="@+id/image_view_for_card_5"
+            android:layout_width="match_parent"
+            android:layout_height="179dp"
+            android:layout_margin="10dp"
+            android:contentDescription="@string/variable_food_item_for_card5" />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/superimposed_ground_1"
+        android:layout_width="208dp"
+        android:layout_height="194dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginBottom="296.8dp"
+        android:contentDescription="@string/superimposed_ground_1"
+        android:src="@drawable/superimposed_ground_with_upper_stroke"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/superimposed_ground_2"
+        android:layout_width="208dp"
+        android:layout_height="194dp"
+        android:layout_marginBottom="296.8dp"
+        android:contentDescription="@string/superimposed_ground_2"
+        android:src="@drawable/superimposed_ground_with_upper_stroke"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/superimposed_ground_3"
+        android:layout_width="208dp"
+        android:layout_height="194dp"
+        android:layout_marginEnd="55dp"
+        android:layout_marginBottom="296.8dp"
+        android:contentDescription="@string/superimposed_ground_3"
+        android:src="@drawable/superimposed_ground_with_upper_stroke"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/superimposed_ground_4"
+        android:layout_width="208dp"
+        android:layout_height="194dp"
+        android:layout_marginStart="316dp"
+        android:layout_marginBottom="34.8dp"
+        android:contentDescription="@string/superimposed_ground_4"
+        android:src="@drawable/superimposed_ground_with_upper_stroke"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/superimposed_ground_5"
+        android:layout_width="208dp"
+        android:layout_height="194dp"
+        android:layout_marginEnd="316dp"
+        android:layout_marginBottom="34.8dp"
+        android:contentDescription="@string/superimposed_ground_5"
+        android:src="@drawable/superimposed_ground_with_upper_stroke"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/tick"
+        android:layout_width="408dp"
+        android:layout_height="92dp"
+        android:contentDescription="@string/tick"
+        android:src="@drawable/tick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sky_constraint_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

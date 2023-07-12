@@ -1,10 +1,40 @@
 <resources>
     <string name="app_name">WhackAWord</string>
 
+    <string name="apple">Apple</string>
+    <string name="banana">Banana</string>
+    <string name="bread">Bread</string>
+    <string name="cake">Cake</string>
+    <string name="carrot">Carrot</string>
+    <string name="egg">Egg</string>
+    <string name="orange">Orange</string>
+    <string name="potato">Potato</string>
+    <string name="tomato">Tomato</string>
+
+    <string name="tick">tick</string>
+
     <string name="hole1">hole1</string>
     <string name="hole2">hole2</string>
     <string name="hole3">hole3</string>
     <string name="hole4">hole4</string>
     <string name="hole5">hole5</string>
+
+    <string name="card1">card1</string>
+    <string name="card2">card2</string>
+    <string name="card3">card3</string>
+    <string name="card4">card4</string>
+    <string name="card5">card5</string>
+
+    <string name="variable_food_item_for_card1">Variable food item for card1</string>
+    <string name="variable_food_item_for_card2">Variable food item for card2</string>
+    <string name="variable_food_item_for_card3">Variable food item for card3</string>
+    <string name="variable_food_item_for_card4">Variable food item for card4</string>
+    <string name="variable_food_item_for_card5">Variable food item for card5</string>
+
+    <string name="superimposed_ground_1">Superimposed ground with an upper stroke that corresponds to the lower part of hole1\'s rim</string>
+    <string name="superimposed_ground_2">Superimposed ground with an upper stroke that corresponds to the lower part of hole2\'s rim</string>
+    <string name="superimposed_ground_3">Superimposed ground with an upper stroke that corresponds to the lower part of hole3\'s rim</string>
+    <string name="superimposed_ground_4">Superimposed ground with an upper stroke that corresponds to the lower part of hole4\'s rim</string>
+    <string name="superimposed_ground_5">Superimposed ground with an upper stroke that corresponds to the lower part of hole5\'s rim</string>
 
 </resources>
