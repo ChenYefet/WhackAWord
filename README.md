@@ -12,6 +12,7 @@
 * [Known bugs](#known-bugs)
 * [Find a bug?](#find-a-bug)
 * [Credits](#credits)
+* [License](#license)
 
 ## Languages
 Java 8
@@ -90,3 +91,6 @@ Notes\
 \- You can use whichever development environment and language you wish.\
 \- Deliver an APK, source code and instructions to build.\
 \- Email a link to jobs@onebillion.org"
+
+## License
+This app is licensed under the [MIT License](https://github.com/ChenYefet/WhackAWord/blob/master/LICENSE).
