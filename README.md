@@ -44,8 +44,12 @@ The abstract class <span style ="font-family: Courier New">`VocabularyItem`</spa
 The <span style ="font-family: Courier New">`FoodItem`</span> class is a subclass of <span style ="font-family: Courier New">`VocabularyItem`</span> with a constant instance variable for the ID of its image, as objects of the <span style ="font-family: Courier New">`FoodItem`</span> class are modelled as having an image.
 
 ## Illustrations
-![Whack-A-Word game with one card displayed](https://github.com/ChenYefet/WhackAWord/assets/122983411/258f54f5-7d1c-4297-8174-d6098098a4f3)
-![Whack-A-Word game with three cards and a tick displayed](https://github.com/ChenYefet/WhackAWord/assets/122983411/b947e418-e498-4533-8920-7036c6f9b681)
+<table>
+  <tr>
+    <td><img src="https://github.com/ChenYefet/WhackAWord/assets/122983411/258f54f5-7d1c-4297-8174-d6098098a4f3" alt="Whack-A-Word game with one card displayed"></td>
+    <td><img src="https://github.com/ChenYefet/WhackAWord/assets/122983411/b947e418-e498-4533-8920-7036c6f9b681" alt="Whack-A-Word game with three cards and a tick displayed"></td>
+  </tr>
+</table>
 
 ## Requirements and setup
 Before using this app, there are some prerequisites that must be met. This section provides information about the requirements that need to be fulfilled in order to use this app.
@@ -72,9 +76,13 @@ If you found an issue or would like to submit an improvement to this project, pl
 This app is my attempt to implement the following mockups and instructions, given to me by the [onebillion](https://onebillion.org/) organisation after I sent them a job application. I used [Inkscape](https://inkscape.org/) to create the SVG file that I needed in order to make each card appear to be coming out of their hole.
 
 ### Mockups
-![mockup-1-card](https://github.com/ChenYefet/Calculator/assets/122983411/79f55e30-e33f-4c52-9196-2f62529d35f1)
-![mockup-2-card](https://github.com/ChenYefet/Calculator/assets/122983411/93e04545-ae19-45a8-9422-d82174d08641)
-![mockup-3-card](https://github.com/ChenYefet/Calculator/assets/122983411/44182f31-a6c9-4399-9e31-21b1d1219ef8)
+<table>
+  <tr>
+    <td><img src="https://github.com/ChenYefet/Calculator/assets/122983411/79f55e30-e33f-4c52-9196-2f62529d35f1" alt="mockup-1-card"></td>
+    <td><img src="https://github.com/ChenYefet/Calculator/assets/122983411/93e04545-ae19-45a8-9422-d82174d08641" alt="mockup-2-card"></td>
+    <td><img src="https://github.com/ChenYefet/Calculator/assets/122983411/44182f31-a6c9-4399-9e31-21b1d1219ef8" alt="mockup-3-card"></td>
+  </tr>
+</table>
 
 ### Instructions
 "Whack-a-word
