@@ -73,57 +73,8 @@
         app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_between_sky_and_ground"
         app:layout_constraintHorizontal_bias="0.251" />
 
-    <ImageView
-        android:id="@+id/hole2"
-        android:contentDescription="@string/hole2"
-        android:src="@drawable/hole"
-        android:layout_width="208dp"
-        android:layout_height="92dp"
-        app:layout_constraintStart_toEndOf="@id/vertical_guideline_between_hole_1_and_hole_2"
-        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline_between_hole_2_and_hole_3"
-        app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_between_first_three_holes_and_last_two"
-        app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_between_sky_and_ground" />
-
-    <ImageView
-        android:id="@+id/hole3"
-        android:contentDescription="@string/hole3"
-        android:src="@drawable/hole"
-        android:layout_width="208dp"
-        android:layout_height="92dp"
-        app:layout_constraintStart_toEndOf="@id/vertical_guideline_between_hole_2_and_hole_3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_between_first_three_holes_and_last_two"
-        app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_between_sky_and_ground"
-        app:layout_constraintHorizontal_bias="0.749" />
-
-    <ImageView
-        android:id="@+id/hole4"
-        android:contentDescription="@string/hole4"
-        android:src="@drawable/hole"
-        android:layout_width="208dp"
-        android:layout_height="92dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline_between_hole_4_and_hole_5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@id/horizontal_guideline_between_first_three_holes_and_last_two"
-        app:layout_constraintHorizontal_bias="0.732"
-        app:layout_constraintVertical_bias="0.28" />
-
-    <ImageView
-        android:id="@+id/hole5"
-        android:contentDescription="@string/hole5"
-        android:src="@drawable/hole"
-        android:layout_width="208dp"
-        android:layout_height="92dp"
-        app:layout_constraintStart_toEndOf="@id/vertical_guideline_between_hole_4_and_hole_5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@id/horizontal_guideline_between_first_three_holes_and_last_two"
-        app:layout_constraintHorizontal_bias="0.268"
-        app:layout_constraintVertical_bias="0.28" />
-
     <FrameLayout
-        android:visibility="invisible"
+        android:visibility="visible"
         android:id="@+id/card1"
         android:contentDescription="@string/card1"
         android:background="@drawable/card"
@@ -143,8 +94,31 @@
             android:layout_margin="10dp" />
     </FrameLayout>
 
+    <ImageView
+        android:id="@+id/superimposed_ground_1"
+        android:contentDescription="@string/superimposed_ground_1"
+        android:src="@drawable/superimposed_ground_with_upper_stroke"
+        android:layout_width="208dp"
+        android:layout_height="194dp"
+        android:layout_marginTop="-80dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/vertical_guideline_between_hole_1_and_hole_2"
+        app:layout_constraintTop_toBottomOf="@id/hole1"
+        app:layout_constraintHorizontal_bias="0.251" />
+
+    <ImageView
+        android:id="@+id/hole2"
+        android:contentDescription="@string/hole2"
+        android:src="@drawable/hole"
+        android:layout_width="208dp"
+        android:layout_height="92dp"
+        app:layout_constraintStart_toEndOf="@id/vertical_guideline_between_hole_1_and_hole_2"
+        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline_between_hole_2_and_hole_3"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_between_first_three_holes_and_last_two"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_between_sky_and_ground" />
+
     <FrameLayout
-        android:visibility="invisible"
+        android:visibility="visible"
         android:id="@+id/card2"
         android:contentDescription="@string/card2"
         android:background="@drawable/card"
@@ -164,8 +138,31 @@
             android:layout_margin="10dp" />
     </FrameLayout>
 
+    <ImageView
+        android:id="@+id/superimposed_ground_2"
+        android:contentDescription="@string/superimposed_ground_2"
+        android:src="@drawable/superimposed_ground_with_upper_stroke"
+        android:layout_width="208dp"
+        android:layout_height="194dp"
+        android:layout_marginTop="-80dp"
+        app:layout_constraintStart_toEndOf="@id/vertical_guideline_between_hole_1_and_hole_2"
+        app:layout_constraintEnd_toStartOf="@id/vertical_guideline_between_hole_2_and_hole_3"
+        app:layout_constraintTop_toBottomOf="@id/hole2"/>
+
+    <ImageView
+        android:id="@+id/hole3"
+        android:contentDescription="@string/hole3"
+        android:src="@drawable/hole"
+        android:layout_width="208dp"
+        android:layout_height="92dp"
+        app:layout_constraintStart_toEndOf="@id/vertical_guideline_between_hole_2_and_hole_3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_between_first_three_holes_and_last_two"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_between_sky_and_ground"
+        app:layout_constraintHorizontal_bias="0.749" />
+
     <FrameLayout
-        android:visibility="invisible"
+        android:visibility="visible"
         android:id="@+id/card3"
         android:contentDescription="@string/card3"
         android:background="@drawable/card"
@@ -185,8 +182,33 @@
             android:layout_margin="10dp" />
     </FrameLayout>
 
+    <ImageView
+        android:id="@+id/superimposed_ground_3"
+        android:contentDescription="@string/superimposed_ground_3"
+        android:src="@drawable/superimposed_ground_with_upper_stroke"
+        android:layout_width="208dp"
+        android:layout_height="194dp"
+        android:layout_marginTop="-80dp"
+        app:layout_constraintStart_toEndOf="@id/vertical_guideline_between_hole_2_and_hole_3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hole3"
+        app:layout_constraintHorizontal_bias="0.749" />
+
+    <ImageView
+        android:id="@+id/hole4"
+        android:contentDescription="@string/hole4"
+        android:src="@drawable/hole"
+        android:layout_width="208dp"
+        android:layout_height="92dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline_between_hole_4_and_hole_5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/horizontal_guideline_between_first_three_holes_and_last_two"
+        app:layout_constraintHorizontal_bias="0.732"
+        app:layout_constraintVertical_bias="0.28" />
+
     <FrameLayout
-        android:visibility="invisible"
+        android:visibility="visible"
         android:id="@+id/card4"
         android:contentDescription="@string/card4"
         android:background="@drawable/card"
@@ -206,8 +228,33 @@
             android:layout_margin="10dp" />
     </FrameLayout>
 
+    <ImageView
+        android:id="@+id/superimposed_ground_4"
+        android:contentDescription="@string/superimposed_ground_4"
+        android:src="@drawable/superimposed_ground_with_upper_stroke"
+        android:layout_width="208dp"
+        android:layout_height="194dp"
+        android:layout_marginTop="-80dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/vertical_guideline_between_hole_4_and_hole_5"
+        app:layout_constraintTop_toBottomOf="@id/hole4"
+        app:layout_constraintHorizontal_bias="0.732" />
+
+    <ImageView
+        android:id="@+id/hole5"
+        android:contentDescription="@string/hole5"
+        android:src="@drawable/hole"
+        android:layout_width="208dp"
+        android:layout_height="92dp"
+        app:layout_constraintStart_toEndOf="@id/vertical_guideline_between_hole_4_and_hole_5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/horizontal_guideline_between_first_three_holes_and_last_two"
+        app:layout_constraintHorizontal_bias="0.268"
+        app:layout_constraintVertical_bias="0.28" />
+
     <FrameLayout
-        android:visibility="invisible"
+        android:visibility="visible"
         android:id="@+id/card5"
         android:contentDescription="@string/card5"
         android:background="@drawable/card"
@@ -226,53 +273,6 @@
             android:layout_height="179dp"
             android:layout_margin="10dp" />
     </FrameLayout>
-
-    <ImageView
-        android:id="@+id/superimposed_ground_1"
-        android:contentDescription="@string/superimposed_ground_1"
-        android:src="@drawable/superimposed_ground_with_upper_stroke"
-        android:layout_width="208dp"
-        android:layout_height="194dp"
-        android:layout_marginTop="-80dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/vertical_guideline_between_hole_1_and_hole_2"
-        app:layout_constraintTop_toBottomOf="@id/hole1"
-        app:layout_constraintHorizontal_bias="0.251" />
-
-    <ImageView
-        android:id="@+id/superimposed_ground_2"
-        android:contentDescription="@string/superimposed_ground_2"
-        android:src="@drawable/superimposed_ground_with_upper_stroke"
-        android:layout_width="208dp"
-        android:layout_height="194dp"
-        android:layout_marginTop="-80dp"
-        app:layout_constraintStart_toEndOf="@id/vertical_guideline_between_hole_1_and_hole_2"
-        app:layout_constraintEnd_toStartOf="@id/vertical_guideline_between_hole_2_and_hole_3"
-        app:layout_constraintTop_toBottomOf="@id/hole2"/>
-
-    <ImageView
-        android:id="@+id/superimposed_ground_3"
-        android:contentDescription="@string/superimposed_ground_3"
-        android:src="@drawable/superimposed_ground_with_upper_stroke"
-        android:layout_width="208dp"
-        android:layout_height="194dp"
-        android:layout_marginTop="-80dp"
-        app:layout_constraintStart_toEndOf="@id/vertical_guideline_between_hole_2_and_hole_3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/hole3"
-        app:layout_constraintHorizontal_bias="0.749" />
-
-    <ImageView
-        android:id="@+id/superimposed_ground_4"
-        android:contentDescription="@string/superimposed_ground_4"
-        android:src="@drawable/superimposed_ground_with_upper_stroke"
-        android:layout_width="208dp"
-        android:layout_height="194dp"
-        android:layout_marginTop="-80dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/vertical_guideline_between_hole_4_and_hole_5"
-        app:layout_constraintTop_toBottomOf="@id/hole4"
-        app:layout_constraintHorizontal_bias="0.732" />
 
     <ImageView
         android:id="@+id/superimposed_ground_5"
