@@ -2,6 +2,7 @@ package com.example.whackaword;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ObjectAnimator;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -188,7 +189,7 @@ public class WhackAWordActivity extends AppCompatActivity
     /**
      * Plays Whack-A-Word:
      *
-     * Displays food cards,
+     * Causes food cards to pop up,
      * plays the correct audio,
      * and sets click listeners for correct and incorrect food cards
      */
@@ -518,11 +519,16 @@ public class WhackAWordActivity extends AppCompatActivity
      */
     private void cardsPopUp()
     {
+
+        float shiftAmount = -500;
+
         for (FoodItem foodItem : this.foodItemsSelectedForDisplayOnFoodCards.keySet())
         {
             FoodCard foodCard = this.foodItemsSelectedForDisplayOnFoodCards.get(foodItem);
             FrameLayout frameLayout = this.findViewById(foodCard.getID());
-            frameLayout.setVisibility(View.VISIBLE);
+            ObjectAnimator animation = ObjectAnimator.ofFloat(frameLayout, "translationY", shiftAmount);
+            animation.setDuration(500);
+            animation.start();
         }
     }
 
@@ -532,11 +538,16 @@ public class WhackAWordActivity extends AppCompatActivity
      */
     private void hideCards()
     {
+
+        float shiftAmount = 1;
+
         for (FoodItem foodItem : this.foodItemsSelectedForDisplayOnFoodCards.keySet())
         {
             FoodCard foodCard = this.foodItemsSelectedForDisplayOnFoodCards.get(foodItem);
             FrameLayout frameLayout = this.findViewById(foodCard.getID());
-            frameLayout.setVisibility(View.INVISIBLE);
+            ObjectAnimator animation = ObjectAnimator.ofFloat(frameLayout, "translationY", shiftAmount);
+            animation.setDuration(500);
+            animation.start();
         }
 
         this.availableFoodCards = new ArrayList<>(WhackAWordActivity.foodCards);

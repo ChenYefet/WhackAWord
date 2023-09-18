@@ -46,9 +46,9 @@
         android:background="@drawable/sky_background"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_between_sky_and_ground"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/horizontal_guideline_between_sky_and_ground"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
@@ -58,32 +58,34 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_between_sky_and_ground"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_between_sky_and_ground" />
 
     <ImageView
         android:id="@+id/hole1"
         android:contentDescription="@string/hole1"
         android:src="@drawable/hole"
-        android:layout_width="208dp"
-        android:layout_height="92dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/vertical_guideline_between_hole_1_and_hole_2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.183"
+        app:layout_constraintHeight_percent="0.15"
         app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_between_first_three_holes_and_last_two"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline_between_hole_1_and_hole_2"
         app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_between_sky_and_ground"
-        app:layout_constraintHorizontal_bias="0.251" />
+        app:layout_constraintHorizontal_bias="0.32"
+        app:layout_constraintVertical_bias="0.53" />
 
     <FrameLayout
-        android:visibility="invisible"
         android:id="@+id/card1"
         android:contentDescription="@string/card1"
         android:background="@drawable/card"
         tools:showIn="@layout/activity_whack_a_word"
-        android:layout_width="183.125dp"
-        android:layout_height="257.6dp"
+        android:layout_width="209dp"
+        android:layout_height="280dp"
         app:layout_constraintStart_toStartOf="@id/hole1"
         app:layout_constraintEnd_toEndOf="@id/hole1"
-        app:layout_constraintBottom_toBottomOf="@id/hole1"
+        app:layout_constraintTop_toBottomOf="@id/hole1"
         android:layout_marginBottom="-5dp">
 
         <ImageView
@@ -96,38 +98,39 @@
 
     <ImageView
         android:id="@+id/superimposed_ground_1"
+        android:layout_width="235.2032dp"
+        android:layout_height="566.0848dp"
         android:contentDescription="@string/superimposed_ground_1"
-        android:src="@drawable/superimposed_ground_with_upper_stroke"
-        android:layout_width="208dp"
-        android:layout_height="194dp"
-        android:layout_marginTop="-80dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/vertical_guideline_between_hole_1_and_hole_2"
+        android:src="@drawable/superimposed_ground"
+        app:layout_constraintStart_toStartOf="@id/hole1"
+        app:layout_constraintEnd_toEndOf="@id/hole1"
         app:layout_constraintTop_toBottomOf="@id/hole1"
-        app:layout_constraintHorizontal_bias="0.251" />
+        android:layout_marginTop="-53.5dp" />
 
     <ImageView
         android:id="@+id/hole2"
         android:contentDescription="@string/hole2"
         android:src="@drawable/hole"
-        android:layout_width="208dp"
-        android:layout_height="92dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.183"
+        app:layout_constraintHeight_percent="0.15"
         app:layout_constraintStart_toEndOf="@id/vertical_guideline_between_hole_1_and_hole_2"
-        app:layout_constraintEnd_toStartOf="@id/vertical_guideline_between_hole_2_and_hole_3"
+        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline_between_hole_2_and_hole_3"
         app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_between_first_three_holes_and_last_two"
-        app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_between_sky_and_ground" />
+        app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_between_sky_and_ground"
+        app:layout_constraintVertical_bias="0.53" />
 
     <FrameLayout
-        android:visibility="invisible"
         android:id="@+id/card2"
         android:contentDescription="@string/card2"
         android:background="@drawable/card"
         tools:showIn="@layout/activity_whack_a_word"
-        android:layout_width="183.125dp"
-        android:layout_height="257.6dp"
+        android:layout_width="209dp"
+        android:layout_height="280dp"
         app:layout_constraintStart_toStartOf="@id/hole2"
         app:layout_constraintEnd_toEndOf="@id/hole2"
-        app:layout_constraintBottom_toBottomOf="@id/hole2"
+        app:layout_constraintTop_toBottomOf="@id/hole2"
         android:layout_marginBottom="-5dp">
 
         <ImageView
@@ -140,38 +143,40 @@
 
     <ImageView
         android:id="@+id/superimposed_ground_2"
+        android:layout_width="235.39288dp"
+        android:layout_height="566.54132dp"
         android:contentDescription="@string/superimposed_ground_2"
-        android:src="@drawable/superimposed_ground_with_upper_stroke"
-        android:layout_width="208dp"
-        android:layout_height="194dp"
-        android:layout_marginTop="-80dp"
-        app:layout_constraintStart_toEndOf="@id/vertical_guideline_between_hole_1_and_hole_2"
-        app:layout_constraintEnd_toStartOf="@id/vertical_guideline_between_hole_2_and_hole_3"
-        app:layout_constraintTop_toBottomOf="@id/hole2"/>
+        android:src="@drawable/superimposed_ground"
+        app:layout_constraintStart_toStartOf="@id/hole2"
+        app:layout_constraintEnd_toEndOf="@id/hole2"
+        app:layout_constraintTop_toBottomOf="@id/hole2"
+        android:layout_marginTop="-53.5dp" />
 
     <ImageView
         android:id="@+id/hole3"
         android:contentDescription="@string/hole3"
         android:src="@drawable/hole"
-        android:layout_width="208dp"
-        android:layout_height="92dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.183"
+        app:layout_constraintHeight_percent="0.15"
         app:layout_constraintStart_toEndOf="@id/vertical_guideline_between_hole_2_and_hole_3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_between_first_three_holes_and_last_two"
         app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_between_sky_and_ground"
-        app:layout_constraintHorizontal_bias="0.749" />
+        app:layout_constraintHorizontal_bias="0.68"
+        app:layout_constraintVertical_bias="0.53" />
 
     <FrameLayout
-        android:visibility="invisible"
         android:id="@+id/card3"
         android:contentDescription="@string/card3"
         android:background="@drawable/card"
         tools:showIn="@layout/activity_whack_a_word"
-        android:layout_width="183.125dp"
-        android:layout_height="257.6dp"
+        android:layout_width="209dp"
+        android:layout_height="280dp"
         app:layout_constraintStart_toStartOf="@id/hole3"
         app:layout_constraintEnd_toEndOf="@id/hole3"
-        app:layout_constraintBottom_toBottomOf="@id/hole3"
+        app:layout_constraintTop_toBottomOf="@id/hole3"
         android:layout_marginBottom="-5dp">
 
         <ImageView
@@ -182,42 +187,43 @@
             android:layout_margin="10dp" />
     </FrameLayout>
 
+
     <ImageView
         android:id="@+id/superimposed_ground_3"
+        android:layout_width="235.2032dp"
+        android:layout_height="566.0848dp"
         android:contentDescription="@string/superimposed_ground_3"
-        android:src="@drawable/superimposed_ground_with_upper_stroke"
-        android:layout_width="208dp"
-        android:layout_height="194dp"
-        android:layout_marginTop="-80dp"
-        app:layout_constraintStart_toEndOf="@id/vertical_guideline_between_hole_2_and_hole_3"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/superimposed_ground"
+        app:layout_constraintStart_toStartOf="@id/hole3"
+        app:layout_constraintEnd_toEndOf="@id/hole3"
         app:layout_constraintTop_toBottomOf="@id/hole3"
-        app:layout_constraintHorizontal_bias="0.749" />
+        android:layout_marginTop="-53.5dp" />
 
     <ImageView
         android:id="@+id/hole4"
         android:contentDescription="@string/hole4"
         android:src="@drawable/hole"
-        android:layout_width="208dp"
-        android:layout_height="92dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.183"
+        app:layout_constraintHeight_percent="0.15"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/vertical_guideline_between_hole_4_and_hole_5"
+        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline_between_hole_4_and_hole_5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="@id/horizontal_guideline_between_first_three_holes_and_last_two"
-        app:layout_constraintHorizontal_bias="0.732"
-        app:layout_constraintVertical_bias="0.28" />
+        app:layout_constraintHorizontal_bias="0.72"
+        app:layout_constraintVertical_bias="0.15" />
 
     <FrameLayout
-        android:visibility="invisible"
         android:id="@+id/card4"
         android:contentDescription="@string/card4"
         android:background="@drawable/card"
         tools:showIn="@layout/activity_whack_a_word"
-        android:layout_width="183.125dp"
-        android:layout_height="257.6dp"
+        android:layout_width="209dp"
+        android:layout_height="280dp"
         app:layout_constraintStart_toStartOf="@id/hole4"
         app:layout_constraintEnd_toEndOf="@id/hole4"
-        app:layout_constraintBottom_toBottomOf="@id/hole4"
+        app:layout_constraintTop_toBottomOf="@id/hole4"
         android:layout_marginBottom="-5dp">
 
         <ImageView
@@ -230,40 +236,40 @@
 
     <ImageView
         android:id="@+id/superimposed_ground_4"
+        android:layout_width="235.2032dp"
+        android:layout_height="566.0848dp"
         android:contentDescription="@string/superimposed_ground_4"
-        android:src="@drawable/superimposed_ground_with_upper_stroke"
-        android:layout_width="208dp"
-        android:layout_height="194dp"
-        android:layout_marginTop="-80dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/vertical_guideline_between_hole_4_and_hole_5"
+        android:src="@drawable/superimposed_ground"
+        app:layout_constraintStart_toStartOf="@id/hole4"
+        app:layout_constraintEnd_toEndOf="@id/hole4"
         app:layout_constraintTop_toBottomOf="@id/hole4"
-        app:layout_constraintHorizontal_bias="0.732" />
+        android:layout_marginTop="-53.5dp" />
 
     <ImageView
         android:id="@+id/hole5"
         android:contentDescription="@string/hole5"
         android:src="@drawable/hole"
-        android:layout_width="208dp"
-        android:layout_height="92dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.183"
+        app:layout_constraintHeight_percent="0.15"
         app:layout_constraintStart_toEndOf="@id/vertical_guideline_between_hole_4_and_hole_5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="@id/horizontal_guideline_between_first_three_holes_and_last_two"
-        app:layout_constraintHorizontal_bias="0.268"
-        app:layout_constraintVertical_bias="0.28" />
+        app:layout_constraintHorizontal_bias="0.28"
+        app:layout_constraintVertical_bias="0.15" />
 
     <FrameLayout
-        android:visibility="invisible"
         android:id="@+id/card5"
         android:contentDescription="@string/card5"
         android:background="@drawable/card"
         tools:showIn="@layout/activity_whack_a_word"
-        android:layout_width="183.125dp"
-        android:layout_height="257.6dp"
+        android:layout_width="209dp"
+        android:layout_height="280dp"
         app:layout_constraintStart_toStartOf="@id/hole5"
         app:layout_constraintEnd_toEndOf="@id/hole5"
-        app:layout_constraintBottom_toBottomOf="@id/hole5"
+        app:layout_constraintTop_toBottomOf="@id/hole5"
         android:layout_marginBottom="-5dp">
 
         <ImageView
@@ -276,15 +282,14 @@
 
     <ImageView
         android:id="@+id/superimposed_ground_5"
+        android:layout_width="235.2032dp"
+        android:layout_height="566.0848dp"
         android:contentDescription="@string/superimposed_ground_5"
-        android:src="@drawable/superimposed_ground_with_upper_stroke"
-        android:layout_width="208dp"
-        android:layout_height="194dp"
-        android:layout_marginTop="-80dp"
-        app:layout_constraintStart_toEndOf="@id/vertical_guideline_between_hole_4_and_hole_5"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/superimposed_ground"
+        app:layout_constraintStart_toStartOf="@id/hole5"
+        app:layout_constraintEnd_toEndOf="@id/hole5"
         app:layout_constraintTop_toBottomOf="@id/hole5"
-        app:layout_constraintHorizontal_bias="0.268" />
+        android:layout_marginTop="-53.5dp" />
 
     <ImageView
         android:visibility="invisible"
@@ -293,9 +298,9 @@
         android:src="@drawable/tick"
         android:layout_width="408dp"
         android:layout_height="92dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sky_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
