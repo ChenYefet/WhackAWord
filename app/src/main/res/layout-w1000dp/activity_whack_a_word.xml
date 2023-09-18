@@ -46,7 +46,7 @@
         android:background="@drawable/sky_background"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/horizontal_guideline_between_sky_and_ground"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_between_sky_and_ground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -68,7 +68,7 @@
         android:layout_width="208dp"
         android:layout_height="92dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline_between_hole_1_and_hole_2"
+        app:layout_constraintEnd_toStartOf="@id/vertical_guideline_between_hole_1_and_hole_2"
         app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_between_first_three_holes_and_last_two"
         app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_between_sky_and_ground"
         app:layout_constraintHorizontal_bias="0.251" />
@@ -113,7 +113,7 @@
         android:layout_width="208dp"
         android:layout_height="92dp"
         app:layout_constraintStart_toEndOf="@id/vertical_guideline_between_hole_1_and_hole_2"
-        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline_between_hole_2_and_hole_3"
+        app:layout_constraintEnd_toStartOf="@id/vertical_guideline_between_hole_2_and_hole_3"
         app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_between_first_three_holes_and_last_two"
         app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_between_sky_and_ground" />
 
@@ -201,7 +201,7 @@
         android:layout_width="208dp"
         android:layout_height="92dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline_between_hole_4_and_hole_5"
+        app:layout_constraintEnd_toStartOf="@id/vertical_guideline_between_hole_4_and_hole_5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="@id/horizontal_guideline_between_first_three_holes_and_last_two"
         app:layout_constraintHorizontal_bias="0.732"
@@ -296,6 +296,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sky_view" />
+        app:layout_constraintTop_toBottomOf="@id/sky_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
