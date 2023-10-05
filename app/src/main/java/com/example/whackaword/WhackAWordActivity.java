@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -519,33 +520,30 @@ public class WhackAWordActivity extends AppCompatActivity
      */
     private void cardsPopUp()
     {
-
-        float shiftAmount = -500;
-
         for (FoodItem foodItem : this.foodItemsSelectedForDisplayOnFoodCards.keySet())
         {
             FoodCard foodCard = this.foodItemsSelectedForDisplayOnFoodCards.get(foodItem);
             FrameLayout frameLayout = this.findViewById(foodCard.getID());
-            ObjectAnimator animation = ObjectAnimator.ofFloat(frameLayout, "translationY", shiftAmount);
+            ObjectAnimator animation = ObjectAnimator.ofFloat(frameLayout, "translationY", this.getUpwardsTranslation());
             animation.setDuration(500);
             animation.start();
         }
     }
 
     /**
-     * Causes each card on display to hide
+     * Causes each card on display to hide,
      * and clears their click listeners
      */
     private void hideCards()
     {
-
-        float shiftAmount = 1;
+        float amountTranslatedFromInitialPosition = 0;
+        // 'Initial position' refers to the position of the card before runtime
 
         for (FoodItem foodItem : this.foodItemsSelectedForDisplayOnFoodCards.keySet())
         {
             FoodCard foodCard = this.foodItemsSelectedForDisplayOnFoodCards.get(foodItem);
             FrameLayout frameLayout = this.findViewById(foodCard.getID());
-            ObjectAnimator animation = ObjectAnimator.ofFloat(frameLayout, "translationY", shiftAmount);
+            ObjectAnimator animation = ObjectAnimator.ofFloat(frameLayout, "translationY", amountTranslatedFromInitialPosition);
             animation.setDuration(500);
             animation.start();
         }
@@ -566,6 +564,41 @@ public class WhackAWordActivity extends AppCompatActivity
         }
 
         this.frameLayoutsWithClickListeners = new HashSet<>();
+    }
+
+    /**
+     * Helper method that returns the amount
+     * in density-independent pixels (dp)
+     * that a card needs to translate upwards from its initial (hidden) position
+     * in order for it to pop up
+     */
+    private float getUpwardsTranslation()
+    {
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        // Gets the display metrics (such as screen density, width and height) of the Android device
+
+        float screenWidthInDP = displayMetrics.widthPixels / displayMetrics.density;
+        // DP refers to density-independent pixels
+
+        float amountTranslatedFromInitialPositionInPixels;
+
+        // Determine the translation amount based on screen width
+        if (screenWidthInDP < 1000)
+
+        // Screens of width 1000dp and above have a different layout
+        // as shown in app/src/main/res/layout-w1000dp/activity_whack_a_word.xml
+
+        {
+            amountTranslatedFromInitialPositionInPixels = -178; // For small screens
+        }
+        else
+        {
+            amountTranslatedFromInitialPositionInPixels = -278; // For large screens
+        }
+
+        float amountTranslatedFromInitialPositionInDP = amountTranslatedFromInitialPositionInPixels * displayMetrics.density;
+
+        return amountTranslatedFromInitialPositionInDP;
     }
 
     /**
