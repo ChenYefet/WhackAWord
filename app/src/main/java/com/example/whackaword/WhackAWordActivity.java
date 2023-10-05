@@ -628,11 +628,11 @@ public class WhackAWordActivity extends AppCompatActivity
      */
     private static void fillFoodCardsSet()
     {
-        FoodCard foodCard1 = new FoodCard(R.id.card1, R.id.image_view_for_card_1);
-        FoodCard foodCard2 = new FoodCard(R.id.card2, R.id.image_view_for_card_2);
-        FoodCard foodCard3 = new FoodCard(R.id.card3, R.id.image_view_for_card_3);
-        FoodCard foodCard4 = new FoodCard(R.id.card4, R.id.image_view_for_card_4);
-        FoodCard foodCard5 = new FoodCard(R.id.card5, R.id.image_view_for_card_5);
+        FoodCard foodCard1 = new FoodCard(R.id.card1, R.id.variable_food_item_for_card_1);
+        FoodCard foodCard2 = new FoodCard(R.id.card2, R.id.variable_food_item_for_card_2);
+        FoodCard foodCard3 = new FoodCard(R.id.card3, R.id.variable_food_item_for_card_3);
+        FoodCard foodCard4 = new FoodCard(R.id.card4, R.id.variable_food_item_for_card_4);
+        FoodCard foodCard5 = new FoodCard(R.id.card5, R.id.variable_food_item_for_card_5);
 
         WhackAWordActivity.foodCards = new HashSet<>();
         WhackAWordActivity.foodCards.add(foodCard1);

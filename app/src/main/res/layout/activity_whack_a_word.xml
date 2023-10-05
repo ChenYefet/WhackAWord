@@ -63,7 +63,7 @@
 
     <ImageView
         android:id="@+id/hole1"
-        android:contentDescription="@string/hole1"
+        android:contentDescription="@string/hole"
         android:src="@drawable/hole"
         android:layout_width="208dp"
         android:layout_height="92dp"
@@ -75,7 +75,7 @@
 
     <FrameLayout
         android:id="@+id/card1"
-        android:contentDescription="@string/card1"
+        android:contentDescription="@string/card"
         android:background="@drawable/card_for_small_screens"
         tools:showIn="@layout/activity_whack_a_word"
         android:layout_width="150dp"
@@ -85,8 +85,8 @@
         app:layout_constraintTop_toBottomOf="@id/hole1">
 
         <ImageView
-            android:id="@+id/image_view_for_card_1"
-            android:contentDescription="@string/variable_food_item_for_card1"
+            android:id="@+id/variable_food_item_for_card_1"
+            android:contentDescription="@string/variable_food_item"
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:layout_margin="5dp"/>
@@ -96,7 +96,7 @@
         android:id="@+id/superimposed_ground_1"
         android:layout_width="208.648dp"
         android:layout_height="502.172dp"
-        android:contentDescription="@string/superimposed_ground_1"
+        android:contentDescription="@string/superimposed_ground"
         android:src="@drawable/superimposed_ground"
         app:layout_constraintStart_toStartOf="@id/hole1"
         app:layout_constraintEnd_toEndOf="@id/hole1"
@@ -105,7 +105,7 @@
 
     <ImageView
         android:id="@+id/hole2"
-        android:contentDescription="@string/hole2"
+        android:contentDescription="@string/hole"
         android:src="@drawable/hole"
         android:layout_width="208dp"
         android:layout_height="92dp"
@@ -117,7 +117,7 @@
 
     <FrameLayout
         android:id="@+id/card2"
-        android:contentDescription="@string/card2"
+        android:contentDescription="@string/card"
         android:background="@drawable/card_for_small_screens"
         tools:showIn="@layout/activity_whack_a_word"
         android:layout_width="150dp"
@@ -127,8 +127,8 @@
         app:layout_constraintTop_toBottomOf="@id/hole2">
 
         <ImageView
-            android:id="@+id/image_view_for_card_2"
-            android:contentDescription="@string/variable_food_item_for_card2"
+            android:id="@+id/variable_food_item_for_card_2"
+            android:contentDescription="@string/variable_food_item"
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:layout_margin="5dp"/>
@@ -138,7 +138,7 @@
         android:id="@+id/superimposed_ground_2"
         android:layout_width="208.648dp"
         android:layout_height="502.172dp"
-        android:contentDescription="@string/superimposed_ground_2"
+        android:contentDescription="@string/superimposed_ground"
         android:src="@drawable/superimposed_ground"
         app:layout_constraintStart_toStartOf="@id/hole2"
         app:layout_constraintEnd_toEndOf="@id/hole2"
@@ -147,7 +147,7 @@
 
     <ImageView
         android:id="@+id/hole3"
-        android:contentDescription="@string/hole3"
+        android:contentDescription="@string/hole"
         android:src="@drawable/hole"
         android:layout_width="208dp"
         android:layout_height="92dp"
@@ -159,7 +159,7 @@
 
     <FrameLayout
         android:id="@+id/card3"
-        android:contentDescription="@string/card3"
+        android:contentDescription="@string/card"
         android:background="@drawable/card_for_small_screens"
         tools:showIn="@layout/activity_whack_a_word"
         android:layout_width="150dp"
@@ -169,8 +169,8 @@
         app:layout_constraintTop_toBottomOf="@id/hole3">
 
         <ImageView
-            android:id="@+id/image_view_for_card_3"
-            android:contentDescription="@string/variable_food_item_for_card3"
+            android:id="@+id/variable_food_item_for_card_3"
+            android:contentDescription="@string/variable_food_item"
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:layout_margin="5dp"/>
@@ -180,7 +180,7 @@
         android:id="@+id/superimposed_ground_3"
         android:layout_width="208.648dp"
         android:layout_height="502.172dp"
-        android:contentDescription="@string/superimposed_ground_3"
+        android:contentDescription="@string/superimposed_ground"
         android:src="@drawable/superimposed_ground"
         app:layout_constraintStart_toStartOf="@id/hole3"
         app:layout_constraintEnd_toEndOf="@id/hole3"
@@ -189,7 +189,7 @@
 
     <ImageView
         android:id="@+id/hole4"
-        android:contentDescription="@string/hole4"
+        android:contentDescription="@string/hole"
         android:src="@drawable/hole"
         android:layout_width="208dp"
         android:layout_height="92dp"
@@ -202,7 +202,7 @@
 
     <FrameLayout
         android:id="@+id/card4"
-        android:contentDescription="@string/card4"
+        android:contentDescription="@string/card"
         android:background="@drawable/card_for_small_screens"
         tools:showIn="@layout/activity_whack_a_word"
         android:layout_width="150dp"
@@ -212,8 +212,8 @@
         app:layout_constraintTop_toBottomOf="@id/hole4">
 
         <ImageView
-            android:id="@+id/image_view_for_card_4"
-            android:contentDescription="@string/variable_food_item_for_card4"
+            android:id="@+id/variable_food_item_for_card_4"
+            android:contentDescription="@string/variable_food_item"
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:layout_margin="5dp"/>
@@ -223,7 +223,7 @@
         android:id="@+id/superimposed_ground_4"
         android:layout_width="208.648dp"
         android:layout_height="502.172dp"
-        android:contentDescription="@string/superimposed_ground_4"
+        android:contentDescription="@string/superimposed_ground"
         android:src="@drawable/superimposed_ground"
         app:layout_constraintStart_toStartOf="@id/hole4"
         app:layout_constraintEnd_toEndOf="@id/hole4"
@@ -232,7 +232,7 @@
 
     <ImageView
         android:id="@+id/hole5"
-        android:contentDescription="@string/hole5"
+        android:contentDescription="@string/hole"
         android:src="@drawable/hole"
         android:layout_width="208dp"
         android:layout_height="92dp"
@@ -245,7 +245,7 @@
 
     <FrameLayout
         android:id="@+id/card5"
-        android:contentDescription="@string/card5"
+        android:contentDescription="@string/card"
         android:background="@drawable/card_for_small_screens"
         tools:showIn="@layout/activity_whack_a_word"
         android:layout_width="150dp"
@@ -255,8 +255,8 @@
         app:layout_constraintTop_toBottomOf="@id/hole5">
 
         <ImageView
-            android:id="@+id/image_view_for_card_5"
-            android:contentDescription="@string/variable_food_item_for_card5"
+            android:id="@+id/variable_food_item_for_card_5"
+            android:contentDescription="@string/variable_food_item"
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:layout_margin="5dp"/>
@@ -266,7 +266,7 @@
         android:id="@+id/superimposed_ground_5"
         android:layout_width="208.648dp"
         android:layout_height="502.172dp"
-        android:contentDescription="@string/superimposed_ground_5"
+        android:contentDescription="@string/superimposed_ground"
         android:src="@drawable/superimposed_ground"
         app:layout_constraintStart_toStartOf="@id/hole5"
         app:layout_constraintEnd_toEndOf="@id/hole5"
