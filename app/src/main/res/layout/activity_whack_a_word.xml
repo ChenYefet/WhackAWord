@@ -82,15 +82,14 @@
         android:layout_height="200dp"
         app:layout_constraintStart_toStartOf="@id/hole1"
         app:layout_constraintEnd_toEndOf="@id/hole1"
-        app:layout_constraintTop_toBottomOf="@id/hole1"
-        android:layout_marginBottom="-5dp">
+        app:layout_constraintTop_toBottomOf="@id/hole1">
 
         <ImageView
             android:id="@+id/image_view_for_card_1"
             android:contentDescription="@string/variable_food_item_for_card1"
             android:layout_width="match_parent"
-            android:layout_height="179dp"
-            android:layout_margin="10dp" />
+            android:layout_height="130dp"
+            android:layout_margin="5dp"/>
     </FrameLayout>
 
     <ImageView
@@ -125,15 +124,14 @@
         android:layout_height="200dp"
         app:layout_constraintStart_toStartOf="@id/hole2"
         app:layout_constraintEnd_toEndOf="@id/hole2"
-        app:layout_constraintTop_toBottomOf="@id/hole2"
-        android:layout_marginBottom="-5dp">
+        app:layout_constraintTop_toBottomOf="@id/hole2">
 
         <ImageView
             android:id="@+id/image_view_for_card_2"
             android:contentDescription="@string/variable_food_item_for_card2"
             android:layout_width="match_parent"
-            android:layout_height="179dp"
-            android:layout_margin="10dp" />
+            android:layout_height="130dp"
+            android:layout_margin="5dp"/>
     </FrameLayout>
 
     <ImageView
@@ -168,15 +166,14 @@
         android:layout_height="200dp"
         app:layout_constraintStart_toStartOf="@id/hole3"
         app:layout_constraintEnd_toEndOf="@id/hole3"
-        app:layout_constraintTop_toBottomOf="@id/hole3"
-        android:layout_marginBottom="-5dp">
+        app:layout_constraintTop_toBottomOf="@id/hole3">
 
         <ImageView
             android:id="@+id/image_view_for_card_3"
             android:contentDescription="@string/variable_food_item_for_card3"
             android:layout_width="match_parent"
-            android:layout_height="179dp"
-            android:layout_margin="10dp" />
+            android:layout_height="130dp"
+            android:layout_margin="5dp"/>
     </FrameLayout>
 
     <ImageView
@@ -212,15 +209,14 @@
         android:layout_height="200dp"
         app:layout_constraintStart_toStartOf="@id/hole4"
         app:layout_constraintEnd_toEndOf="@id/hole4"
-        app:layout_constraintTop_toBottomOf="@id/hole4"
-        android:layout_marginBottom="-5dp">
+        app:layout_constraintTop_toBottomOf="@id/hole4">
 
         <ImageView
             android:id="@+id/image_view_for_card_4"
             android:contentDescription="@string/variable_food_item_for_card4"
             android:layout_width="match_parent"
-            android:layout_height="179dp"
-            android:layout_margin="10dp" />
+            android:layout_height="130dp"
+            android:layout_margin="5dp"/>
     </FrameLayout>
 
     <ImageView
@@ -256,15 +252,14 @@
         android:layout_height="200dp"
         app:layout_constraintStart_toStartOf="@id/hole5"
         app:layout_constraintEnd_toEndOf="@id/hole5"
-        app:layout_constraintTop_toBottomOf="@id/hole5"
-        android:layout_marginBottom="-5dp">
+        app:layout_constraintTop_toBottomOf="@id/hole5">
 
         <ImageView
             android:id="@+id/image_view_for_card_5"
             android:contentDescription="@string/variable_food_item_for_card5"
             android:layout_width="match_parent"
-            android:layout_height="179dp"
-            android:layout_margin="10dp" />
+            android:layout_height="130dp"
+            android:layout_margin="5dp"/>
     </FrameLayout>
 
     <ImageView

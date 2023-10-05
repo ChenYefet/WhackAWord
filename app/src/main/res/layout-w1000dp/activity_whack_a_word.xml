@@ -82,11 +82,10 @@
         android:background="@drawable/card"
         tools:showIn="@layout/activity_whack_a_word"
         android:layout_width="209dp"
-        android:layout_height="280dp"
+        android:layout_height="350dp"
         app:layout_constraintStart_toStartOf="@id/hole1"
         app:layout_constraintEnd_toEndOf="@id/hole1"
-        app:layout_constraintTop_toBottomOf="@id/hole1"
-        android:layout_marginBottom="-5dp">
+        app:layout_constraintTop_toBottomOf="@id/hole1">
 
         <ImageView
             android:id="@+id/image_view_for_card_1"
@@ -127,11 +126,10 @@
         android:background="@drawable/card"
         tools:showIn="@layout/activity_whack_a_word"
         android:layout_width="209dp"
-        android:layout_height="280dp"
+        android:layout_height="350dp"
         app:layout_constraintStart_toStartOf="@id/hole2"
         app:layout_constraintEnd_toEndOf="@id/hole2"
-        app:layout_constraintTop_toBottomOf="@id/hole2"
-        android:layout_marginBottom="-5dp">
+        app:layout_constraintTop_toBottomOf="@id/hole2">
 
         <ImageView
             android:id="@+id/image_view_for_card_2"
@@ -173,11 +171,10 @@
         android:background="@drawable/card"
         tools:showIn="@layout/activity_whack_a_word"
         android:layout_width="209dp"
-        android:layout_height="280dp"
+        android:layout_height="350dp"
         app:layout_constraintStart_toStartOf="@id/hole3"
         app:layout_constraintEnd_toEndOf="@id/hole3"
-        app:layout_constraintTop_toBottomOf="@id/hole3"
-        android:layout_marginBottom="-5dp">
+        app:layout_constraintTop_toBottomOf="@id/hole3">
 
         <ImageView
             android:id="@+id/image_view_for_card_3"
@@ -220,11 +217,10 @@
         android:background="@drawable/card"
         tools:showIn="@layout/activity_whack_a_word"
         android:layout_width="209dp"
-        android:layout_height="280dp"
+        android:layout_height="350dp"
         app:layout_constraintStart_toStartOf="@id/hole4"
         app:layout_constraintEnd_toEndOf="@id/hole4"
-        app:layout_constraintTop_toBottomOf="@id/hole4"
-        android:layout_marginBottom="-5dp">
+        app:layout_constraintTop_toBottomOf="@id/hole4">
 
         <ImageView
             android:id="@+id/image_view_for_card_4"
@@ -266,11 +262,10 @@
         android:background="@drawable/card"
         tools:showIn="@layout/activity_whack_a_word"
         android:layout_width="209dp"
-        android:layout_height="280dp"
+        android:layout_height="350dp"
         app:layout_constraintStart_toStartOf="@id/hole5"
         app:layout_constraintEnd_toEndOf="@id/hole5"
-        app:layout_constraintTop_toBottomOf="@id/hole5"
-        android:layout_marginBottom="-5dp">
+        app:layout_constraintTop_toBottomOf="@id/hole5">
 
         <ImageView
             android:id="@+id/image_view_for_card_5"
