@@ -2,6 +2,9 @@ package com.example.whackaword;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
@@ -368,7 +371,7 @@ public class WhackAWordActivity extends AppCompatActivity
 
             if (audioID == R.raw.correct)
             {
-                this.displayTick();
+                this.displayAnimatedTick();
             }
 
         }
@@ -505,14 +508,68 @@ public class WhackAWordActivity extends AppCompatActivity
     }
 
     /**
-     * Displays a tick for one second
+     * Displays a tick and animates it
+     * by rotating, translating and scaling it
      */
-    private void displayTick()
+    private void displayAnimatedTick()
     {
         ImageView tick = this.findViewById(R.id.tick);
         tick.setVisibility(View.VISIBLE);
 
-        new Handler().postDelayed((Runnable) () -> tick.setVisibility(View.INVISIBLE), 1000);
+        new Handler().postDelayed(() ->
+        {
+            tick.setRotation(0);
+            // Resets the tick's rotational position to 0 degrees
+            // because the ObjectAnimator doesn't reset the property to its original state
+            // for subsequent animations.
+            // Without this, the tick is only animated on its first appearance,
+            // and just appears and disappears without an animation on subsequent appearances
+
+            tick.setTranslationY(0);
+            // Resets the tick's vertical position to its initial vertical position
+            // because the ObjectAnimator doesn't reset the property to its original state
+            // for subsequent animations.
+            // Without this, the tick is only animated on its first appearance,
+            // and just appears and disappears without an animation on subsequent appearances
+
+            tick.setScaleX(1);
+            // Resets the tick's horizontal size to its initial horizontal size
+            // because the ObjectAnimator doesn't reset the property to its original state
+            // for subsequent animations.
+            // Without this, the tick is only animated on its first appearance,
+            // and just appears and disappears without an animation on subsequent appearances
+
+            tick.setScaleY(1);
+            // Resets tick's vertical size to its initial vertical size
+            // because the ObjectAnimator doesn't reset the property to its original state
+            // for subsequent animations.
+            // Without this, the tick is only animated on its first appearance,
+            // and just appears and disappears without an animation on subsequent appearances
+
+            ObjectAnimator rotation = ObjectAnimator.ofFloat(tick, "rotation", 3600);
+            ObjectAnimator translation = ObjectAnimator.ofFloat(tick, "translationY", 1000);
+            ObjectAnimator horizontalScaling = ObjectAnimator.ofFloat(tick, "scaleX", 0);
+            ObjectAnimator verticalScaling = ObjectAnimator.ofFloat(tick, "scaleY", 0);
+
+            AnimatorSet animatorSet = new AnimatorSet();
+            animatorSet.playTogether(rotation, translation, horizontalScaling, verticalScaling);
+            animatorSet.setDuration(1000); // The animations last for one second (1000 milliseconds)
+
+            animatorSet.addListener(new AnimatorListenerAdapter()
+            {
+                @Override
+                public void onAnimationEnd(Animator animation)
+                {
+                    tick.setVisibility(View.INVISIBLE);
+                }
+            });
+
+            animatorSet.start();
+
+        }, 250);
+        // The above code is delayed for a quarter of a second (250 milliseconds)
+        // so that the tick is discernible before the animations start
+
     }
 
     /**
