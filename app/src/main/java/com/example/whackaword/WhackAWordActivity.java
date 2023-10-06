@@ -7,6 +7,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -139,6 +140,7 @@ public class WhackAWordActivity extends AppCompatActivity
      * This is the method that gets called when the activity is created.
      * It sets up the initial state of the activity,
      * including its layout and variables,
+     * animates the sky,
      * and calls the whackAWord method that starts the game.
      *
      * savedInstanceState either contains the activity's previously saved state
@@ -187,6 +189,7 @@ public class WhackAWordActivity extends AppCompatActivity
         this.countOfSuccessfulTaps = 0;
         this.numberOfCardsToDisplay = NUMBER_OF_CARDS_TO_DISPLAY_FOR_LEVEL_1;
 
+        this.animateSky();
         this.whackAWord();
     }
 
@@ -678,6 +681,26 @@ public class WhackAWordActivity extends AppCompatActivity
         Random random = new Random();
         int randomIndex = random.nextInt(this.availableFoodItems.size());
         return this.availableFoodItems.get(randomIndex);
+    }
+
+    /**
+     * Causes the sky to change colour every ten seconds
+     * (as set out in changing_sky.xml
+     * which is set as the background of the sky_view View element
+     * in activity_whack_a_word.xml)
+     */
+    private void animateSky()
+    {
+        View skyView = this.findViewById(R.id.sky_view);
+        AnimationDrawable animationDrawable = (AnimationDrawable) skyView.getBackground();
+
+        animationDrawable.setEnterFadeDuration(5000);
+        // It takes 5 seconds (5000 milliseconds) for the current sky colours to fully fade in
+
+        animationDrawable.setExitFadeDuration(5000);
+        // It takes 5 seconds (5000 milliseconds) for the current sky colours to fully fade out
+
+        animationDrawable.start();
     }
 
     /**
