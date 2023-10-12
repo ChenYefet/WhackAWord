@@ -1,6 +1,7 @@
 package com.example.whackaword;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -8,6 +9,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +24,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
@@ -277,6 +280,7 @@ public class WhackAWordActivity extends AppCompatActivity
             this.countOfSuccessfulTaps++;
             this.correctlyTappedFoodItems.add(correctFoodCard.getFoodItem());
 
+            this.continuouslyChangeCardColour(this.findViewById(correctFoodCard.getID()));
             this.playAudio(R.raw.correct);
 
             if (this.countOfSuccessfulTaps == REQUIRED_NUMBER_OF_SUCCESSFUL_TAPS_PER_LEVEL &&
@@ -382,7 +386,7 @@ public class WhackAWordActivity extends AppCompatActivity
                 if (foodItemsSelectedForDisplayThatHaveNotYetBeenCorrectlyTapped.size() == 0)
 
                 // ... and all the food items so far selected to be displayed
-                // have previously been correctly tapped
+                // have previously been correctly tapped ...
 
                 {
 
@@ -659,20 +663,12 @@ public class WhackAWordActivity extends AppCompatActivity
      */
     private float getUpwardsTranslation()
     {
+        float amountTranslatedFromInitialPositionInPixels, amountTranslatedFromInitialPositionInDP;
+
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         // Gets the display metrics (such as screen density, width and height) of the Android device
 
-        float screenWidthInDP = displayMetrics.widthPixels / displayMetrics.density;
-        // DP refers to density-independent pixels
-
-        float amountTranslatedFromInitialPositionInPixels;
-
-        // Determine the translation amount based on screen width
-        if (screenWidthInDP < 1000)
-
-        // Screens of width 1000dp and above have a different layout
-        // as shown in app/src/main/res/layout-w1000dp/activity_whack_a_word.xml
-
+        if (smallScreen())
         {
             amountTranslatedFromInitialPositionInPixels = -178; // For small screens
         }
@@ -680,10 +676,28 @@ public class WhackAWordActivity extends AppCompatActivity
         {
             amountTranslatedFromInitialPositionInPixels = -278; // For large screens
         }
+        // Determines the translation amount based on screen width,
+        // since screens of width 1000dp and above have a different layout,
+        // as shown in app/src/main/res/layout-w1000dp/activity_whack_a_word.xml
 
-        float amountTranslatedFromInitialPositionInDP = amountTranslatedFromInitialPositionInPixels * displayMetrics.density;
+        amountTranslatedFromInitialPositionInDP = amountTranslatedFromInitialPositionInPixels * displayMetrics.density;
+        // DP refers to density-independent pixels
 
         return amountTranslatedFromInitialPositionInDP;
+    }
+
+    /**
+     * Helper method that returns true if the screen width is less than 1000dp
+     */
+    private boolean smallScreen()
+    {
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        // Gets the display metrics (such as screen density, width and height) of the Android device
+
+        float screenWidthInDP = displayMetrics.widthPixels / displayMetrics.density;
+        // DP refers to density-independent pixels
+
+        return screenWidthInDP < 1000;
     }
 
     /**
@@ -719,6 +733,64 @@ public class WhackAWordActivity extends AppCompatActivity
         Random random = new Random();
         int randomIndex = random.nextInt(this.availableFoodItems.size());
         return this.availableFoodItems.get(randomIndex);
+    }
+
+    /**
+     * Causes the card colour to change continuously
+     * for as long as the card is up
+     */
+    private void continuouslyChangeCardColour(FrameLayout aCard)
+    {
+        Drawable originalDrawable = aCard.getBackground();
+
+        AnimationDrawable animationDrawable = new AnimationDrawable();
+
+        if (smallScreen())
+        {
+            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(this, R.drawable.first_colour_of_animation_of_correctly_tapped_card_for_small_screens)), 100);
+            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(this, R.drawable.second_colour_of_animation_of_correctly_tapped_card_for_small_screens)), 100);
+            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(this, R.drawable.third_colour_of_animation_of_correctly_tapped_card_for_small_screens)), 100);
+            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(this, R.drawable.fourth_colour_of_animation_of_correctly_tapped_card_for_small_screens)), 100);
+        }
+        else
+        {
+            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(this, R.drawable.first_colour_of_animation_of_correctly_tapped_card)), 100);
+            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(this, R.drawable.second_colour_of_animation_of_correctly_tapped_card)), 100);
+            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(this, R.drawable.third_colour_of_animation_of_correctly_tapped_card)), 100);
+            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(this, R.drawable.fourth_colour_of_animation_of_correctly_tapped_card)), 100);
+        }
+        // The colour changes every tenth of a second (100 milliseconds)
+
+        // After the final tap of the game, the cards remain up for longer
+        // than after previous taps of the game, so ...
+
+        if (this.countOfSuccessfulTaps == REQUIRED_NUMBER_OF_SUCCESSFUL_TAPS_PER_LEVEL &&
+                this.currentLevel == LAST_LEVEL)
+
+        // ... if this is the final tap of the game ...
+
+        {
+            new Handler().postDelayed(() -> aCard.setBackground(originalDrawable), 2000);
+            // ... delay setting the card's background back to normal
+            // by two seconds (2000 milliseconds),
+            // so that it would be animated for all the time that it is up ...
+
+        }
+        else
+        {
+            new Handler().postDelayed(() -> aCard.setBackground(originalDrawable), 500);
+            // ... otherwise delay setting the card's background back to normal
+            // by only half a second (500 milliseconds),
+            // so that not only would it be animated for all the time that it is up,
+            // but the next card coming out of that hole
+            // would not show an animated background
+            // for any amount of time
+
+        }
+
+        aCard.setBackground(animationDrawable);
+
+        animationDrawable.start();
     }
 
     /**
