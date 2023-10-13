@@ -33,8 +33,7 @@ import java.util.Set;
  * A vocabulary card with a flashcard image of a food item
  * pops up from one of a series of holes in the ground.
  * The user hears the name of the food item then must tap it,
- * after which they hear it again
- * and receive some positive feedback – a tick with a sound effect.
+ * after which they receive some positive feedback – a tick with a sound effect.
  * If they don't tap it,
  * it retreats into its hole and pops up again in a random one.
  * After each round of three successful taps,
@@ -47,7 +46,7 @@ import java.util.Set;
  * to all previous food cards that they have correctly tapped
  * during the game
  * so that the game is more challenging and fun.
- * At the end of the third round, the user wins.
+ * At the end of the third round, the user wins
  *
  * @author Chen Yefet
  */
@@ -73,6 +72,8 @@ public class WhackAWordActivity extends AppCompatActivity
 
     private static Set<FoodCard> foodCards;
     // A set of all the food cards that exist within the game, one for each of the existing holes
+
+    private static boolean firstCardIsAboutToPopUp;
 
     private List<FoodItem> availableFoodItems;
     // A list of food items that are currently available to be played (it varies).
@@ -100,7 +101,7 @@ public class WhackAWordActivity extends AppCompatActivity
     // it is filled after a correct card has been clicked instead
     // i.e. right before playing Whack-A-Word again
 
-    private Map<FoodItem, FoodCard> foodItemsSelectedForDisplayOnFoodCards;
+    private Map<FoodItem, FoodCard> mapOfFoodItemsSelectedForDisplayToTheirFoodCards;
     // A map of food items that are set for display
     // to food cards upon which they are set to be displayed.
     // Note that there are currently no situations
@@ -173,8 +174,9 @@ public class WhackAWordActivity extends AppCompatActivity
         WhackAWordActivity.fillFoodItemsSet();
         WhackAWordActivity.fillFoodCardsSet();
 
-        this.foodItemsSelectedForDisplayOnFoodCards = new HashMap<>();
+        WhackAWordActivity.firstCardIsAboutToPopUp = true;
 
+        this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards = new HashMap<>();
         this.correctlyTappedFoodItems = new HashSet<>();
         this.frameLayoutsWithClickListeners = new HashSet<>();
         this.audioQueue = new LinkedList<>();
@@ -202,11 +204,19 @@ public class WhackAWordActivity extends AppCompatActivity
      */
     private void whackAWord()
     {
-        this.displayFoodCards(this.numberOfCardsToDisplay);
+        this.selectFoodCardsToBeDisplayed(this.numberOfCardsToDisplay);
 
-        Set<FoodItem> foodItemsOnDisplay = this.foodItemsSelectedForDisplayOnFoodCards.keySet();
-        // The food items are currently 'on' display (and not just set 'for' display)
-        // since the displayFoodCards method has been called
+        if (WhackAWordActivity.firstCardIsAboutToPopUp)
+        {
+            this.displayFoodItemsOnCards();
+        }
+
+        this.cardsPopUp();
+        WhackAWordActivity.firstCardIsAboutToPopUp = false;
+
+        Set<FoodItem> foodItemsOnDisplay = this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.keySet();
+        // The food items would be 'on' display (and not just set 'for' display)
+        // by the end of the animations that were started in the cardsPopUp method
 
         for (FoodItem foodItemOnDisplay : foodItemsOnDisplay)
         {
@@ -222,25 +232,25 @@ public class WhackAWordActivity extends AppCompatActivity
         // that hasn't yet been correctly tapped
 
         int correctFoodItemAudioID = this.correctFoodItem.getAudioID();
-        FoodCard correctFoodCard = this.foodItemsSelectedForDisplayOnFoodCards.get(this.correctFoodItem);
+        FoodCard correctFoodCard = this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.get(this.correctFoodItem);
 
         this.playAudio(correctFoodItemAudioID);
 
-        this.setOnClickListenerForCorrectFoodCard(correctFoodCard, correctFoodItemAudioID);
+        this.setOnClickListenerForCorrectFoodCard(correctFoodCard);
 
-        if (this.foodItemsSelectedForDisplayOnFoodCards.size() > 1)
+        if (this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.size() > 1)
 
         // I.e. if there are any incorrect food items that are set for display
         // in addition to the one correct food item ...
 
         {
 
-            for (FoodItem foodItem : this.foodItemsSelectedForDisplayOnFoodCards.keySet())
+            for (FoodItem foodItem : this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.keySet())
             {
 
                 if (foodItem != this.correctFoodItem)
                 {
-                    FoodCard incorrectFoodCard = this.foodItemsSelectedForDisplayOnFoodCards.get(foodItem);
+                    FoodCard incorrectFoodCard = this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.get(foodItem);
 
                     this.setOnClickListenerForIncorrectFoodCard(incorrectFoodCard);
                     // ... set a click listener for each of their corresponding food cards
@@ -254,16 +264,12 @@ public class WhackAWordActivity extends AppCompatActivity
     }
 
     /**
-     * Sets a click listener for the correct food card:
-     *
-     * When the correct food card is tapped,
-     * plays the audio for the correct food item
-     * and plays the tick sound.
+     * Plays the tick sound when the correct food card is tapped.
      * If you haven't won,
      * hides all cards and plays Whack-A-Word again
      * with the number of cards to display dependent on the current level
      */
-    private void setOnClickListenerForCorrectFoodCard(FoodCard correctFoodCard, int correctFoodItemAudioID)
+    private void setOnClickListenerForCorrectFoodCard(FoodCard correctFoodCard)
     {
         FrameLayout frameLayout = this.findViewById(correctFoodCard.getID());
         frameLayout.setOnClickListener(v ->
@@ -271,7 +277,6 @@ public class WhackAWordActivity extends AppCompatActivity
             this.countOfSuccessfulTaps++;
             this.correctlyTappedFoodItems.add(correctFoodCard.getFoodItem());
 
-            this.playAudio(correctFoodItemAudioID);
             this.playAudio(R.raw.correct);
 
             if (this.countOfSuccessfulTaps == REQUIRED_NUMBER_OF_SUCCESSFUL_TAPS_PER_LEVEL &&
@@ -303,7 +308,7 @@ public class WhackAWordActivity extends AppCompatActivity
             {
                 this.hideCards();
                 this.availableFoodItems = new ArrayList<>(WhackAWordActivity.foodItems);
-                this.foodItemsSelectedForDisplayOnFoodCards = new HashMap<>();
+                this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards = new HashMap<>();
                 this.whackAWord();
             }
         });
@@ -312,9 +317,8 @@ public class WhackAWordActivity extends AppCompatActivity
     }
 
     /**
-     * Sets a click listener for an incorrect food card:
-     *
-     * Hides cards then displays random cards again with the same food items,
+     * Hides cards when an incorrect food card is tapped,
+     * then displays random cards again with the same food items,
      * setting click listeners for the correct and incorrect food cards
      */
     private void setOnClickListenerForIncorrectFoodCard(FoodCard incorrectFoodCard)
@@ -324,24 +328,24 @@ public class WhackAWordActivity extends AppCompatActivity
         {
             this.hideCards();
 
-            this.foodItemsSelectedForDisplayOnFoodCards.replaceAll(((foodItem, foodCard) -> null));
+            this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.replaceAll(((foodItem, foodCard) -> null));
             // Keeps all foodItem keys in the map while setting all their foodCard values to null
             // since those food items need to be displayed again
             // in food cards which are not yet determined
 
-            this.displayFoodCardsAgain();
+            this.selectFoodCardsToBeDisplayedAgain();
+            this.cardsPopUp();
 
-            int correctFoodItemAudioID = this.correctFoodItem.getAudioID();
-            FoodCard correctFoodCard = this.foodItemsSelectedForDisplayOnFoodCards.get(this.correctFoodItem);
+            FoodCard correctFoodCard = this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.get(this.correctFoodItem);
 
-            this.setOnClickListenerForCorrectFoodCard(correctFoodCard, correctFoodItemAudioID);
+            this.setOnClickListenerForCorrectFoodCard(correctFoodCard);
 
-            for (FoodItem foodItem : this.foodItemsSelectedForDisplayOnFoodCards.keySet())
+            for (FoodItem foodItem : this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.keySet())
             {
 
                 if (foodItem != this.correctFoodItem)
                 {
-                    FoodCard foodCard = this.foodItemsSelectedForDisplayOnFoodCards.get(foodItem);
+                    FoodCard foodCard = this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.get(foodItem);
 
                     this.setOnClickListenerForIncorrectFoodCard(foodCard);
                 }
@@ -354,11 +358,12 @@ public class WhackAWordActivity extends AppCompatActivity
     }
 
     /**
-     * Displays a number of food cards equal to numberOfCards.
-     * Each food card is set an image of a different food item,
+     * Selects a number of food cards to be displayed
+     * equal to numberOfCards.
+     * Each food card is assigned a different food item,
      * including at least one that hasn't yet been correctly tapped
      */
-    private void displayFoodCards(int numberOfCards)
+    private void selectFoodCardsToBeDisplayed(int numberOfCards)
     {
         for (int i = 0; i < numberOfCards; i++)
         {
@@ -370,11 +375,11 @@ public class WhackAWordActivity extends AppCompatActivity
             // I.e. if this is the last iteration of this for loop ...
 
             {
-                Set<FoodItem> foodItemsSelectedForDisplay = this.foodItemsSelectedForDisplayOnFoodCards.keySet();
-                Set<FoodItem> foodItemsSelectedForDisplayThatHaveNotPreviouslyBeenCorrectlyTapped = new HashSet<>(foodItemsSelectedForDisplay);
-                foodItemsSelectedForDisplayThatHaveNotPreviouslyBeenCorrectlyTapped.removeAll(this.correctlyTappedFoodItems);
+                Set<FoodItem> foodItemsSelectedForDisplay = this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.keySet();
+                Set<FoodItem> foodItemsSelectedForDisplayThatHaveNotYetBeenCorrectlyTapped = new HashSet<>(foodItemsSelectedForDisplay);
+                foodItemsSelectedForDisplayThatHaveNotYetBeenCorrectlyTapped.removeAll(this.correctlyTappedFoodItems);
 
-                if (foodItemsSelectedForDisplayThatHaveNotPreviouslyBeenCorrectlyTapped.size() == 0)
+                if (foodItemsSelectedForDisplayThatHaveNotYetBeenCorrectlyTapped.size() == 0)
 
                 // ... and all the food items so far selected to be displayed
                 // have previously been correctly tapped
@@ -400,24 +405,20 @@ public class WhackAWordActivity extends AppCompatActivity
 
             foodCard.setFoodItem(foodItem);
 
-            this.foodItemsSelectedForDisplayOnFoodCards.put(foodItem, foodCard);
+            this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.put(foodItem, foodCard);
             this.availableFoodItems.remove(foodItem);
             this.availableFoodCards.remove(foodCard);
-
-            ImageView foodCardImageView = this.findViewById(foodCard.getImageViewID());
-            foodCardImageView.setImageResource(foodItem.getImageID());
         }
 
-        this.cardsPopUp();
     }
 
     /**
-     * Displays in random food cards
-     * the same food items that were already displayed on food cards
+     * Selects the same food items that were already displayed on food cards
+     * to be displayed on random food cards
      */
-    private void displayFoodCardsAgain()
+    private void selectFoodCardsToBeDisplayedAgain()
     {
-        for (FoodItem foodItem : this.foodItemsSelectedForDisplayOnFoodCards.keySet())
+        for (FoodItem foodItem : this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.keySet())
 
         // Note that food items have been kept in the map
         // even after the cards have been hidden via the hideCards method
@@ -430,14 +431,10 @@ public class WhackAWordActivity extends AppCompatActivity
             FoodCard foodCard = this.getAvailableFoodCard();
             foodCard.setFoodItem(foodItem);
 
-            this.foodItemsSelectedForDisplayOnFoodCards.put(foodItem, foodCard);
+            this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.put(foodItem, foodCard);
             this.availableFoodCards.remove(foodCard);
-
-            ImageView foodCardImageView = this.findViewById(foodCard.getImageViewID());
-            foodCardImageView.setImageResource(foodItem.getImageID());
         }
 
-        this.cardsPopUp();
     }
 
     /**
@@ -459,11 +456,11 @@ public class WhackAWordActivity extends AppCompatActivity
      * upon completion of the audio,
      * the method recursively calls itself
      * to both play the next audio file in the queue and call itself recursively,
-     * ensuring that all audio files are played in sequence.
+     * ensuring that all audio files are played in sequence
      *
-     * Displays tick if the tick sound is being played.
+     * Displays an animated tick if the tick sound is being played
      *
-     * Hides all cards upon audio completion if the user has won.
+     * Hides all cards upon audio completion if the user has won
      *
      * If there is audio currently playing, does nothing.
      * This does not cause a problem of skipped audio files
@@ -515,15 +512,30 @@ public class WhackAWordActivity extends AppCompatActivity
      */
     private void cardsPopUp()
     {
-        for (FoodItem foodItem : this.foodItemsSelectedForDisplayOnFoodCards.keySet())
+        for (FoodItem foodItem : this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.keySet())
         {
-            FoodCard foodCard = this.foodItemsSelectedForDisplayOnFoodCards.get(foodItem);
+            FoodCard foodCard = this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.get(foodItem);
             FrameLayout frameLayout = this.findViewById(foodCard.getID());
             ObjectAnimator animation = ObjectAnimator.ofFloat(frameLayout, "translationY", this.getUpwardsTranslation());
+
             animation.setDuration(500); // The animation lasts for half a second (500 milliseconds)
             animation.setStartDelay(500); // Delays starting the animation after start() is called by half a second (500 milliseconds)
-            animation.start();
+
+            if (WhackAWordActivity.firstCardIsAboutToPopUp)
+            {
+                animation.start();
+            }
+            else
+            {
+                new Handler().postDelayed(animation::start, 250);
+            }
+            // Delays calling for the start of the animation by a quarter of a second (250 milliseconds)
+            // in order to synchronise better with the audio,
+            // apart from when the first card is about to pop up,
+            // since it synchronises better without a delay in that instance
+
         }
+
     }
 
     /**
@@ -535,13 +547,29 @@ public class WhackAWordActivity extends AppCompatActivity
         float amountTranslatedFromInitialPosition = 0;
         // 'Initial position' refers to the position of the card before runtime
 
-        for (FoodItem foodItem : this.foodItemsSelectedForDisplayOnFoodCards.keySet())
+        for (FoodItem foodItem : this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.keySet())
         {
-            FoodCard foodCard = this.foodItemsSelectedForDisplayOnFoodCards.get(foodItem);
+            FoodCard foodCard = this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.get(foodItem);
             FrameLayout frameLayout = this.findViewById(foodCard.getID());
             ObjectAnimator animation = ObjectAnimator.ofFloat(frameLayout, "translationY", amountTranslatedFromInitialPosition);
+
             animation.setDuration(500); // The animation lasts for half a second (500 milliseconds)
+
+            animation.addListener(new AnimatorListenerAdapter()
+            {
+                @Override
+                public void onAnimationEnd(Animator animation)
+                {
+                    WhackAWordActivity.this.displayFoodItemsOnCards();
+                }
+                // When the animation has ended, the cards have gone into their holes,
+                // so this method ensures that when the food cards change their food items,
+                // this change happens out of sight of the user
+
+            });
+
             animation.start();
+
         }
 
         this.availableFoodCards = new ArrayList<>(WhackAWordActivity.foodCards);
@@ -571,59 +599,55 @@ public class WhackAWordActivity extends AppCompatActivity
         ImageView tick = this.findViewById(R.id.tick);
         tick.setVisibility(View.VISIBLE);
 
-        new Handler().postDelayed(() ->
+        tick.setRotation(0);
+        // Resets the tick's rotational position to 0 degrees
+        // because the ObjectAnimator doesn't reset the property to its original state
+        // for subsequent animations.
+        // Without this, the tick is only animated on its first appearance,
+        // and just appears and disappears without an animation on subsequent appearances
+
+        tick.setTranslationY(0);
+        // Resets the tick's vertical position to its initial vertical position
+        // because the ObjectAnimator doesn't reset the property to its original state
+        // for subsequent animations.
+        // Without this, the tick is only animated on its first appearance,
+        // and just appears and disappears without an animation on subsequent appearances
+
+        tick.setScaleX(1);
+        // Resets the tick's horizontal size to its initial horizontal size
+        // because the ObjectAnimator doesn't reset the property to its original state
+        // for subsequent animations.
+        // Without this, the tick is only animated on its first appearance,
+        // and just appears and disappears without an animation on subsequent appearances
+
+        tick.setScaleY(1);
+        // Resets tick's vertical size to its initial vertical size
+        // because the ObjectAnimator doesn't reset the property to its original state
+        // for subsequent animations.
+        // Without this, the tick is only animated on its first appearance,
+        // and just appears and disappears without an animation on subsequent appearances
+
+        ObjectAnimator rotation = ObjectAnimator.ofFloat(tick, "rotation", 3600);
+        ObjectAnimator translation = ObjectAnimator.ofFloat(tick, "translationY", 1000);
+        ObjectAnimator horizontalScaling = ObjectAnimator.ofFloat(tick, "scaleX", 0);
+        ObjectAnimator verticalScaling = ObjectAnimator.ofFloat(tick, "scaleY", 0);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(rotation, translation, horizontalScaling, verticalScaling);
+        animatorSet.setDuration(1000); // The animations last for one second (1000 milliseconds)
+
+        animatorSet.addListener(new AnimatorListenerAdapter()
         {
-            tick.setRotation(0);
-            // Resets the tick's rotational position to 0 degrees
-            // because the ObjectAnimator doesn't reset the property to its original state
-            // for subsequent animations.
-            // Without this, the tick is only animated on its first appearance,
-            // and just appears and disappears without an animation on subsequent appearances
-
-            tick.setTranslationY(0);
-            // Resets the tick's vertical position to its initial vertical position
-            // because the ObjectAnimator doesn't reset the property to its original state
-            // for subsequent animations.
-            // Without this, the tick is only animated on its first appearance,
-            // and just appears and disappears without an animation on subsequent appearances
-
-            tick.setScaleX(1);
-            // Resets the tick's horizontal size to its initial horizontal size
-            // because the ObjectAnimator doesn't reset the property to its original state
-            // for subsequent animations.
-            // Without this, the tick is only animated on its first appearance,
-            // and just appears and disappears without an animation on subsequent appearances
-
-            tick.setScaleY(1);
-            // Resets tick's vertical size to its initial vertical size
-            // because the ObjectAnimator doesn't reset the property to its original state
-            // for subsequent animations.
-            // Without this, the tick is only animated on its first appearance,
-            // and just appears and disappears without an animation on subsequent appearances
-
-            ObjectAnimator rotation = ObjectAnimator.ofFloat(tick, "rotation", 3600);
-            ObjectAnimator translation = ObjectAnimator.ofFloat(tick, "translationY", 1000);
-            ObjectAnimator horizontalScaling = ObjectAnimator.ofFloat(tick, "scaleX", 0);
-            ObjectAnimator verticalScaling = ObjectAnimator.ofFloat(tick, "scaleY", 0);
-
-            AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.playTogether(rotation, translation, horizontalScaling, verticalScaling);
-            animatorSet.setDuration(1000); // The animations last for one second (1000 milliseconds)
-
-            animatorSet.addListener(new AnimatorListenerAdapter()
+            @Override
+            public void onAnimationEnd(Animator animation)
             {
-                @Override
-                public void onAnimationEnd(Animator animation)
-                {
-                    tick.setVisibility(View.INVISIBLE);
-                }
-            });
+                tick.setVisibility(View.INVISIBLE);
+            }
+        });
 
-            animatorSet.start();
-
-        }, 250);
-        // The above code is delayed for a quarter of a second (250 milliseconds)
-        // so that the tick is discernible before the animations start
+        new Handler().postDelayed(animatorSet::start, 50);
+        // The animations are delayed for a twentieth of a second (50 milliseconds)
+        // so that the tick is discernible beforehand
 
     }
 
@@ -660,6 +684,19 @@ public class WhackAWordActivity extends AppCompatActivity
         float amountTranslatedFromInitialPositionInDP = amountTranslatedFromInitialPositionInPixels * displayMetrics.density;
 
         return amountTranslatedFromInitialPositionInDP;
+    }
+
+    /**
+     * Helper method that causes food cards to display food items
+     */
+    private void displayFoodItemsOnCards()
+    {
+        for (FoodItem foodItem : this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.keySet())
+        {
+            FoodCard foodCard = this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.get(foodItem);
+            ImageView foodCardImageView = this.findViewById(foodCard.getImageViewID());
+            foodCardImageView.setImageResource(foodItem.getImageID());
+        }
     }
 
     /**
