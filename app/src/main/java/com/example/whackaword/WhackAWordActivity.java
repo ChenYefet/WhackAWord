@@ -254,134 +254,6 @@ public class WhackAWordActivity extends AppCompatActivity
     }
 
     /**
-     * Displays a number of food cards equal to numberOfCards.
-     * Each food card is set an image of a different food item,
-     * including at least one that hasn't yet been correctly tapped
-     */
-    private void displayFoodCards(int numberOfCards)
-    {
-        for (int i = 0; i < numberOfCards; i++)
-        {
-            FoodCard foodCard = this.getAvailableFoodCard();
-            FoodItem foodItem = this.getAvailableFoodItem();
-
-            if (i == numberOfCards - 1)
-
-            // I.e. if this is the last iteration of this for loop ...
-
-            {
-                Set<FoodItem> foodItemsSelectedForDisplay = this.foodItemsSelectedForDisplayOnFoodCards.keySet();
-                Set<FoodItem> foodItemsSelectedForDisplayThatHaveNotPreviouslyBeenCorrectlyTapped = new HashSet<>(foodItemsSelectedForDisplay);
-                foodItemsSelectedForDisplayThatHaveNotPreviouslyBeenCorrectlyTapped.removeAll(this.correctlyTappedFoodItems);
-
-                if (foodItemsSelectedForDisplayThatHaveNotPreviouslyBeenCorrectlyTapped.size() == 0)
-
-                // ... and all the food items so far selected to be displayed
-                // have previously been correctly tapped
-
-                {
-
-                    while (this.correctlyTappedFoodItems.contains(foodItem))
-                    {
-                        foodItem = this.getAvailableFoodItem();
-                        // ... ensure that the last food item selected to be displayed
-                        // is one which hasn't previously been correctly tapped
-                        // (to ensure that the game is more challenging and fun)
-
-                    }
-
-                }
-
-                // Note that calling keySet() on an empty map outputs an empty set,
-                // so no exception would be thrown since the map has been initialised
-                // as an empty map
-
-            }
-
-            foodCard.setFoodItem(foodItem);
-
-            this.foodItemsSelectedForDisplayOnFoodCards.put(foodItem, foodCard);
-            this.availableFoodItems.remove(foodItem);
-            this.availableFoodCards.remove(foodCard);
-
-            ImageView foodCardImageView = this.findViewById(foodCard.getImageViewID());
-            foodCardImageView.setImageResource(foodItem.getImageID());
-        }
-
-        this.cardsPopUp();
-    }
-
-    /**
-     * Plays the audio with ID audioID
-     * after all other audio in front of it in the audio queue
-     * have been played
-     */
-    private void playAudio(int audioID)
-    {
-        this.audioQueue.add(audioID);
-        this.playAudioInSequence();
-    }
-
-    /**
-     * Plays in sequence all the audio files whose IDs are in the audio queue:
-     *
-     * Plays the audio file whose ID is at the front of the queue
-     * and sets a completion listener to ensure that,
-     * upon completion of the audio,
-     * the method recursively calls itself
-     * to both play the next audio file in the queue and call itself recursively,
-     * ensuring that all audio files are played in sequence.
-     *
-     * Displays tick if the tick sound is being played.
-     *
-     * Hides all cards upon audio completion if the user has won.
-     *
-     * If there is audio currently playing, does nothing.
-     * This does not cause a problem of skipped audio files
-     * if those audio files are in the audio queue
-     * and the currently playing audio was playing due to the calling of this method,
-     * since this method would be set to be called again recursively
-     * upon completion of the audio
-     */
-    private void playAudioInSequence()
-    {
-        if (this.mediaPlayer != null && this.mediaPlayer.isPlaying())
-        {
-            return;
-        }
-
-        if (!this.audioQueue.isEmpty())
-        {
-            int audioID = this.audioQueue.poll();
-            this.mediaPlayer = MediaPlayer.create(this, audioID);
-            this.mediaPlayer.setOnCompletionListener(mp ->
-            {
-                this.playAudioInSequence();
-
-                if (this.audioQueue.isEmpty() &&
-                        this.countOfSuccessfulTaps == REQUIRED_NUMBER_OF_SUCCESSFUL_TAPS_PER_LEVEL &&
-                        this.currentLevel == LAST_LEVEL)
-
-                // I.e. if the last of the audio has played and you have won
-
-                {
-                    this.hideCards();
-                }
-
-            });
-
-            this.mediaPlayer.start();
-
-            if (audioID == R.raw.correct)
-            {
-                this.displayAnimatedTick();
-            }
-
-        }
-
-    }
-
-    /**
      * Sets a click listener for the correct food card:
      *
      * When the correct food card is tapped,
@@ -482,6 +354,64 @@ public class WhackAWordActivity extends AppCompatActivity
     }
 
     /**
+     * Displays a number of food cards equal to numberOfCards.
+     * Each food card is set an image of a different food item,
+     * including at least one that hasn't yet been correctly tapped
+     */
+    private void displayFoodCards(int numberOfCards)
+    {
+        for (int i = 0; i < numberOfCards; i++)
+        {
+            FoodCard foodCard = this.getAvailableFoodCard();
+            FoodItem foodItem = this.getAvailableFoodItem();
+
+            if (i == numberOfCards - 1)
+
+            // I.e. if this is the last iteration of this for loop ...
+
+            {
+                Set<FoodItem> foodItemsSelectedForDisplay = this.foodItemsSelectedForDisplayOnFoodCards.keySet();
+                Set<FoodItem> foodItemsSelectedForDisplayThatHaveNotPreviouslyBeenCorrectlyTapped = new HashSet<>(foodItemsSelectedForDisplay);
+                foodItemsSelectedForDisplayThatHaveNotPreviouslyBeenCorrectlyTapped.removeAll(this.correctlyTappedFoodItems);
+
+                if (foodItemsSelectedForDisplayThatHaveNotPreviouslyBeenCorrectlyTapped.size() == 0)
+
+                // ... and all the food items so far selected to be displayed
+                // have previously been correctly tapped
+
+                {
+
+                    while (this.correctlyTappedFoodItems.contains(foodItem))
+                    {
+                        foodItem = this.getAvailableFoodItem();
+                        // ... ensure that the last food item selected to be displayed
+                        // is one which hasn't previously been correctly tapped
+                        // (to ensure that the game is more challenging and fun)
+
+                    }
+
+                }
+
+                // Note that calling keySet() on an empty map outputs an empty set,
+                // so no exception would be thrown since the map has been initialised
+                // as an empty map
+
+            }
+
+            foodCard.setFoodItem(foodItem);
+
+            this.foodItemsSelectedForDisplayOnFoodCards.put(foodItem, foodCard);
+            this.availableFoodItems.remove(foodItem);
+            this.availableFoodCards.remove(foodCard);
+
+            ImageView foodCardImageView = this.findViewById(foodCard.getImageViewID());
+            foodCardImageView.setImageResource(foodItem.getImageID());
+        }
+
+        this.cardsPopUp();
+    }
+
+    /**
      * Displays in random food cards
      * the same food items that were already displayed on food cards
      */
@@ -508,6 +438,128 @@ public class WhackAWordActivity extends AppCompatActivity
         }
 
         this.cardsPopUp();
+    }
+
+    /**
+     * Plays the audio with ID audioID
+     * after all other audio in front of it in the audio queue
+     * have been played
+     */
+    private void playAudio(int audioID)
+    {
+        this.audioQueue.add(audioID);
+        this.playAudioInSequence();
+    }
+
+    /**
+     * Plays in sequence all the audio files whose IDs are in the audio queue:
+     *
+     * Plays the audio file whose ID is at the front of the queue
+     * and sets a completion listener to ensure that,
+     * upon completion of the audio,
+     * the method recursively calls itself
+     * to both play the next audio file in the queue and call itself recursively,
+     * ensuring that all audio files are played in sequence.
+     *
+     * Displays tick if the tick sound is being played.
+     *
+     * Hides all cards upon audio completion if the user has won.
+     *
+     * If there is audio currently playing, does nothing.
+     * This does not cause a problem of skipped audio files
+     * if those audio files are in the audio queue
+     * and the currently playing audio was playing due to the calling of this method,
+     * since this method would be set to be called again recursively
+     * upon completion of the audio
+     */
+    private void playAudioInSequence()
+    {
+        if (this.mediaPlayer != null && this.mediaPlayer.isPlaying())
+        {
+            return;
+        }
+
+        if (!this.audioQueue.isEmpty())
+        {
+            int audioID = this.audioQueue.poll();
+            this.mediaPlayer = MediaPlayer.create(this, audioID);
+            this.mediaPlayer.setOnCompletionListener(mp ->
+            {
+                this.playAudioInSequence();
+
+                if (this.audioQueue.isEmpty() &&
+                        this.countOfSuccessfulTaps == REQUIRED_NUMBER_OF_SUCCESSFUL_TAPS_PER_LEVEL &&
+                        this.currentLevel == LAST_LEVEL)
+
+                // I.e. if the last of the audio has played and you have won
+
+                {
+                    this.hideCards();
+                }
+
+            });
+
+            this.mediaPlayer.start();
+
+            if (audioID == R.raw.correct)
+            {
+                this.displayAnimatedTick();
+            }
+
+        }
+
+    }
+
+    /**
+     * Causes each card set for display to pop up
+     */
+    private void cardsPopUp()
+    {
+        for (FoodItem foodItem : this.foodItemsSelectedForDisplayOnFoodCards.keySet())
+        {
+            FoodCard foodCard = this.foodItemsSelectedForDisplayOnFoodCards.get(foodItem);
+            FrameLayout frameLayout = this.findViewById(foodCard.getID());
+            ObjectAnimator animation = ObjectAnimator.ofFloat(frameLayout, "translationY", this.getUpwardsTranslation());
+            animation.setDuration(500); // The animation lasts for half a second (500 milliseconds)
+            animation.setStartDelay(500); // Delays starting the animation after start() is called by half a second (500 milliseconds)
+            animation.start();
+        }
+    }
+
+    /**
+     * Causes each card on display to hide,
+     * and clears their click listeners
+     */
+    private void hideCards()
+    {
+        float amountTranslatedFromInitialPosition = 0;
+        // 'Initial position' refers to the position of the card before runtime
+
+        for (FoodItem foodItem : this.foodItemsSelectedForDisplayOnFoodCards.keySet())
+        {
+            FoodCard foodCard = this.foodItemsSelectedForDisplayOnFoodCards.get(foodItem);
+            FrameLayout frameLayout = this.findViewById(foodCard.getID());
+            ObjectAnimator animation = ObjectAnimator.ofFloat(frameLayout, "translationY", amountTranslatedFromInitialPosition);
+            animation.setDuration(500); // The animation lasts for half a second (500 milliseconds)
+            animation.start();
+        }
+
+        this.availableFoodCards = new ArrayList<>(WhackAWordActivity.foodCards);
+
+        this.clearClickListeners();
+    }
+
+    /**
+     * Clears click listeners from each card
+     */
+    private void clearClickListeners()
+    {
+        for (FrameLayout frameLayout: this.frameLayoutsWithClickListeners)
+        {
+            frameLayout.setOnClickListener(null);
+        }
+
+        this.frameLayoutsWithClickListeners = new HashSet<>();
     }
 
     /**
@@ -573,57 +625,6 @@ public class WhackAWordActivity extends AppCompatActivity
         // The above code is delayed for a quarter of a second (250 milliseconds)
         // so that the tick is discernible before the animations start
 
-    }
-
-    /**
-     * Causes each card set for display to pop up
-     */
-    private void cardsPopUp()
-    {
-        for (FoodItem foodItem : this.foodItemsSelectedForDisplayOnFoodCards.keySet())
-        {
-            FoodCard foodCard = this.foodItemsSelectedForDisplayOnFoodCards.get(foodItem);
-            FrameLayout frameLayout = this.findViewById(foodCard.getID());
-            ObjectAnimator animation = ObjectAnimator.ofFloat(frameLayout, "translationY", this.getUpwardsTranslation());
-            animation.setDuration(500);
-            animation.start();
-        }
-    }
-
-    /**
-     * Causes each card on display to hide,
-     * and clears their click listeners
-     */
-    private void hideCards()
-    {
-        float amountTranslatedFromInitialPosition = 0;
-        // 'Initial position' refers to the position of the card before runtime
-
-        for (FoodItem foodItem : this.foodItemsSelectedForDisplayOnFoodCards.keySet())
-        {
-            FoodCard foodCard = this.foodItemsSelectedForDisplayOnFoodCards.get(foodItem);
-            FrameLayout frameLayout = this.findViewById(foodCard.getID());
-            ObjectAnimator animation = ObjectAnimator.ofFloat(frameLayout, "translationY", amountTranslatedFromInitialPosition);
-            animation.setDuration(500);
-            animation.start();
-        }
-
-        this.availableFoodCards = new ArrayList<>(WhackAWordActivity.foodCards);
-
-        this.clearClickListeners();
-    }
-
-    /**
-     * Clears click listeners from each card
-     */
-    private void clearClickListeners()
-    {
-        for (FrameLayout frameLayout: this.frameLayoutsWithClickListeners)
-        {
-            frameLayout.setOnClickListener(null);
-        }
-
-        this.frameLayoutsWithClickListeners = new HashSet<>();
     }
 
     /**
