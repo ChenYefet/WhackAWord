@@ -2,14 +2,14 @@
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:drawable="@drawable/daytime_sky"
-        android:duration="10000"/>
+        android:duration="6000"/>
     <item
         android:drawable="@drawable/sunset_sky"
-        android:duration="10000"/>
+        android:duration="6000"/>
     <item
         android:drawable="@drawable/northern_lights_sky"
-        android:duration="10000"/>
+        android:duration="6000"/>
     <item
         android:drawable="@drawable/dawn_sky"
-        android:duration="10000"/>
+        android:duration="6000"/>
 </animation-list>

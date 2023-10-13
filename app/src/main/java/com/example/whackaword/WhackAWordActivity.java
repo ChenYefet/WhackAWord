@@ -794,7 +794,7 @@ public class WhackAWordActivity extends AppCompatActivity
     }
 
     /**
-     * Causes the sky to change colour every ten seconds
+     * Causes the sky to change colour every six seconds
      * (as set out in changing_sky.xml
      * which is set as the background of the sky_view View element
      * in activity_whack_a_word.xml)
@@ -804,11 +804,11 @@ public class WhackAWordActivity extends AppCompatActivity
         View skyView = this.findViewById(R.id.sky_view);
         AnimationDrawable animationDrawable = (AnimationDrawable) skyView.getBackground();
 
-        animationDrawable.setEnterFadeDuration(5000);
-        // It takes 5 seconds (5000 milliseconds) for the current sky colours to fully fade in
+        animationDrawable.setEnterFadeDuration(2500);
+        // It takes two and a half seconds (2500 milliseconds) for the current sky colours to fully fade in
 
-        animationDrawable.setExitFadeDuration(5000);
-        // It takes 5 seconds (5000 milliseconds) for the current sky colours to fully fade out
+        animationDrawable.setExitFadeDuration(2500);
+        // It takes two and a half seconds (2500 milliseconds) for the current sky colours to fully fade out
 
         animationDrawable.start();
     }
