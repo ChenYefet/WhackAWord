@@ -207,7 +207,7 @@ public class WhackAWordActivity extends AppCompatActivity
      */
     private void whackAWord()
     {
-        this.selectFoodCardsToBeDisplayed(this.numberOfCardsToDisplay);
+        this.selectFoodCardsToBeDisplayed(this.numberOfCardsToDisplay, true);
 
         if (WhackAWordActivity.firstCardIsAboutToPopUp)
         {
@@ -239,7 +239,7 @@ public class WhackAWordActivity extends AppCompatActivity
 
         this.playAudio(correctFoodItemAudioID);
 
-        this.setOnClickListenerForCorrectFoodCard(correctFoodCard);
+        this.setOnClickListenerForFoodCard(correctFoodCard, true);
 
         if (this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.size() > 1)
 
@@ -255,7 +255,7 @@ public class WhackAWordActivity extends AppCompatActivity
                 {
                     FoodCard incorrectFoodCard = this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.get(foodItem);
 
-                    this.setOnClickListenerForIncorrectFoodCard(incorrectFoodCard);
+                    this.setOnClickListenerForFoodCard(incorrectFoodCard, false);
                     // ... set a click listener for each of their corresponding food cards
 
                 }
@@ -267,91 +267,67 @@ public class WhackAWordActivity extends AppCompatActivity
     }
 
     /**
-     * Plays the tick sound when the correct food card is tapped.
-     * If you haven't won,
-     * hides all cards and plays Whack-A-Word again
-     * with the number of cards to display dependent on the current level
-     */
-    private void setOnClickListenerForCorrectFoodCard(FoodCard correctFoodCard)
-    {
-        FrameLayout frameLayout = this.findViewById(correctFoodCard.getID());
-        frameLayout.setOnClickListener(v ->
-        {
-            this.countOfSuccessfulTaps++;
-            this.correctlyTappedFoodItems.add(correctFoodCard.getFoodItem());
-
-            this.continuouslyChangeCardColour(this.findViewById(correctFoodCard.getID()));
-            this.playAudio(R.raw.correct);
-
-            if (this.countOfSuccessfulTaps == REQUIRED_NUMBER_OF_SUCCESSFUL_TAPS_PER_LEVEL &&
-                    this.currentLevel < LAST_LEVEL)
-
-            // I.e. if you have reached the next level
-
-            {
-                this.currentLevel++;
-                this.countOfSuccessfulTaps = 0;
-
-                if (this.currentLevel == 2)
-                {
-                    this.numberOfCardsToDisplay = NUMBER_OF_CARDS_TO_DISPLAY_FOR_LEVEL_2;
-                }
-                else // There are currently only three levels
-                {
-                    this.numberOfCardsToDisplay = NUMBER_OF_CARDS_TO_DISPLAY_FOR_LEVEL_3;
-                }
-
-            }
-
-            if (this.countOfSuccessfulTaps == REQUIRED_NUMBER_OF_SUCCESSFUL_TAPS_PER_LEVEL &&
-                    this.currentLevel == LAST_LEVEL)
-            {
-                // You win, well done!
-            }
-            else
-            {
-                this.hideCards();
-                this.availableFoodItems = new ArrayList<>(WhackAWordActivity.foodItems);
-                this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards = new HashMap<>();
-                this.whackAWord();
-            }
-        });
-
-        this.frameLayoutsWithClickListeners.add(frameLayout);
-    }
-
-    /**
+     * When the correct food card is tapped,
+     * plays the tick sound,
+     * displays an animated tick,
+     * continuously changes the card colour for the correct food card,
+     * and checks whether the user has reached the next level or has won.
+     * If the user hasn't won, continues playing the game
+     *
      * Hides cards when an incorrect food card is tapped,
      * then displays random cards again with the same food items,
      * setting click listeners for the correct and incorrect food cards
      */
-    private void setOnClickListenerForIncorrectFoodCard(FoodCard incorrectFoodCard)
+    private void setOnClickListenerForFoodCard(FoodCard foodCard, boolean isCorrectFoodCard)
     {
-        FrameLayout frameLayout = this.findViewById(incorrectFoodCard.getID());
+        FrameLayout frameLayout = this.findViewById(foodCard.getID());
         frameLayout.setOnClickListener(v ->
         {
-            this.hideCards();
-
-            this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.replaceAll(((foodItem, foodCard) -> null));
-            // Keeps all foodItem keys in the map while setting all their foodCard values to null
-            // since those food items need to be displayed again
-            // in food cards which are not yet determined
-
-            this.selectFoodCardsToBeDisplayedAgain();
-            this.cardsPopUp();
-
-            FoodCard correctFoodCard = this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.get(this.correctFoodItem);
-
-            this.setOnClickListenerForCorrectFoodCard(correctFoodCard);
-
-            for (FoodItem foodItem : this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.keySet())
+            if (isCorrectFoodCard)
             {
+                this.countOfSuccessfulTaps++;
+                this.correctlyTappedFoodItems.add(foodCard.getFoodItem());
 
-                if (foodItem != this.correctFoodItem)
+                this.continuouslyChangeCardColour(this.findViewById(foodCard.getID()));
+                this.playAudio(R.raw.correct);
+                this.manageLevel();
+
+                if (this.countOfSuccessfulTaps == REQUIRED_NUMBER_OF_SUCCESSFUL_TAPS_PER_LEVEL && this.currentLevel == LAST_LEVEL)
                 {
-                    FoodCard foodCard = this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.get(foodItem);
+                    // You win, well done!
+                }
+                else
+                {
+                    this.continuePlaying();
+                }
 
-                    this.setOnClickListenerForIncorrectFoodCard(foodCard);
+            }
+            else
+            {
+                this.hideCards();
+
+                this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.replaceAll(((foodItem, hiddenFoodCard) -> null));
+                // Keeps all foodItem keys in the map while setting all their hiddenFoodCard values to null
+                // since those food items need to be displayed again
+                // in food cards which are not yet determined
+
+                this.selectFoodCardsToBeDisplayed(this.numberOfCardsToDisplay, false);
+                this.cardsPopUp();
+
+                FoodCard correctFoodCard = this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.get(this.correctFoodItem);
+
+                this.setOnClickListenerForFoodCard(correctFoodCard, true);
+
+                for (FoodItem foodItem : this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.keySet())
+                {
+
+                    if (foodItem != this.correctFoodItem)
+                    {
+                        FoodCard incorrectFoodCard = this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.get(foodItem);
+
+                        this.setOnClickListenerForFoodCard(incorrectFoodCard, false);
+                    }
+
                 }
 
             }
@@ -362,81 +338,69 @@ public class WhackAWordActivity extends AppCompatActivity
     }
 
     /**
-     * Selects a number of food cards to be displayed
-     * equal to numberOfCards.
-     * Each food card is assigned a different food item,
-     * including at least one that hasn't yet been correctly tapped
+     * If new food items are to be displayed,
+     * selects a number of food cards to be displayed
+     * equal to numberOfCards,
+     * and ensures that the food items to be displayed
+     * are a different combination to the ones that were already displayed.
+     * Otherwise, selects the same food items that were most recently displayed
+     * to be displayed again on random food cards
      */
-    private void selectFoodCardsToBeDisplayed(int numberOfCards)
+    private void selectFoodCardsToBeDisplayed(int numberOfCards, boolean newFoodItemsAreToBeDisplayed)
     {
-        for (int i = 0; i < numberOfCards; i++)
+        if (newFoodItemsAreToBeDisplayed)
         {
-            FoodCard foodCard = this.getAvailableFoodCard();
-            FoodItem foodItem = this.getAvailableFoodItem();
-
-            if (i == numberOfCards - 1)
-
-            // I.e. if this is the last iteration of this for loop ...
-
-            {
-                Set<FoodItem> foodItemsSelectedForDisplay = this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.keySet();
-                Set<FoodItem> foodItemsSelectedForDisplayThatHaveNotYetBeenCorrectlyTapped = new HashSet<>(foodItemsSelectedForDisplay);
-                foodItemsSelectedForDisplayThatHaveNotYetBeenCorrectlyTapped.removeAll(this.correctlyTappedFoodItems);
-
-                if (foodItemsSelectedForDisplayThatHaveNotYetBeenCorrectlyTapped.size() == 0)
-
-                // ... and all the food items so far selected to be displayed
-                // have previously been correctly tapped ...
-
-                {
-
-                    while (this.correctlyTappedFoodItems.contains(foodItem))
-                    {
-                        foodItem = this.getAvailableFoodItem();
-                        // ... ensure that the last food item selected to be displayed
-                        // is one which hasn't previously been correctly tapped
-                        // (to ensure that the game is more challenging and fun)
-
-                    }
-
-                }
-
-                // Note that calling keySet() on an empty map outputs an empty set,
-                // so no exception would be thrown since the map has been initialised
-                // as an empty map
-
-            }
-
-            foodCard.setFoodItem(foodItem);
-
-            this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.put(foodItem, foodCard);
-            this.availableFoodItems.remove(foodItem);
-            this.availableFoodCards.remove(foodCard);
+            this.selectNewFoodCardsToBeDisplayed(numberOfCards);
         }
-
+        else
+        {
+            this.selectSameFoodCardsToBeDisplayed();
+        }
     }
 
     /**
-     * Selects the same food items that were already displayed on food cards
-     * to be displayed on random food cards
+     * Helper method that selects
+     * a number of food cards equal to numberOfCards
+     * to be displayed,
+     * and assigns each one an appropriate food item
      */
-    private void selectFoodCardsToBeDisplayedAgain()
+    private void selectNewFoodCardsToBeDisplayed(int numberOfCards)
     {
-        for (FoodItem foodItem : this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.keySet())
+        for (int cardCount = 1; cardCount <= numberOfCards; cardCount++)
+        {
+            FoodItem foodItemToBeDisplayed = this.selectAppropriateFoodItemToBeDisplayed(cardCount, numberOfCards);
+            FoodCard foodCardToBeDisplayed = this.getAvailableFoodCard();
 
-        // Note that food items have been kept in the map
-        // even after the cards have been hidden via the hideCards method
-        // since they are set to be displayed again.
-        // Their previous corresponding food cards have been removed from the map (i.e. set to null)
-        // within the click listener for incorrect cards
-        // since they are set to be replaced by random food cards
+            foodCardToBeDisplayed.setFoodItem(foodItemToBeDisplayed);
+
+            this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.put(foodItemToBeDisplayed, foodCardToBeDisplayed);
+            this.availableFoodItems.remove(foodItemToBeDisplayed);
+            this.availableFoodCards.remove(foodCardToBeDisplayed);
+        }
+    }
+
+    /**
+     * Helper method that selects
+     * the same food items that were most recently displayed on food cards
+     * to be displayed again on random food cards
+     */
+    private void selectSameFoodCardsToBeDisplayed()
+    {
+        for (FoodItem foodItemToBeDisplayed : this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.keySet())
+
+        // Note that food items that are set to be displayed again
+        // would have been kept in mapOfFoodItemsSelectedForDisplayToTheirFoodCards.
+        // Their previous corresponding food cards
+        // would have been removed from the map (i.e. set to null)
+        // via the setOnClickListenerForFoodCard method
+        // so that they could be replaced by random food cards
 
         {
-            FoodCard foodCard = this.getAvailableFoodCard();
-            foodCard.setFoodItem(foodItem);
+            FoodCard foodCardToBeDisplayed = this.getAvailableFoodCard();
+            foodCardToBeDisplayed.setFoodItem(foodItemToBeDisplayed);
 
-            this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.put(foodItem, foodCard);
-            this.availableFoodCards.remove(foodCard);
+            this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.put(foodItemToBeDisplayed, foodCardToBeDisplayed);
+            this.availableFoodCards.remove(foodCardToBeDisplayed);
         }
 
     }
@@ -487,17 +451,7 @@ public class WhackAWordActivity extends AppCompatActivity
             this.mediaPlayer.setOnCompletionListener(mp ->
             {
                 this.playAudioInSequence();
-
-                if (this.audioQueue.isEmpty() &&
-                        this.countOfSuccessfulTaps == REQUIRED_NUMBER_OF_SUCCESSFUL_TAPS_PER_LEVEL &&
-                        this.currentLevel == LAST_LEVEL)
-
-                // I.e. if the last of the audio has played and you have won
-
-                {
-                    this.hideCards();
-                }
-
+                this.checkForAudioCompletionAfterWin();
             });
 
             this.mediaPlayer.start();
@@ -714,6 +668,55 @@ public class WhackAWordActivity extends AppCompatActivity
     }
 
     /**
+     * Helper method that returns a food item that is appropriate to be displayed,
+     * i.e. a food item that allows for all of the food cards
+     * (an amount equal to numberOfCardsToBeDisplayed)
+     * that are set for display
+     * to display different food items,
+     * including at least one that hasn't yet been correctly tapped
+     */
+    private FoodItem selectAppropriateFoodItemToBeDisplayed(int cardCount, int numberOfCardsToBeDisplayed)
+    {
+        FoodItem appropriateFoodItem = this.getAvailableFoodItem();
+
+        if (cardCount == numberOfCardsToBeDisplayed)
+
+        // I.e. if the current count of cards has reached the number of cards to be displayed ...
+
+        {
+            Set<FoodItem> foodItemsSelectedForDisplay = this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards.keySet();
+            Set<FoodItem> foodItemsSelectedForDisplayThatHaveNotYetBeenCorrectlyTapped = new HashSet<>(foodItemsSelectedForDisplay);
+            foodItemsSelectedForDisplayThatHaveNotYetBeenCorrectlyTapped.removeAll(this.correctlyTappedFoodItems);
+
+            if (foodItemsSelectedForDisplayThatHaveNotYetBeenCorrectlyTapped.size() == 0)
+
+            // ... and all the food items so far selected to be displayed
+            // have previously been correctly tapped ...
+
+            {
+
+                while (this.correctlyTappedFoodItems.contains(appropriateFoodItem))
+                {
+                    appropriateFoodItem = this.getAvailableFoodItem();
+                    // ... ensure that the last food item selected to be displayed
+                    // is one which hasn't previously been correctly tapped
+                    // (to ensure that the game is more challenging and fun)
+
+                }
+
+            }
+
+            // Note that calling keySet() on an empty map outputs an empty set,
+            // so no exception would be thrown since the map has been initialised
+            // as an empty map
+
+        }
+
+        return appropriateFoodItem;
+
+    }
+
+    /**
      * Helper method that returns an available food card,
      * selected at random from a list of available food cards
      */
@@ -733,6 +736,62 @@ public class WhackAWordActivity extends AppCompatActivity
         Random random = new Random();
         int randomIndex = random.nextInt(this.availableFoodItems.size());
         return this.availableFoodItems.get(randomIndex);
+    }
+
+    /**
+     * Helper method that hides cards and plays Whack-A-Word again
+     * if the user hasn't won
+     */
+    private void continuePlaying()
+    {
+        this.hideCards();
+        this.availableFoodItems = new ArrayList<>(WhackAWordActivity.foodItems);
+        this.mapOfFoodItemsSelectedForDisplayToTheirFoodCards = new HashMap<>();
+        this.whackAWord();
+    }
+
+    /**
+     * Helper method that increments the current level,
+     * resets the count of successful taps,
+     * and determines the number of cards to display
+     * upon reaching the next level
+     */
+    public void manageLevel()
+    {
+        if (this.countOfSuccessfulTaps == REQUIRED_NUMBER_OF_SUCCESSFUL_TAPS_PER_LEVEL &&
+                this.currentLevel < LAST_LEVEL)
+
+        // I.e. if the user has reached the next level
+
+        {
+            this.currentLevel++;
+            this.countOfSuccessfulTaps = 0;
+
+            if (this.currentLevel == 2)
+            {
+                this.numberOfCardsToDisplay = NUMBER_OF_CARDS_TO_DISPLAY_FOR_LEVEL_2;
+            }
+            else // There are currently only three levels
+            {
+                this.numberOfCardsToDisplay = NUMBER_OF_CARDS_TO_DISPLAY_FOR_LEVEL_3;
+            }
+
+        }
+
+    }
+
+    /**
+     * Helper method that hides cards
+     * if the last of the audio has played and the user has won
+     */
+    private void checkForAudioCompletionAfterWin()
+    {
+        if (this.audioQueue.isEmpty() &&
+                this.countOfSuccessfulTaps == REQUIRED_NUMBER_OF_SUCCESSFUL_TAPS_PER_LEVEL &&
+                this.currentLevel == LAST_LEVEL)
+        {
+            this.hideCards();
+        }
     }
 
     /**
