@@ -1,7 +1,7 @@
 # Whack-A-Word
  An educational game that helps the user learn how to say certain food items in English. It works as follows:
  
- A vocabulary card with a flashcard image of a food item pops up from one of a series of holes in the ground. The user hears the name of the food item then must tap it, after which they receive some positive feedback – an animated tick with a sound effect, and the card changing colour multiple times in quick succession before it is hidden within the hole it had emerged from. If they don't tap it, it retreats into its hole and pops up again in a random one. After each round of three successful taps, the number of cards that pop up simultaneously increases by one. Each card that pops up must have a different image to the other cards that pop up at the same time so that the user always chooses between different food items, and the user should always be tasked to tap a different food card to all previous food cards that they have correctly tapped during the game so that the game is more challenging and fun. At the end of the third round, the user wins.
+ A vocabulary card with a flashcard image of a food item pops up from one of a series of holes in the ground. The user hears the name of the food item then must tap it, after which they receive some positive feedback – an animated tick with a sound effect, and the card changing colour multiple times in quick succession before it is hidden within the hole it had emerged from. If they don't tap it, it retreats into its hole and pops up again in a random one. After each round of three successful taps, the number of cards that pop up simultaneously increases by one. Each card that pops up must have a different image to the other cards that pop up at the same time so that the user always chooses between different food items, and the user should always be tasked to tap a different food card to all previous food cards that they have correctly tapped during the game so that the game is more challenging and fun. At the end of the third round, the user wins and hears, "Well done."
 
 ## Table of contents
 * [Languages](#languages)
@@ -118,7 +118,9 @@ This app does not have any specific hardware requirements. It can run on any sys
 If you found an issue or would like to submit an improvement to this project, please submit an issue using the 'Issues' tab above. If you would like to submit a pull request, please reference the issue you created.
 
 ## Credits
-This app is my attempt to implement the following mockups and instructions, given to me by the [onebillion](https://onebillion.org/) organisation after I sent them a job application. I have added additional features to it and made it usable on different types of Android device. I used [Inkscape](https://inkscape.org/) to create the SVG file that I needed in order to make each card appear to be coming out of their hole.
+This app is my attempt to implement the following mockups and instructions, given to me by the [onebillion](https://onebillion.org/) organisation after I sent them a job application. In addition to implementing it from scratch, I have made it usable on different types of Android device and implemented additional features not included in the instructions.
+I used [Inkscape](https://inkscape.org/) to create the SVG file that I needed in order to make each card appear to be coming out of their hole.
+The 'well done' audio file was generated using [TTSMP3](https://ttsmp3.com/) and [CloudConvert](https://cloudconvert.com/).
 
 ### Mockups given to me
 <table>

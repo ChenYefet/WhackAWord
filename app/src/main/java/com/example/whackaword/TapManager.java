@@ -20,6 +20,7 @@ public class TapManager
      * displays an animated tick,
      * continuously changes the card colour for the correct food card,
      * and checks whether the user has reached the next level or has won.
+     * If the user has won, plays the 'well done' audio.
      * If the user hasn't won, continues playing the game
      *
      * Hides cards when an incorrect food card is tapped,
@@ -42,7 +43,7 @@ public class TapManager
 
                 if (LevelProperties.userWins())
                 {
-                    // You win, well done!
+                    AudioManager.playAudio(aWhackAWordActivity, R.raw.well_done);
                 }
                 else
                 {
