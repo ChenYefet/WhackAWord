@@ -1,7 +1,7 @@
 # Whack-A-Word
  An educational game that helps the user learn how to say certain food items in English. It works as follows:
  
- A vocabulary card with a flashcard image of a food item pops up from one of a series of holes in the ground. The user hears the name of the food item then must tap it, after which they hear it again and receive some positive feedback – a tick with a sound effect. If they don't tap it, it retreats into its hole and pops up again in a random one. After each round of three successful taps, the number of cards that pop up simultaneously increases by one. Each card that pops up must have a different image to the other cards that pop up at the same time so that the user always chooses between different food items, and the user should always be tasked to tap a different food card to all previous food cards that they have correctly tapped during the game so that the game is more challenging and fun. At the end of the third round, the user wins.
+ A vocabulary card with a flashcard image of a food item pops up from one of a series of holes in the ground. The user hears the name of the food item then must tap it, after which they receive some positive feedback – a tick with a sound effect, and the card changing colour multiple times in quick succession. If they don't tap it, it retreats into its hole and pops up again in a random one. After each round of three successful taps, the number of cards that pop up simultaneously increases by one. Each card that pops up must have a different image to the other cards that pop up at the same time so that the user always chooses between different food items, and the user should always be tasked to tap a different food card to all previous food cards that they have correctly tapped during the game so that the game is more challenging and fun. At the end of the third round, the user wins.
 
 ## Table of contents
 * [Languages](#languages)
@@ -27,9 +27,9 @@ Java 8
 
 ## Description of code
 ### The <span style ="font-family: Courier New">`WhackAWordActivity`</span> class
-The <span style ="font-family: Courier New">`WhackAWordActivity`</span> class extends <span style ="font-family: Courier New">`AppCompatActivity`</span>, which is the superclass for activities that use the <span style ="font-family: Courier New">`appcompat`</span> library. When <span style ="font-family: Courier New">`WhackAWordActivity`</span> is created, the <span style ="font-family: Courier New">`onCreate`</span> method is called and sets the user interface to the one defined in <span style ="font-family: Courier New">`activity_whack_a_word.xml`</span>. It also fixes the screen orientation to landscape mode, initialises instance and class variables and calls the <span style ="font-family: Courier New">`whackAWord`</span> method that plays the game recursively each time a card is correctly tapped.
+The <span style ="font-family: Courier New">`WhackAWordActivity`</span> class extends <span style ="font-family: Courier New">`AppCompatActivity`</span>, which is the superclass for activities that use the <span style ="font-family: Courier New">`appcompat`</span> library. When <span style ="font-family: Courier New">`WhackAWordActivity`</span> is created, the <span style ="font-family: Courier New">`onCreate`</span> method is called and sets the user interface to the one defined in <span style ="font-family: Courier New">`activity_whack_a_word.xml`</span>. It also fixes the screen orientation to landscape mode, initialises instance and class variables, animates the sky, and calls the <span style ="font-family: Courier New">`whackAWord`</span> method that plays the game recursively each time a card is correctly tapped.
 
-The layout file <span style ="font-family: Courier New">`activity_whack_a_word`</span> contains only one card per hole, so to make it seem as though different cards can pop up from the same hole at different times, the image of each card that pops up is determined dynamically before it appears. Therefore, it is necessary to always keep track of which food items are assigned to which food cards.
+The layout file <span style ="font-family: Courier New">`activity_whack_a_word.xml`</span> contains only one card per hole, so to make it seem as though different cards can pop up from the same hole at different times, the image of each card that pops up is determined dynamically before it appears. Therefore, it is necessary to always keep track of which food items are assigned to which food cards.
 
 ### The <span style ="font-family: Courier New">`Card`</span> class
 The abstract class <span style ="font-family: Courier New">`Card`</span> serves as a template for creating concrete subclasses of cards, such as the <span style ="font-family: Courier New">`FoodCard`</span> class. It defines constant instance variables for the card's ID and the ID of its imageView, as objects of the <span style ="font-family: Courier New">`Card`</span> class are modelled as having an imageView (where an image can be set).
@@ -46,8 +46,12 @@ The <span style ="font-family: Courier New">`FoodItem`</span> class is a subclas
 ## Illustrations
 <table>
   <tr>
-    <td><img src="https://github.com/ChenYefet/WhackAWord/assets/122983411/258f54f5-7d1c-4297-8174-d6098098a4f3" alt="Whack-A-Word game with one card displayed"></td>
-    <td><img src="https://github.com/ChenYefet/WhackAWord/assets/122983411/b947e418-e498-4533-8920-7036c6f9b681" alt="Whack-A-Word game with three cards and a tick displayed"></td>
+    <td valign="top" width="50%"><img src="https://github.com/ChenYefet/WhackAWord/assets/122983411/0cf0da26-d652-4bc5-849e-aefafe86f7fd" alt="Whack-A-Word game with one card displayed and daytime sky">
+     <p class="caption">Whack-A-Word game with one card displayed and daytime sky</p>
+</td>
+    <td valign="top" width="50%"><img src="https://github.com/ChenYefet/WhackAWord/assets/122983411/8bd53975-91ef-4399-813a-6271277eee9e" alt="Whack-A-Word game with three cards displayed, sunset sky, and the correct feedback being shown of a card changing colour and a tick in animation">
+    <p class="caption">Whack-A-Word game with three cards displayed, a sunset sky (having changed from daytime sky), and the correct feedback being shown in response to a correctly tapped card (the card is in the process of changing colours and a tick is mid-animation)</p>
+</td>
   </tr>
 </table>
 
@@ -67,13 +71,13 @@ This app does not have any specific hardware requirements. It can run on any sys
 * Run the program and play Whack-A-Word!
 
 ## Known bugs
-* The cards are not animated.
+* None at the moment
 
 ## Find a bug?
 If you found an issue or would like to submit an improvement to this project, please submit an issue using the 'Issues' tab above. If you would like to submit a pull request, please reference the issue you created.
 
 ## Credits
-This app is my attempt to implement the following mockups and instructions, given to me by the [onebillion](https://onebillion.org/) organisation after I sent them a job application. I used [Inkscape](https://inkscape.org/) to create the SVG file that I needed in order to make each card appear to be coming out of their hole.
+This app is my attempt to implement the following mockups and instructions, given to me by the [onebillion](https://onebillion.org/) organisation after I sent them a job application. I have added additional features to it and made it usable on different types of Android device. I used [Inkscape](https://inkscape.org/) to create the SVG file that I needed in order to make each card appear to be coming out of their hole.
 
 ### Mockups
 <table>
