@@ -37,8 +37,11 @@ public class AnimationManager extends DisplayManager
             FrameLayout foodCardFrameLayout = aWhackAWordActivity.findViewById(foodCard.getID());
             ObjectAnimator animation = ObjectAnimator.ofFloat(foodCardFrameLayout, "translationY", AnimationManager.getUpwardsTranslation(aWhackAWordActivity));
 
-            animation.setDuration(500); // The animation lasts for half a second (500 milliseconds)
-            animation.setStartDelay(500); // Delays starting the animation after start() is called by half a second (500 milliseconds)
+            animation.setDuration(500);
+            // The animation lasts for half a second (500 milliseconds)
+
+            animation.setStartDelay(1200);
+            // Delays starting the animation after start() is called by one and a fifth seconds (1200 milliseconds)
 
             if (firstCardIsAboutToPopUp)
             {
@@ -49,9 +52,24 @@ public class AnimationManager extends DisplayManager
                 new Handler().postDelayed(animation::start, 250);
             }
             // Delays calling for the start of the animation by a quarter of a second (250 milliseconds)
-            // in order to synchronise better with the audio,
+            // in order to synchronise better with the audio for the correct food item,
             // apart from when the first card is about to pop up,
             // since it synchronises better without a delay in that instance
+
+        }
+
+        if (firstCardIsAboutToPopUp)
+        {
+            new Handler().postDelayed(() -> AudioManager.playAudioConcurrently(aWhackAWordActivity, R.raw.cards_pop_up), 550);
+            // Delays calling for the 'pop up' sound effect by eleven twentieths of a second (550 milliseconds)
+            // in order to synchronise better with the 'pop up' animation for the first card
+
+        }
+        else
+        {
+            new Handler().postDelayed(() -> AudioManager.playAudioConcurrently(aWhackAWordActivity, R.raw.cards_pop_up), 800);
+            // Delays calling for the 'pop up' sound effect by four fifths of a second (800 milliseconds)
+            // in order to synchronise better with the 'pop up' animation from the second card onwards
 
         }
 

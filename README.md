@@ -120,7 +120,7 @@ If you found an issue or would like to submit an improvement to this project, pl
 ## Credits
 This app is my attempt to implement the following mockups and instructions, given to me by the [onebillion](https://onebillion.org/) organisation after I sent them a job application. In addition to implementing it from scratch, I have made it usable on different types of Android device and implemented additional features not included in the instructions.
 I used [Inkscape](https://inkscape.org/) to create the SVG file that I needed in order to make each card appear to be coming out of their hole.
-The 'well done' audio file was generated using [TTSMP3](https://ttsmp3.com/), the 'hide cards' audio file was downloaded from [Pixabay](https://pixabay.com/sound-effects/fast-simple-chop-5-6270/), and [CloudConvert](https://cloudconvert.com/) was used to convert them into m4a files.
+The 'well done' audio file was generated using [TTSMP3](https://ttsmp3.com/), the ['cards pop up'](https://pixabay.com/sound-effects/backwards-whoosh-6317/) and ['hide cards'](https://pixabay.com/sound-effects/fast-simple-chop-5-6270/) audio files were downloaded from [Pixabay](https://pixabay.com/), and [CloudConvert](https://cloudconvert.com/) was used to convert them into m4a files.
 
 ### Mockups given to me
 <table>
