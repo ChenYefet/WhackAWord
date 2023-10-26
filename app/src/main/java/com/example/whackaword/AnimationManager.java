@@ -145,9 +145,9 @@ public class AnimationManager extends DisplayManager
         // ... if this is the final tap of the game ...
 
         {
-            new Handler().postDelayed(() -> aCard.setBackground(originalDrawable), 2000);
+            new Handler().postDelayed(() -> aCard.setBackground(originalDrawable), 4000);
             // ... delay setting the card's background back to normal
-            // by two seconds (2000 milliseconds),
+            // by four seconds (4000 milliseconds),
             // so that it would be animated for all the time that it is up ...
 
         }
@@ -189,11 +189,11 @@ public class AnimationManager extends DisplayManager
     }
 
     /**
-     * Hides cards if the user has won and the last of the audio has played
+     * Hides cards if the user has won and the last of the audio (i.e. the 'Well done' audio) has played
      */
-    public static void hideCardsIfUserHasWonAndAudioHasCompleted(WhackAWordActivity aWhackAWordActivity)
+    public static void hideCardsIfUserHasWonAndLastAudioHasCompleted(WhackAWordActivity aWhackAWordActivity, int lastAudio)
     {
-        if (LevelProperties.userWins() && AudioManager.audioQueue.isEmpty())
+        if (LevelProperties.userWins() && lastAudio == R.raw.well_done)
         {
             AnimationManager.hideCards(aWhackAWordActivity);
         }

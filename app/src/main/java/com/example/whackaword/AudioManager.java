@@ -93,7 +93,7 @@ public class AudioManager
                 // Removes the reference to the MediaPlayer
 
                 AudioManager.implementSequentialPlayback(aWhackAWordActivity);
-                AnimationManager.hideCardsIfUserHasWonAndAudioHasCompleted(aWhackAWordActivity);
+                AnimationManager.hideCardsIfUserHasWonAndLastAudioHasCompleted(aWhackAWordActivity, audioID);
             });
 
             AudioManager.mediaPlayerForSequentialAudio.start();
