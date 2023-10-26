@@ -88,9 +88,11 @@ public class AnimationManager extends DisplayManager
 
             });
 
-            animation.start();
+            new Handler().postDelayed(animation::start, 400);
 
         }
+
+        AudioManager.playAudioConcurrently(aWhackAWordActivity, R.raw.hide_cards);
 
         Collections.availableFoodCards = new ArrayList<>(Collections.foodCards);
 
@@ -151,9 +153,9 @@ public class AnimationManager extends DisplayManager
         }
         else
         {
-            new Handler().postDelayed(() -> aCard.setBackground(originalDrawable), 500);
+            new Handler().postDelayed(() -> aCard.setBackground(originalDrawable), 1000);
             // ... otherwise delay setting the card's background back to normal
-            // by only half a second (500 milliseconds),
+            // by only one second (1000 milliseconds),
             // so that not only would it be animated for all the time that it is up,
             // but the next card coming out of that hole
             // would not show an animated background

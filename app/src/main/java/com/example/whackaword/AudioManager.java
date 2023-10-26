@@ -9,9 +9,8 @@ import java.util.Queue;
  *
  * It contains two class variables:
  *
- * mediaPlayer, which maintains a reference to the currently playing MediaPlayer.
- * This is necessary to control the playback of audio
- * across different method calls
+ * mediaPlayerForSequentialAudio, which maintains a reference to
+ * the currently playing MediaPlayer that deals with the playback of audio in sequence
  *
  * audioQueue, which is used to store audio IDs
  * and allow for the management of audio files
@@ -20,17 +19,34 @@ import java.util.Queue;
  */
 public class AudioManager
 {
-    private static MediaPlayer mediaPlayer;
+    private static MediaPlayer mediaPlayerForSequentialAudio;
     public static Queue<Integer> audioQueue;
 
     /**
-     * Adds an audio file to the audio queue
-     * and initiates sequential playback
+     * Plays an audio file
+     * concurrently with other audio playback
      */
-    public static void playAudio(WhackAWordActivity aWhackAWordActivity, int audioID)
+    public static void playAudioConcurrently(WhackAWordActivity aWhackAWordActivity, int audioID)
+    {
+        MediaPlayer mediaPlayerForConcurrentAudio = MediaPlayer.create(aWhackAWordActivity, audioID);
+        mediaPlayerForConcurrentAudio.setOnCompletionListener(mp ->
+        {
+            mediaPlayerForConcurrentAudio.release();
+            // Releases the media player to free up resources
+
+        });
+
+        mediaPlayerForConcurrentAudio.start();
+    }
+
+    /**
+     * Adds an audio file to the audio queue
+     * and implements sequential playback
+     */
+    public static void playAudioSequentially(WhackAWordActivity aWhackAWordActivity, int audioID)
     {
         AudioManager.audioQueue.add(audioID);
-        AudioManager.playAudioInSequence(aWhackAWordActivity);
+        AudioManager.implementSequentialPlayback(aWhackAWordActivity);
     }
 
     /**
@@ -57,9 +73,9 @@ public class AudioManager
      * since this method would be set to be called again recursively
      * upon completion of the audio
      */
-    private static void playAudioInSequence(WhackAWordActivity aWhackAWordActivity)
+    private static void implementSequentialPlayback(WhackAWordActivity aWhackAWordActivity)
     {
-        if (AudioManager.mediaPlayer != null && AudioManager.mediaPlayer.isPlaying())
+        if (AudioManager.mediaPlayerForSequentialAudio != null && AudioManager.mediaPlayerForSequentialAudio.isPlaying())
         {
             return;
         }
@@ -67,20 +83,20 @@ public class AudioManager
         if (!AudioManager.audioQueue.isEmpty())
         {
             int audioID = AudioManager.audioQueue.poll();
-            AudioManager.mediaPlayer = MediaPlayer.create(aWhackAWordActivity, audioID);
-            AudioManager.mediaPlayer.setOnCompletionListener(mp ->
+            AudioManager.mediaPlayerForSequentialAudio = MediaPlayer.create(aWhackAWordActivity, audioID);
+            AudioManager.mediaPlayerForSequentialAudio.setOnCompletionListener(mp ->
             {
-                AudioManager.mediaPlayer.release();
+                AudioManager.mediaPlayerForSequentialAudio.release();
                 // Releases the media player to free up resources
 
-                AudioManager.mediaPlayer = null;
+                AudioManager.mediaPlayerForSequentialAudio = null;
                 // Removes the reference to the MediaPlayer
 
-                AudioManager.playAudioInSequence(aWhackAWordActivity);
+                AudioManager.implementSequentialPlayback(aWhackAWordActivity);
                 AnimationManager.hideCardsIfUserHasWonAndAudioHasCompleted(aWhackAWordActivity);
             });
 
-            AudioManager.mediaPlayer.start();
+            AudioManager.mediaPlayerForSequentialAudio.start();
             AnimationManager.displayAnimatedTickDuringTickAudio(aWhackAWordActivity, audioID);
         }
 

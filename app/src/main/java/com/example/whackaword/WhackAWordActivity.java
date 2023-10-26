@@ -174,7 +174,7 @@ public class WhackAWordActivity extends AppCompatActivity
         int correctFoodItemAudioID = correctFoodItem.getAudioID();
         FoodCard correctFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(correctFoodItem);
 
-        AudioManager.playAudio(this, correctFoodItemAudioID);
+        AudioManager.playAudioSequentially(this, correctFoodItemAudioID);
 
         TapManager.setOnClickListenerForFoodCard(this, correctFoodCard, true);
 

@@ -38,12 +38,12 @@ public class TapManager
                 Collections.correctlyTappedFoodItems.add(aFoodCard.getFoodItem());
 
                 AnimationManager.continuouslyChangeCardColour(aWhackAWordActivity, aWhackAWordActivity.findViewById(aFoodCard.getID()));
-                AudioManager.playAudio(aWhackAWordActivity, R.raw.correct);
+                AudioManager.playAudioSequentially(aWhackAWordActivity, R.raw.correct);
                 LevelProperties.initialiseNextLevelPropertiesIfUserHasReachedTheNextLevel();
 
                 if (LevelProperties.userWins())
                 {
-                    AudioManager.playAudio(aWhackAWordActivity, R.raw.well_done);
+                    AudioManager.playAudioSequentially(aWhackAWordActivity, R.raw.well_done);
                 }
                 else
                 {
