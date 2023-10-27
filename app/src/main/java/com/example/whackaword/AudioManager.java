@@ -77,8 +77,6 @@ public class AudioManager
      *
      * - and hides all cards upon audio completion if the user has won
      *
-     * Displays an animated tick if the tick sound is being played
-     *
      * If there is audio currently playing, does nothing.
      * This does not cause a problem of skipped audio files
      * since this method would be set to be called again recursively
@@ -115,7 +113,6 @@ public class AudioManager
             }
             // Lowers the volume of the background music during audio playback of a correct food item
 
-            AnimationManager.displayAnimatedTickDuringTickAudio(aWhackAWordActivity, audioID);
         }
 
     }

@@ -37,8 +37,7 @@ public class TapManager
                 LevelProperties.countOfSuccessfulTaps++;
                 Collections.correctlyTappedFoodItems.add(aFoodCard.getFoodItem());
 
-                AnimationManager.continuouslyChangeCardColour(aWhackAWordActivity, aWhackAWordActivity.findViewById(aFoodCard.getID()));
-                AudioManager.playAudioSequentially(aWhackAWordActivity, R.raw.correct);
+                WhackAWordActivity.conveyPositiveFeedback(aWhackAWordActivity, aFoodCard);
                 LevelProperties.initialiseNextLevelPropertiesIfUserHasReachedTheNextLevel();
 
                 if (LevelProperties.userWins())

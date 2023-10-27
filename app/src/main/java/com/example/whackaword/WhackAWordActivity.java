@@ -2,8 +2,10 @@ package com.example.whackaword;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.widget.FrameLayout;
 
 import java.util.LinkedList;
 import java.util.Set;
@@ -201,6 +203,18 @@ public class WhackAWordActivity extends AppCompatActivity
 
         }
 
+    }
+
+    /**
+     * Conveys positive feedback by
+     * playing a tick sound, displaying an animated tick and
+     * continuously changing the colour of aFoodCard
+     */
+    public static void conveyPositiveFeedback(WhackAWordActivity aWhackAWordActivity, FoodCard aFoodCard)
+    {
+        AudioManager.playAudioSequentially(aWhackAWordActivity, R.raw.correct);
+        AnimationManager.displayAnimatedTick(aWhackAWordActivity);
+        AnimationManager.continuouslyChangeCardColour(aWhackAWordActivity, aWhackAWordActivity.findViewById(aFoodCard.getID()));
     }
 
 }

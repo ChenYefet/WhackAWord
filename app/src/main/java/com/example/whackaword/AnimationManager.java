@@ -118,15 +118,63 @@ public class AnimationManager extends DisplayManager
     }
 
     /**
-     * Displays an animated tick
-     * if anAudioID corresponds to the tick sound
+     * Displays and animates a tick
+     * by scaling, rotating, and translating it
      */
-    public static void displayAnimatedTickDuringTickAudio(WhackAWordActivity aWhackAWordActivity, int anAudioID)
+    public static void displayAnimatedTick(WhackAWordActivity aWhackAWordActivity)
     {
-        if (anAudioID == R.raw.correct)
-        {
-            AnimationManager.displayAnimatedTick(aWhackAWordActivity);
-        }
+        ImageView tick = aWhackAWordActivity.findViewById(R.id.tick);
+        tick.setVisibility(View.VISIBLE);
+
+        tick.setRotation(0);
+        // Sets the tick's rotational position to 0 degrees
+        // because the ObjectAnimator doesn't reset the property to its original state
+        // for subsequent animations.
+        // Without this, the tick is only animated on its first appearance,
+        // and just appears and disappears without an animation on subsequent appearances
+
+        tick.setTranslationY(0);
+        // Sets the tick's vertical position to its initial vertical position
+        // because the ObjectAnimator doesn't reset the property to its original state
+        // for subsequent animations.
+        // Without this, the tick is only animated on its first appearance,
+        // and just appears and disappears without an animation on subsequent appearances
+
+        tick.setScaleX(0);
+        // Sets the tick's horizontal size to 0
+
+        tick.setScaleY(0);
+        // Sets the tick's vertical size to 0
+
+        // Note that the tick's horizontal and vertical sizes are 0 after being animated
+        // due to the horizontalShrinkage and verticalShrinkage animations,
+        // so there is no need to reset its horizontal and vertical sizes to 0
+        // after the tick has been animated.
+        // Nevertheless, it is necessary
+        // to set the horizontal and vertical sizes of the tick to 0
+        // before the first call of this method
+        // so that the tick is horizontally and vertically stretched
+        // upon the first time this method is called
+
+        ObjectAnimator horizontalStretch = ObjectAnimator.ofFloat(tick, "scaleX", 1);
+        ObjectAnimator verticalStretch = ObjectAnimator.ofFloat(tick, "scaleY", 1);
+        ObjectAnimator horizontalShrinkage = ObjectAnimator.ofFloat(tick, "scaleX", 0);
+        ObjectAnimator verticalShrinkage = ObjectAnimator.ofFloat(tick, "scaleY", 0);
+        ObjectAnimator rotation = ObjectAnimator.ofFloat(tick, "rotation", 3600);
+        ObjectAnimator translation = ObjectAnimator.ofFloat(tick, "translationY", 1000);
+
+        AnimatorSet firstTwoAnimations = new AnimatorSet();
+        AnimatorSet lastFourAnimations = new AnimatorSet();
+        AnimatorSet wholeAnimation = new AnimatorSet();
+
+        firstTwoAnimations.playTogether(horizontalStretch, verticalStretch);
+        firstTwoAnimations.setDuration(500);
+        lastFourAnimations.playTogether(rotation, translation, horizontalShrinkage, verticalShrinkage);
+        lastFourAnimations.setDuration(1000); // The animations last for one second (1000 milliseconds)
+        lastFourAnimations.setStartDelay(500);
+
+        wholeAnimation.playSequentially(firstTwoAnimations, lastFourAnimations);
+        wholeAnimation.start();
     }
 
     /**
@@ -215,66 +263,6 @@ public class AnimationManager extends DisplayManager
         {
             AnimationManager.hideCards(aWhackAWordActivity);
         }
-    }
-
-    /**
-     * Helper method that displays and animates a tick
-     * by scaling, rotating, and translating it
-     */
-    private static void displayAnimatedTick(WhackAWordActivity aWhackAWordActivity)
-    {
-        ImageView tick = aWhackAWordActivity.findViewById(R.id.tick);
-        tick.setVisibility(View.VISIBLE);
-
-        tick.setRotation(0);
-        // Sets the tick's rotational position to 0 degrees
-        // because the ObjectAnimator doesn't reset the property to its original state
-        // for subsequent animations.
-        // Without this, the tick is only animated on its first appearance,
-        // and just appears and disappears without an animation on subsequent appearances
-
-        tick.setTranslationY(0);
-        // Sets the tick's vertical position to its initial vertical position
-        // because the ObjectAnimator doesn't reset the property to its original state
-        // for subsequent animations.
-        // Without this, the tick is only animated on its first appearance,
-        // and just appears and disappears without an animation on subsequent appearances
-
-        tick.setScaleX(0);
-        // Sets the tick's horizontal size to 0
-
-        tick.setScaleY(0);
-        // Sets the tick's vertical size to 0
-
-        // Note that the tick's horizontal and vertical sizes are 0 after being animated
-        // due to the horizontalShrinkage and verticalShrinkage animations,
-        // so there is no need to reset its horizontal and vertical sizes to 0
-        // after the tick has been animated.
-        // Nevertheless, it is necessary
-        // to set the horizontal and vertical sizes of the tick to 0
-        // before the first call of this method
-        // so that the tick is horizontally and vertically stretched
-        // upon the first time this method is called
-
-        ObjectAnimator horizontalStretch = ObjectAnimator.ofFloat(tick, "scaleX", 1);
-        ObjectAnimator verticalStretch = ObjectAnimator.ofFloat(tick, "scaleY", 1);
-        ObjectAnimator horizontalShrinkage = ObjectAnimator.ofFloat(tick, "scaleX", 0);
-        ObjectAnimator verticalShrinkage = ObjectAnimator.ofFloat(tick, "scaleY", 0);
-        ObjectAnimator rotation = ObjectAnimator.ofFloat(tick, "rotation", 3600);
-        ObjectAnimator translation = ObjectAnimator.ofFloat(tick, "translationY", 1000);
-
-        AnimatorSet firstTwoAnimations = new AnimatorSet();
-        AnimatorSet lastFourAnimations = new AnimatorSet();
-        AnimatorSet wholeAnimation = new AnimatorSet();
-
-        firstTwoAnimations.playTogether(horizontalStretch, verticalStretch);
-        firstTwoAnimations.setDuration(500);
-        lastFourAnimations.playTogether(rotation, translation, horizontalShrinkage, verticalShrinkage);
-        lastFourAnimations.setDuration(1000); // The animations last for one second (1000 milliseconds)
-        lastFourAnimations.setStartDelay(500);
-
-        wholeAnimation.playSequentially(firstTwoAnimations, lastFourAnimations);
-        wholeAnimation.start();
     }
 
     /**
