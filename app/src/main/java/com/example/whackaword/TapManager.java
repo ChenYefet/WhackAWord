@@ -60,7 +60,7 @@ public class TapManager
                 // in food cards which are not yet determined
 
                 Selector.selectFoodCardsForDisplay(LevelProperties.numberOfCardsToDisplay, false);
-                AnimationManager.cardsPopUp(aWhackAWordActivity, Collections.mapOfFoodItemsToTheirFoodCards, aWhackAWordActivity.isFirstCardAboutToPopUp());
+                AnimationManager.cardsPopUp(aWhackAWordActivity, Collections.mapOfFoodItemsToTheirFoodCards);
 
                 FoodItem correctFoodItem = aWhackAWordActivity.getCorrectFoodItem();
                 FoodCard correctFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(correctFoodItem);

@@ -1,13 +1,10 @@
 package com.example.whackaword;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.widget.FrameLayout;
 
-import java.util.LinkedList;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Set;
 
 /**
@@ -35,12 +32,10 @@ import java.util.Set;
  * so that the game is more challenging and fun.
  * At the end of the third round, the user wins
  *
- * The WhackAWordActivity class contains two instance variables:
+ * The WhackAWordActivity class contains one instance variable:
  *
  * correctFoodItem, which is the food item
  * whose image is on the card that the user is tasked to tap
- *
- * firstCardIsAboutToPopUp, which records whether the first card is about to pop up
  *
  * Note that food cards and food items are modelled as separate from each other,
  * even though the user is meant to understand that they are part of the same card.
@@ -56,8 +51,6 @@ import java.util.Set;
 public class WhackAWordActivity extends AppCompatActivity
 {
     private FoodItem correctFoodItem;
-
-    private boolean firstCardIsAboutToPopUp;
 
     /**
      * This is the method that gets called when the activity is created.
@@ -96,28 +89,11 @@ public class WhackAWordActivity extends AppCompatActivity
         ScreenProperties.setSmallScreenTo(ScreenProperties.isScreenSmall(this));
         Collections.initialiseCollections();
         LevelProperties.initialiseLevelProperties();
-
-        this.setFirstCardIsAboutToPopUpTo(true);
+        AnimationManager.firstCardIsAboutToPopUp = true;
 
         AnimationManager.animateSky(this);
         AudioManager.playBackgroundMusic(this);
         this.playWhackAWord();
-    }
-
-    /**
-     * Getter for whether the first card is about to pop up
-     */
-    public boolean isFirstCardAboutToPopUp()
-    {
-        return this.firstCardIsAboutToPopUp;
-    }
-
-    /**
-     * Setter for whether the first card is about to pop up
-     */
-    public void setFirstCardIsAboutToPopUpTo(boolean isFirstCardAboutToPopUp)
-    {
-        this.firstCardIsAboutToPopUp = isFirstCardAboutToPopUp;
     }
 
     /**
@@ -147,13 +123,7 @@ public class WhackAWordActivity extends AppCompatActivity
     {
         Selector.selectFoodCardsForDisplay(LevelProperties.numberOfCardsToDisplay, true);
 
-        if (this.isFirstCardAboutToPopUp())
-        {
-            DisplayManager.displayFoodItemsOnCards(this, Collections.mapOfFoodItemsToTheirFoodCards);
-        }
-
-        AnimationManager.cardsPopUp(this, Collections.mapOfFoodItemsToTheirFoodCards, this.isFirstCardAboutToPopUp());
-        this.setFirstCardIsAboutToPopUpTo(false);
+        AnimationManager.cardsPopUp(this, Collections.mapOfFoodItemsToTheirFoodCards);
 
         Set<FoodItem> foodItemsOnDisplay = Collections.mapOfFoodItemsToTheirFoodCards.keySet();
         // The food items would be 'on' display (and not just set 'for' display)

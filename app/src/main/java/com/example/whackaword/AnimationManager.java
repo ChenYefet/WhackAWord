@@ -23,14 +23,26 @@ import java.util.Objects;
  * The AnimationManager class is responsible for managing animations
  * that enhance user experience and provide visual feedback
  * in the Whack-A-Word game
+ *
+ * The AnimationManager class contains one class variable:
+ *
+ * firstCardIsAboutToPopUp, which records whether the first card is about to pop up
  */
 public class AnimationManager extends DisplayManager
 {
+    public static boolean firstCardIsAboutToPopUp;
+
     /**
      * Causes each card set for display to pop up
      */
-    public static void cardsPopUp(WhackAWordActivity aWhackAWordActivity, Map<FoodItem, FoodCard> mapOfFoodItemsToTheirFoodCards, boolean firstCardIsAboutToPopUp)
+    public static void cardsPopUp(WhackAWordActivity aWhackAWordActivity, Map<FoodItem, FoodCard> mapOfFoodItemsToTheirFoodCards)
     {
+        if (AnimationManager.firstCardIsAboutToPopUp)
+        {
+            DisplayManager.displayFoodItemsOnCards(aWhackAWordActivity, Collections.mapOfFoodItemsToTheirFoodCards);
+            AnimationManager.firstCardIsAboutToPopUp = false;
+        }
+
         for (FoodItem foodItem : mapOfFoodItemsToTheirFoodCards.keySet())
         {
             FoodCard foodCard = mapOfFoodItemsToTheirFoodCards.get(foodItem);
@@ -43,7 +55,7 @@ public class AnimationManager extends DisplayManager
             animation.setStartDelay(1200);
             // Delays starting the animation after start() is called by one and a fifth seconds (1200 milliseconds)
 
-            if (firstCardIsAboutToPopUp)
+            if (AnimationManager.firstCardIsAboutToPopUp)
             {
                 animation.start();
             }
@@ -58,7 +70,7 @@ public class AnimationManager extends DisplayManager
 
         }
 
-        if (firstCardIsAboutToPopUp)
+        if (AnimationManager.firstCardIsAboutToPopUp)
         {
             new Handler().postDelayed(() -> AudioManager.playAudioConcurrently(aWhackAWordActivity, R.raw.cards_pop_up), 550);
             // Delays calling for the 'pop up' sound effect by eleven twentieths of a second (550 milliseconds)
