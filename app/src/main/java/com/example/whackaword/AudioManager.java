@@ -136,7 +136,7 @@ public class AudioManager
 
             if (Collections.foodItemAudioIDs.contains(audioID))
             {
-                AudioManager.adjustBackgroundMusicVolume(0.1f, 0.3f, 300, 800);
+                AudioManager.adjustBackgroundMusicVolume();
             }
             // Lowers the volume of the background music during audio playback of a correct food item
 
@@ -153,13 +153,21 @@ public class AudioManager
     }
 
     /**
-     * Lowers background music to lowerVolumeLevel after a delay of delayForVolumeDecrease,
-     * and heightens background music to higherVolumeLevel after a delay of delayForVolumeIncrease
+     * Lowers background music after a delay of three tenths of a second (300 milliseconds),
+     * and heightens background music after a further delay of half a second (500 milliseconds)
      */
-    private static void adjustBackgroundMusicVolume(float lowerVolumeLevel, float higherVolumeLevel, int delayForVolumeDecrease, int delayForVolumeIncrease)
+    private static void adjustBackgroundMusicVolume()
     {
-        new Handler().postDelayed(() -> AudioManager.mediaPlayerForBackgroundMusic.setVolume(lowerVolumeLevel, lowerVolumeLevel), delayForVolumeDecrease);
-        new Handler().postDelayed(() -> AudioManager.mediaPlayerForBackgroundMusic.setVolume(higherVolumeLevel, higherVolumeLevel), delayForVolumeIncrease);
+        float lowVolumeLevel = 0.1f;
+        float highVolumeLevel = 0.4f;
+
+        int delayForVolumeDecrease = 300;
+        int durationOfVolumeDecrease = 500;
+
+        int delayForVolumeIncrease = delayForVolumeDecrease + durationOfVolumeDecrease;
+
+        new Handler().postDelayed(() -> AudioManager.mediaPlayerForBackgroundMusic.setVolume(lowVolumeLevel, lowVolumeLevel), delayForVolumeDecrease);
+        new Handler().postDelayed(() -> AudioManager.mediaPlayerForBackgroundMusic.setVolume(highVolumeLevel, highVolumeLevel), delayForVolumeIncrease);
     }
 
 }
