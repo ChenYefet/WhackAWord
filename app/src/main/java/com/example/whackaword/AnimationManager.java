@@ -70,21 +70,7 @@ public class AnimationManager extends DisplayManager
 
         }
 
-        if (AnimationManager.firstCardIsAboutToPopUp)
-        {
-            new Handler().postDelayed(() -> AudioManager.playAudioConcurrently(aWhackAWordActivity, R.raw.cards_pop_up), 550);
-            // Delays calling for the 'pop up' sound effect by eleven twentieths of a second (550 milliseconds)
-            // in order to synchronise better with the 'pop up' animation for the first card
-
-        }
-        else
-        {
-            new Handler().postDelayed(() -> AudioManager.playAudioConcurrently(aWhackAWordActivity, R.raw.cards_pop_up), 800);
-            // Delays calling for the 'pop up' sound effect by four fifths of a second (800 milliseconds)
-            // in order to synchronise better with the 'pop up' animation from the second card onwards
-
-        }
-
+        AudioManager.playPopUpSoundEffect(aWhackAWordActivity);
     }
 
     /**

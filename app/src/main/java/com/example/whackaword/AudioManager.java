@@ -61,6 +61,33 @@ public class AudioManager
     }
 
     /**
+     * Plays the cards pop up sound effect
+     * concurrently with other audio playback,
+     * after a delay that causes the audio to
+     * synchronise with the cards pop up animation
+     */
+    public static void playPopUpSoundEffect(WhackAWordActivity aWhackAWordActivity)
+    {
+        long audioDelayForFirstCard = 550;
+        // A delay of eleven twentieths of a second (550 milliseconds)
+        // allows for best synchronisation with the 'pop up' animation for the first card
+
+        long audioDelayForSecondCardOnwards = 800;
+        // A delay of four fifths of a second (800 milliseconds)
+        // allows for best synchronisation with the 'pop up' animation for the second card onwards
+
+        if (AnimationManager.firstCardIsAboutToPopUp)
+        {
+            AudioManager.playAudioAfterDelay(aWhackAWordActivity, R.raw.cards_pop_up, audioDelayForFirstCard);
+        }
+        else
+        {
+            AudioManager.playAudioAfterDelay(aWhackAWordActivity, R.raw.cards_pop_up, audioDelayForSecondCardOnwards);
+        }
+
+    }
+
+    /**
      * Helper method that plays in sequence all the audio files whose IDs are in the audio queue:
      *
      * Plays the audio file whose ID is at the front of the queue
@@ -115,6 +142,14 @@ public class AudioManager
 
         }
 
+    }
+
+    /**
+     * Helper method that plays an audio file after a delay
+     */
+    private static void playAudioAfterDelay(WhackAWordActivity aWhackAWordActivity, int anAudioID, long delay)
+    {
+        new Handler().postDelayed(() -> AudioManager.playAudioConcurrently(aWhackAWordActivity, anAudioID), delay);
     }
 
     /**
