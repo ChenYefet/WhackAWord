@@ -253,17 +253,6 @@ public class AnimationManager extends DisplayManager
     }
 
     /**
-     * Hides cards if the user has won and the last of the audio (i.e. the 'Well done' audio) has played
-     */
-    public static void hideCardsIfUserHasWonAndLastAudioHasCompleted(WhackAWordActivity aWhackAWordActivity, int lastAudio)
-    {
-        if (LevelProperties.userWins() && lastAudio == R.raw.well_done)
-        {
-            AnimationManager.hideCards(aWhackAWordActivity);
-        }
-    }
-
-    /**
      * Helper method that returns the amount
      * in density-independent pixels (dp)
      * that a card needs to translate upwards from its initial (hidden) position

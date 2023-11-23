@@ -102,7 +102,7 @@ public class AudioManager
      *   to both play the next audio file in the queue and call itself recursively,
      *   ensuring that all audio files are played in sequence
      *
-     * - and hides all cards upon audio completion if the user has won
+     * - and hides cards after the 'well done' audio playback if the user has won
      *
      * If there is audio currently playing, does nothing.
      * This does not cause a problem of skipped audio files
@@ -129,7 +129,12 @@ public class AudioManager
                 // Removes the reference to the MediaPlayer
 
                 AudioManager.implementSequentialPlayback(aWhackAWordActivity);
-                AnimationManager.hideCardsIfUserHasWonAndLastAudioHasCompleted(aWhackAWordActivity, audioID);
+
+                if (LevelProperties.userWins() && audioID == R.raw.well_done)
+                {
+                    AnimationManager.hideCards(aWhackAWordActivity);
+                }
+
             });
 
             AudioManager.mediaPlayerForSequentialAudio.start();
