@@ -111,10 +111,9 @@ public class TapManager
                 Selector.selectFoodCardsForDisplay(LevelProperties.numberOfCardsToDisplay, false);
                 AnimationManager.cardsPopUp(aWhackAWordActivity, Collections.mapOfFoodItemsToTheirFoodCards);
 
-                FoodItem correctFoodItem = aWhackAWordActivity.getCorrectFoodItem();
-                FoodCard correctFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(correctFoodItem);
+                FoodCard correctFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(Selector.correctFoodItem);
 
-                TapManager.setClickListeners(aWhackAWordActivity, correctFoodCard, correctFoodItem);
+                TapManager.setClickListeners(aWhackAWordActivity, correctFoodCard, Selector.correctFoodItem);
             }
 
         });

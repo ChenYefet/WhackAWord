@@ -5,8 +5,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Set;
-
 /**
  * An object of the WhackAWordActivity class represents a game called Whack-A-Word
  * with the following description:
@@ -31,30 +29,12 @@ import java.util.Set;
  * during the game
  * so that the game is more challenging and fun.
  * At the end of the third round, the user wins
- *
- * The WhackAWordActivity class contains one instance variable:
- *
- * correctFoodItem, which is the food item
- * whose image is on the card that the user is tasked to tap
- *
- * Note that food cards and food items are modelled as separate from each other,
- * even though the user is meant to understand that they are part of the same card.
- * For example, if a food item is displayed on a card,
- * and subsequently a different food item is displayed on the same card,
- * the user is meant to understand that they are different cards,
- * whereas programmatically they are the same card with different food items,
- * one having replaced the other.
- * Currently, there are five cards (one for each hole) and nine food items,
- * and each card's food item can vary
- * (via the setImageResource method in the DisplayManager class)
  */
 public class WhackAWordActivity extends AppCompatActivity
 {
-    private FoodItem correctFoodItem;
-
     /**
      * This is the method that gets called when the activity is created.
-     * It sets up the initial state of the activity,
+     * It sets up the initial state of the game,
      * including its layout and variables,
      * animates the sky,
      * and calls the playWhackAWord method that starts the game.
@@ -97,22 +77,6 @@ public class WhackAWordActivity extends AppCompatActivity
     }
 
     /**
-     * Getter for the correct food item
-     */
-    public FoodItem getCorrectFoodItem()
-    {
-        return this.correctFoodItem;
-    }
-
-    /**
-     * Setter for the correct food item
-     */
-    public void setCorrectFoodItem(FoodItem aFoodItem)
-    {
-        this.correctFoodItem = aFoodItem;
-    }
-
-    /**
      * Plays Whack-A-Word:
      *
      * Causes food cards to pop up,
@@ -124,30 +88,12 @@ public class WhackAWordActivity extends AppCompatActivity
         Selector.selectFoodCardsForDisplay(LevelProperties.numberOfCardsToDisplay, true);
 
         AnimationManager.cardsPopUp(this, Collections.mapOfFoodItemsToTheirFoodCards);
+        Selector.setCorrectFoodItemFromThoseThatAreOnDisplay();
+        AudioManager.playAudioSequentially(this, Selector.correctFoodItem.getAudioID());
 
-        Set<FoodItem> foodItemsOnDisplay = Collections.mapOfFoodItemsToTheirFoodCards.keySet();
-        // The food items would be 'on' display (and not just set 'for' display)
-        // by the end of the animations that were started in the cardsPopUp method
+        FoodCard correctFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(Selector.correctFoodItem);
 
-        for (FoodItem foodItemOnDisplay : foodItemsOnDisplay)
-        {
-
-            if (!Collections.correctlyTappedFoodItems.contains(foodItemOnDisplay))
-            {
-                this.setCorrectFoodItem(foodItemOnDisplay);
-                break;
-            }
-
-        }
-        // Sets the correct food item to one of the food items on display
-        // that hasn't yet been correctly tapped
-
-        FoodItem correctFoodItem = this.getCorrectFoodItem();
-        int correctFoodItemAudioID = correctFoodItem.getAudioID();
-        FoodCard correctFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(correctFoodItem);
-
-        AudioManager.playAudioSequentially(this, correctFoodItemAudioID);
-        TapManager.setClickListeners(this, correctFoodCard, correctFoodItem);
+        TapManager.setClickListeners(this, correctFoodCard, Selector.correctFoodItem);
     }
 
     /**

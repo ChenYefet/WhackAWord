@@ -5,13 +5,33 @@ import java.util.Set;
 
 /**
  * The Selector class is responsible for selecting
- * which food items belong to which food cards
+ * which food items belong to which food cards,
+ * and for selecting the correct food item,
  * during gameplay in the Whack-A-Word game.
  * It ensures that the chosen food items align with the game's rules
  * as set out in the WhackAWordActivity class
+ *
+ * The Selector class contains one class variable:
+ *
+ * correctFoodItem, which is the food item
+ * whose image is on the card that the user is tasked to tap
+ *
+ * Note that food cards and food items are modelled as separate from each other,
+ * even though the user is meant to understand that they are part of the same card.
+ * For example, if a food item is displayed on a card,
+ * and subsequently a different food item is displayed on the same card,
+ * the user is meant to understand that
+ * they are different cards emerging from the same hole,
+ * whereas programmatically they are the same card with different food items,
+ * one having replaced the other.
+ * Currently, there are five cards (one for each hole) and nine food items,
+ * and each card's food item can vary
+ * (via the setImageResource method in the DisplayManager class)
  */
 public class Selector
 {
+    public static FoodItem correctFoodItem;
+
     /**
      * If new food items are to be displayed,
      * selects a number of food cards to be displayed
@@ -31,6 +51,29 @@ public class Selector
         {
             Selector.selectSameFoodCardsForDisplay();
         }
+    }
+
+    /**
+     * Sets the correct food item to one of the food items on display
+     * that have not yet been correctly tapped
+     */
+    public static void setCorrectFoodItemFromThoseThatAreOnDisplay()
+    {
+        Set<FoodItem> foodItemsOnDisplay = Collections.mapOfFoodItemsToTheirFoodCards.keySet();
+        // The food items would be 'on' display (and not just set 'for' display)
+        // by the end of the animations that were started in the cardsPopUp method
+
+        for (FoodItem foodItem : foodItemsOnDisplay)
+        {
+
+            if (!Collections.correctlyTappedFoodItems.contains(foodItem))
+            {
+                Selector.correctFoodItem = foodItem;
+                break;
+            }
+
+        }
+
     }
 
     /**
