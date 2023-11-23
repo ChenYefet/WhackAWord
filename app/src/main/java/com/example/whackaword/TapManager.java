@@ -83,7 +83,11 @@ public class TapManager
                 Collections.correctlyTappedFoodItems.add(aFoodCard.getFoodItem());
 
                 WhackAWordActivity.conveyPositiveFeedback(aWhackAWordActivity, aFoodCard);
-                LevelProperties.initialiseNextLevelPropertiesIfUserHasReachedTheNextLevel();
+
+                if (LevelProperties.userHasReachedTheNextLevel())
+                {
+                    LevelProperties.setNextLevelProperties();
+                }
 
                 if (LevelProperties.userWins())
                 {

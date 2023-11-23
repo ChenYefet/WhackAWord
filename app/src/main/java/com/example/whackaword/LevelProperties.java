@@ -36,30 +36,9 @@ public class LevelProperties
     }
 
     /**
-     * Returns true if the user has won,
-     * otherwise returns false
+     * Sets the properties of the next level
      */
-    public static boolean userWins()
-    {
-        return LevelProperties.countOfSuccessfulTaps == REQUIRED_NUMBER_OF_SUCCESSFUL_TAPS_PER_LEVEL && LevelProperties.currentLevel == LAST_LEVEL;
-    }
-
-    /**
-     * Initialises the properties of the next level
-     * if the user has reached the next level
-     */
-    public static void initialiseNextLevelPropertiesIfUserHasReachedTheNextLevel()
-    {
-        if (LevelProperties.userHasReachedTheNextLevel())
-        {
-            LevelProperties.initialisesNextLevelProperties();
-        }
-    }
-
-    /**
-     * Helper method that initialises the properties of the next level
-     */
-    private static void initialisesNextLevelProperties()
+    public static void setNextLevelProperties()
     {
         if (LevelProperties.currentLevel < LAST_LEVEL)
         {
@@ -80,12 +59,21 @@ public class LevelProperties
     }
 
     /**
-     * Helper method that returns true if the user has reached the next level,
+     * Returns true if the user has reached the next level,
      * otherwise returns false
      */
-    private static boolean userHasReachedTheNextLevel()
+    public static boolean userHasReachedTheNextLevel()
     {
         return LevelProperties.countOfSuccessfulTaps == REQUIRED_NUMBER_OF_SUCCESSFUL_TAPS_PER_LEVEL && LevelProperties.currentLevel < LAST_LEVEL;
+    }
+
+    /**
+     * Returns true if the user has won,
+     * otherwise returns false
+     */
+    public static boolean userWins()
+    {
+        return LevelProperties.countOfSuccessfulTaps == REQUIRED_NUMBER_OF_SUCCESSFUL_TAPS_PER_LEVEL && LevelProperties.currentLevel == LAST_LEVEL;
     }
 
 }
