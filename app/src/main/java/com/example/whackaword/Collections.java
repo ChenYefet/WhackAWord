@@ -15,7 +15,7 @@ import java.util.Set;
 /**
  * The Collections class is responsible for managing collections in the Whack-A-Word game
  *
- * It contains nine class variables:
+ * It contains ten class variables:
  *
  * foodItems, which is a set of all the food items that exist within the game
  *
@@ -38,15 +38,16 @@ import java.util.Set;
  * Since retrieving a random element of this collection requires indexing,
  * it is a list instead of a set
  *
- * (Note that the availableFoodCards list is filled within the hideCards method
- * (in addition to the onCreate method)
- * because food cards become available when cards are hidden.
- * The availableFoodItems list is not filled within the hideCards method
- * since those unavailable food items that are not on the list
- * may need to be displayed again,
- * e.g. when an incorrect card has been tapped;
- * it is filled after a correct card has been clicked instead
- * i.e. right before playing Whack-A-Word again)
+ * (Note that the availableFoodCards list is filled when cards are hidden
+ * because food cards become newly eligible for display when cards are hidden.
+ * The availableFoodItems list is not filled when cards are hidden
+ * since the food items that are not on the list
+ * (i.e. those that were already on display)
+ * may need to be displayed again after cards are hidden,
+ * such as when an incorrect card has been tapped;
+ * the availableFoodItems list is filled after a correct card has been tapped instead
+ * i.e. right before playing Whack-A-Word again
+ * when food items that were previously on display are newly eligible for display again)
  *
  * mapOfFoodItemsToTheirFoodCards, which is a map of food items that are set for display
  * to food cards upon which they are set to be displayed.
@@ -74,6 +75,18 @@ import java.util.Set;
  * so that they are played in a sequential order (rather than concurrently)
  *
  * foodItemAudioIDs, which is a set of all the food item audio IDs that exist within the game
+ *
+ * mapOfPopUpTimesToWhetherACardHasBeenTappedOnTime,
+ * which is a map of times that cards pop up (denoted by ordinal numbers)
+ * to whether a card from that pop-up has been tapped.
+ * The pop-up times are denoted by ordinal numbers,
+ * so a key of 1 means the first time cards pop up
+ * and a key of 2 means the second time cards pop up, etc.
+ * If a key in the map (i.e. a pop-up time) has a value of true,
+ * it would mean that a card from that pop-up time has been tapped,
+ * while if a key in the map has a value of false,
+ * it would mean that a card from that pop-up time hasn't been tapped.
+ * This map is necessary for the management of the duration of pop-ups
  */
 public class Collections
 {
@@ -86,6 +99,7 @@ public class Collections
     public static Set<FrameLayout> foodCardFrameLayoutsWithClickListeners;
     public static Queue<Integer> audioQueue;
     public static Set<Integer> foodItemAudioIDs;
+    public static Map<Integer, Boolean> mapOfPopUpTimesToWhetherACardHasBeenTappedOnTime;
 
     /**
      * Initialises the collections
@@ -97,8 +111,9 @@ public class Collections
         Collections.mapOfFoodItemsToTheirFoodCards = new HashMap<>();
         Collections.correctlyTappedFoodItems = new HashSet<>();
         Collections.foodCardFrameLayoutsWithClickListeners = new HashSet<>();
-        Collections.foodItemAudioIDs = new HashSet<>();
         Collections.audioQueue = new LinkedList<>();
+        Collections.foodItemAudioIDs = new HashSet<>();
+        Collections.mapOfPopUpTimesToWhetherACardHasBeenTappedOnTime = new HashMap<>();
 
         Collections.fillFoodItemsSet();
         Collections.fillFoodCardsSet();

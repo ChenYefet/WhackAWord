@@ -75,6 +75,8 @@ public class TapManager
         FrameLayout foodCardFrameLayout = aWhackAWordActivity.findViewById(aFoodCard.getID());
         foodCardFrameLayout.setOnClickListener(v ->
         {
+            Collections.mapOfPopUpTimesToWhetherACardHasBeenTappedOnTime.put(AnimationManager.numberOfPopUpTimes, true);
+
             if (isCorrectFoodCard)
             {
                 LevelProperties.countOfSuccessfulTaps++;

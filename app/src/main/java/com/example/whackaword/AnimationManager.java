@@ -24,13 +24,31 @@ import java.util.Objects;
  * that enhance user experience and provide visual feedback
  * in the Whack-A-Word game
  *
- * The AnimationManager class contains one class variable:
+ * The AnimationManager class contains three class variables:
  *
  * firstCardIsAboutToPopUp, which records whether the first card is about to pop up
+ *
+ * numberOfPopUpTimes, which records the number of times cards pop up
+ *
+ * popUpBeingManaged, which keeps track of
+ * which pop-up is currently being managed.
+ * This is necessary in order to limit the duration of pop-ups
  */
 public class AnimationManager extends DisplayManager
 {
     public static boolean firstCardIsAboutToPopUp;
+    public static int numberOfPopUpTimes;
+    public static int popUpBeingManaged;
+
+    /**
+     * Initialises the animation properties
+     */
+    public static void initialiseAnimationProperties()
+    {
+        AnimationManager.firstCardIsAboutToPopUp = true;
+        AnimationManager.numberOfPopUpTimes = 0;
+        AnimationManager.popUpBeingManaged = 1;
+    }
 
     /**
      * Causes each card set for display to pop up
@@ -71,6 +89,14 @@ public class AnimationManager extends DisplayManager
         }
 
         AudioManager.playPopUpSoundEffect(aWhackAWordActivity);
+
+        AnimationManager.numberOfPopUpTimes++;
+
+        Collections.mapOfPopUpTimesToWhetherACardHasBeenTappedOnTime.put(AnimationManager.numberOfPopUpTimes, false);
+        // The value of the map (false) is changed to true if a card is tapped on time
+        // (via the setClickListenerForFoodCard method in the TapManager class)
+
+        AnimationManager.limitPopUpDuration(aWhackAWordActivity);
     }
 
     /**
@@ -250,6 +276,48 @@ public class AnimationManager extends DisplayManager
         // It takes two and a half seconds (2500 milliseconds) for the current sky colours to fully fade out
 
         animationDrawable.start();
+    }
+
+    /**
+     * Helper method that limits the cards' pop-up duration to eight seconds (8000 milliseconds)
+     */
+    private static void limitPopUpDuration(WhackAWordActivity aWhackAWordActivity)
+    {
+        new Handler().postDelayed(() ->
+        {
+            boolean aCardHasBeenTappedOnTime = Boolean.TRUE.equals(Collections.mapOfPopUpTimesToWhetherACardHasBeenTappedOnTime.get(AnimationManager.popUpBeingManaged));
+            // Boolean.TRUE.equals() checks that what is in the brackets is equal to true,
+            // and returns false if it is either null or false
+
+            if (!aCardHasBeenTappedOnTime)
+            {
+                AnimationManager.hideCards(aWhackAWordActivity);
+
+                Collections.mapOfFoodItemsToTheirFoodCards.replaceAll(((foodItem, hiddenFoodCard) -> null));
+                // Keeps all foodItem keys in the map while setting all their hiddenFoodCard values to null
+                // since those food items need to be displayed again
+                // in food cards which are not yet determined
+
+                Selector.selectFoodCardsForDisplay(LevelProperties.numberOfCardsToDisplay, false);
+                AnimationManager.cardsPopUp(aWhackAWordActivity, Collections.mapOfFoodItemsToTheirFoodCards);
+
+                FoodCard correctFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(Selector.correctFoodItem);
+
+                TapManager.setClickListeners(aWhackAWordActivity, correctFoodCard, Selector.correctFoodItem);
+            }
+
+            AnimationManager.popUpBeingManaged++;
+            // popUpBeingManaged is incremented within the postDelayed method
+            // (and not outside of it)
+            // so that while each pop-up is being managed,
+            // popUpBeingManaged would not be further incremented
+            // but would have to wait until this point
+            // within the postDelayed method
+            // to be incremented,
+            // ensuring that you are always managing the appropriate pop-up
+
+        }, 8000);
+
     }
 
     /**

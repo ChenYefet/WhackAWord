@@ -72,7 +72,7 @@ public class WhackAWordActivity extends AppCompatActivity
         ScreenProperties.setSmallScreenTo(ScreenProperties.isScreenSmall(this));
         Collections.initialiseCollections();
         LevelProperties.initialiseLevelProperties();
-        AnimationManager.firstCardIsAboutToPopUp = true;
+        AnimationManager.initialiseAnimationProperties();
 
         AnimationManager.animateSky(this);
         AudioManager.playBackgroundMusic(this);
