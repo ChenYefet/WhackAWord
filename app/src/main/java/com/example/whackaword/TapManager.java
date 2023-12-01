@@ -2,8 +2,6 @@ package com.example.whackaword;
 
 import android.widget.FrameLayout;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -83,21 +81,7 @@ public class TapManager
                 Collections.correctlyTappedFoodItems.add(aFoodCard.getFoodItem());
 
                 WhackAWordActivity.conveyPositiveFeedback(aWhackAWordActivity, aFoodCard);
-
-                if (LevelProperties.userHasReachedTheNextLevel())
-                {
-                    LevelProperties.setNextLevelProperties();
-                }
-
-                if (LevelProperties.userWins())
-                {
-                    AudioManager.playAudioSequentially(aWhackAWordActivity, R.raw.well_done);
-                }
-                else
-                {
-                    TapManager.continuePlayingAfterSuccessfulTap(aWhackAWordActivity);
-                }
-
+                WhackAWordActivity.continuePlaying(aWhackAWordActivity);
             }
             else
             {
@@ -119,18 +103,6 @@ public class TapManager
         });
 
         Collections.foodCardFrameLayoutsWithClickListeners.add(foodCardFrameLayout);
-    }
-
-    /**
-     * Helper method that hides cards and plays Whack-A-Word again
-     * if the user hasn't won
-     */
-    private static void continuePlayingAfterSuccessfulTap(WhackAWordActivity aWhackAWordActivity)
-    {
-        AnimationManager.hideCards(aWhackAWordActivity);
-        Collections.availableFoodItems = new ArrayList<>(Collections.foodItems);
-        Collections.mapOfFoodItemsToTheirFoodCards = new HashMap<>();
-        aWhackAWordActivity.playWhackAWord();
     }
 
 }

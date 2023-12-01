@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * An object of the WhackAWordActivity class represents a game called Whack-A-Word
  * with the following description:
@@ -37,7 +40,7 @@ public class WhackAWordActivity extends AppCompatActivity
      * It sets up the initial state of the game,
      * including its layout and variables,
      * animates the sky,
-     * and calls the playWhackAWord method that starts the game.
+     * and calls the playWhackAWord method that starts the game
      *
      * savedInstanceState either contains the activity's previously saved state
      * or is null if the activity has never existed before.
@@ -86,7 +89,6 @@ public class WhackAWordActivity extends AppCompatActivity
     public void playWhackAWord()
     {
         Selector.selectFoodCardsForDisplay(LevelProperties.numberOfCardsToDisplay, true);
-
         AnimationManager.cardsPopUp(this, Collections.mapOfFoodItemsToTheirFoodCards);
         Selector.setCorrectFoodItemFromThoseThatAreOnDisplay();
         AudioManager.playAudioSequentially(this, Selector.correctFoodItem.getAudioID());
@@ -94,6 +96,34 @@ public class WhackAWordActivity extends AppCompatActivity
         FoodCard correctFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(Selector.correctFoodItem);
 
         TapManager.setClickListeners(this, correctFoodCard, Selector.correctFoodItem);
+    }
+
+    /**
+     * Initialises the properties of the next level if the user has reached it
+     * and plays the 'well done' audio if the user has won
+     *
+     * Hides cards and plays Whack-A-Word again
+     * if the user hasn't won
+     */
+    public static void continuePlaying(WhackAWordActivity aWhackAWordActivity)
+    {
+        if (LevelProperties.userHasReachedTheNextLevel())
+        {
+            LevelProperties.setNextLevelProperties();
+        }
+
+        if (LevelProperties.userWins())
+        {
+            AudioManager.playAudioSequentially(aWhackAWordActivity, R.raw.well_done);
+        }
+        else
+        {
+            AnimationManager.hideCards(aWhackAWordActivity);
+            Collections.availableFoodItems = new ArrayList<>(Collections.foodItems);
+            Collections.mapOfFoodItemsToTheirFoodCards = new HashMap<>();
+            aWhackAWordActivity.playWhackAWord();
+        }
+
     }
 
     /**
