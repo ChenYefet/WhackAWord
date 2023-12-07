@@ -2,13 +2,12 @@ package com.example.whackaword;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-
-import java.util.Queue;
+import android.os.Handler;
 
 /**
  * The AudioManager class is responsible for managing audio playback in the Whack-A-Word game
  *
- * It contains three class variables:
+ * It contains two class variables:
  *
  * mediaPlayerForSequentialAudio, which maintains a reference to
  * the currently playing MediaPlayer that deals with
@@ -17,17 +16,11 @@ import java.util.Queue;
  * mediaPlayerForBackgroundMusic, which maintains a reference to
  * the currently playing MediaPlayer that deals with
  * the playback of background music
- *
- * audioQueue, which is used to store audio IDs
- * and allow for the management of audio files
- * in a 'first-in, first-out' (FIFO) manner
- * so that they are played in a sequential order (rather than concurrently)
  */
 public class AudioManager
 {
     private static MediaPlayer mediaPlayerForSequentialAudio;
     private static MediaPlayer mediaPlayerForBackgroundMusic;
-    public static Queue<Integer> audioQueue;
 
     /**
      * Plays background music
@@ -63,7 +56,7 @@ public class AudioManager
      */
     public static void playAudioSequentially(WhackAWordActivity aWhackAWordActivity, int audioID)
     {
-        AudioManager.audioQueue.add(audioID);
+        Collections.audioQueue.add(audioID);
         AudioManager.implementSequentialPlayback(aWhackAWordActivity);
     }
 
@@ -98,9 +91,9 @@ public class AudioManager
             return;
         }
 
-        if (!AudioManager.audioQueue.isEmpty())
+        if (!Collections.audioQueue.isEmpty())
         {
-            int audioID = AudioManager.audioQueue.poll();
+            int audioID = Collections.audioQueue.poll();
             AudioManager.mediaPlayerForSequentialAudio = MediaPlayer.create(aWhackAWordActivity, audioID);
             AudioManager.mediaPlayerForSequentialAudio.setOnCompletionListener(mp ->
             {
@@ -115,9 +108,26 @@ public class AudioManager
             });
 
             AudioManager.mediaPlayerForSequentialAudio.start();
+
+            if (Collections.foodItemAudioIDs.contains(audioID))
+            {
+                AudioManager.adjustBackgroundMusicVolume(0.1f, 0.3f, 300, 800);
+            }
+            // Lowers the volume of the background music during audio playback of a correct food item
+
             AnimationManager.displayAnimatedTickDuringTickAudio(aWhackAWordActivity, audioID);
         }
 
+    }
+
+    /**
+     * Lowers background music to lowerVolumeLevel after a delay of delayForVolumeDecrease,
+     * and heightens background music to higherVolumeLevel after a delay of delayForVolumeIncrease
+     */
+    private static void adjustBackgroundMusicVolume(float lowerVolumeLevel, float higherVolumeLevel, int delayForVolumeDecrease, int delayForVolumeIncrease)
+    {
+        new Handler().postDelayed(() -> AudioManager.mediaPlayerForBackgroundMusic.setVolume(lowerVolumeLevel, lowerVolumeLevel), delayForVolumeDecrease);
+        new Handler().postDelayed(() -> AudioManager.mediaPlayerForBackgroundMusic.setVolume(higherVolumeLevel, higherVolumeLevel), delayForVolumeIncrease);
     }
 
 }

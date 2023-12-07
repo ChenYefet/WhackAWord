@@ -95,7 +95,6 @@ public class WhackAWordActivity extends AppCompatActivity
         Collections.initialiseCollections();
         LevelProperties.initialiseLevelProperties();
 
-        AudioManager.audioQueue = new LinkedList<>();
         this.setFirstCardIsAboutToPopUpTo(true);
 
         AnimationManager.animateSky(this);

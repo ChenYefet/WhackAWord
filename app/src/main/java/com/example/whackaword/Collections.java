@@ -5,15 +5,17 @@ import android.widget.FrameLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
 /**
  * The Collections class is responsible for managing collections in the Whack-A-Word game
  *
- * It contains seven class variables:
+ * It contains nine class variables:
  *
  * foodItems, which is a set of all the food items that exist within the game
  *
@@ -65,6 +67,13 @@ import java.util.Set;
  * each of which is effectively a card with a variable image on it.
  * This set is necessary to clear all click listeners at once
  * with the clearClickListeners() method
+ *
+ * audioQueue, which is used to store audio IDs
+ * and allow for the management of audio files
+ * in a 'first-in, first-out' (FIFO) manner
+ * so that they are played in a sequential order (rather than concurrently)
+ *
+ * foodItemAudioIDs, which is a set of all the food item audio IDs that exist within the game
  */
 public class Collections
 {
@@ -75,6 +84,8 @@ public class Collections
     public static Map<FoodItem, FoodCard> mapOfFoodItemsToTheirFoodCards;
     public static Set<FoodItem> correctlyTappedFoodItems;
     public static Set<FrameLayout> foodCardFrameLayoutsWithClickListeners;
+    public static Queue<Integer> audioQueue;
+    public static Set<Integer> foodItemAudioIDs;
 
     /**
      * Initialises the collections
@@ -83,13 +94,15 @@ public class Collections
     {
         Collections.foodItems = new HashSet<>();
         Collections.foodCards = new HashSet<>();
-
         Collections.mapOfFoodItemsToTheirFoodCards = new HashMap<>();
         Collections.correctlyTappedFoodItems = new HashSet<>();
         Collections.foodCardFrameLayoutsWithClickListeners = new HashSet<>();
+        Collections.foodItemAudioIDs = new HashSet<>();
+        Collections.audioQueue = new LinkedList<>();
 
         Collections.fillFoodItemsSet();
         Collections.fillFoodCardsSet();
+        Collections.fillFoodItemAudioIDsSet();
 
         Collections.availableFoodItems = new ArrayList<>(Collections.foodItems);
         // Fills availableFoodItems with all the food items in foodItems
@@ -122,7 +135,20 @@ public class Collections
     }
 
     /**
-     * Helper method that fills foodCards with all the food cards that exist within the game
+     * Helper method that fills foodItemAudioIDs with
+     * all the food item audio IDs that exist within the game
+     */
+    private static void fillFoodItemAudioIDsSet()
+    {
+        for (FoodItem foodItem : Collections.foodItems)
+        {
+            Collections.foodItemAudioIDs.add(foodItem.getAudioID());
+        }
+    }
+
+    /**
+     * Helper method that fills foodCards with
+     * all the food cards that exist within the game
      */
     private static void fillFoodCardsSet()
     {
@@ -140,7 +166,8 @@ public class Collections
     }
 
     /**
-     * Helper method that fills foodItems with all the food items that exist within the game
+     * Helper method that fills foodItems with
+     * all the food items that exist within the game
      */
     private static void fillFoodItemsSet()
     {
