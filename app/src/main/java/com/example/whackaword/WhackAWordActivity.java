@@ -1,6 +1,5 @@
 package com.example.whackaword;
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,7 +49,8 @@ public class WhackAWordActivity extends AppCompatActivity
      * the next time the activity is created,
      * for example after a user rotates the device from portrait to landscape mode
      * (in which case the Activity object would be destroyed and recreated),
-     * although the setRequestedOrientation method ensures that this does not happen
+     * although the screen orientation is set to landscape via the AndroidManifest file,
+     * ensuring that this does not happen
      * and that the game is always played in landscape mode
      */
     @Override
@@ -64,10 +64,6 @@ public class WhackAWordActivity extends AppCompatActivity
 
         this.setContentView(R.layout.activity_whack_a_word);
         // Sets up the layout of the activity
-
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        // Sets the screen orientation to landscape mode
-        // and causes it to remain so regardless of the device's physical orientation
 
         ScreenProperties.setSmallScreenTo(ScreenProperties.isScreenSmall(this));
         Collections.initialiseCollections();
