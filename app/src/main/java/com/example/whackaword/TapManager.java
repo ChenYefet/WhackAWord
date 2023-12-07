@@ -82,7 +82,7 @@ public class TapManager
                 LevelProperties.countOfSuccessfulTaps++;
                 Collections.correctlyTappedFoodItems.add(aFoodCard.getFoodItem());
 
-                WhackAWordActivity.conveyPositiveFeedback(aWhackAWordActivity, aFoodCard);
+                PositiveFeedbackAnimationManager.conveyPositiveFeedback(aWhackAWordActivity, aFoodCard);
                 WhackAWordActivity.continuePlaying(aWhackAWordActivity);
             }
             else

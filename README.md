@@ -65,7 +65,10 @@ The <span style ="font-family: Courier New">`TapManager`</span> class is respons
 The <span style ="font-family: Courier New">`DisplayManager`</span> class is responsible for displaying food items on food cards.
 
 ### The <span style ="font-family: Courier New">`AnimationManager`</span> class
-The <span style ="font-family: Courier New">`AnimationManager`</span> class is responsible for managing animations that enhance user experience and provide visual feedback.
+The <span style ="font-family: Courier New">`AnimationManager`</span> class is responsible for managing animations.
+
+### The <span style ="font-family: Courier New">`PositiveFeedbackAnimationManager`</span> class
+The <span style ="font-family: Courier New">`PositiveFeedbackAnimationManager`</span> class is responsible for managing animations that provide positive feedback.
 
 ## Illustrations
 ### Tablet

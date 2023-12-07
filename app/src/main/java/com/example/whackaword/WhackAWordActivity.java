@@ -142,16 +142,4 @@ public class WhackAWordActivity extends AppCompatActivity
         TapManager.setClickListeners(aWhackAWordActivity, correctFoodCard, Selector.correctFoodItem);
     }
 
-    /**
-     * Conveys positive feedback by
-     * playing a tick sound, displaying an animated tick and
-     * continuously changing the colour of aFoodCard
-     */
-    public static void conveyPositiveFeedback(WhackAWordActivity aWhackAWordActivity, FoodCard aFoodCard)
-    {
-        AudioManager.playAudioSequentially(aWhackAWordActivity, R.raw.correct);
-        AnimationManager.displayAnimatedTick(aWhackAWordActivity);
-        AnimationManager.continuouslyChangeCardColour(aWhackAWordActivity, aWhackAWordActivity.findViewById(aFoodCard.getID()));
-    }
-
 }
