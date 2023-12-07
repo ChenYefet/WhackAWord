@@ -136,9 +136,8 @@ public class Selector
 
     /**
      * Helper method that returns a food item that is appropriate to be displayed,
-     * i.e. a food item that allows for all of the food cards
-     * (an amount equal to numberOfCardsToDisplay)
-     * that are set for display
+     * i.e. a food item that allows for
+     * all of the food cards that are set for display
      * to display different food items,
      * including at least one that hasn't yet been correctly tapped,
      * as per the rules of the game
@@ -146,39 +145,40 @@ public class Selector
     private static FoodItem selectAppropriateFoodItemForDisplay(int cardCount)
     {
         FoodItem appropriateFoodItem = Collections.getAvailableFoodItem();
+        boolean onLastCard = (cardCount == LevelProperties.numberOfCardsToDisplay);
 
-        if (cardCount == LevelProperties.numberOfCardsToDisplay)
+        if (!onLastCard) // I.e. if there are still more cards to count after this ...
+        {
+            return appropriateFoodItem; // ... return any available food item ...
+        }
 
-        // I.e. if the current count of cards has reached the number of cards to be displayed ...
+        //  ... but if this is the last card ...
+
+        Set<FoodItem> foodItemsSelectedForDisplay = Collections.mapOfFoodItemsToTheirFoodCards.keySet();
+        Set<FoodItem> foodItemsSelectedForDisplayThatHaveNotYetBeenCorrectlyTapped = new HashSet<>(foodItemsSelectedForDisplay);
+        foodItemsSelectedForDisplayThatHaveNotYetBeenCorrectlyTapped.removeAll(Collections.correctlyTappedFoodItems);
+
+        if (foodItemsSelectedForDisplayThatHaveNotYetBeenCorrectlyTapped.isEmpty())
+
+        // ... and all the food items so far selected for display
+        // have previously been correctly tapped ...
 
         {
-            Set<FoodItem> foodItemsSelectedForDisplay = Collections.mapOfFoodItemsToTheirFoodCards.keySet();
-            Set<FoodItem> foodItemsSelectedForDisplayThatHaveNotYetBeenCorrectlyTapped = new HashSet<>(foodItemsSelectedForDisplay);
-            foodItemsSelectedForDisplayThatHaveNotYetBeenCorrectlyTapped.removeAll(Collections.correctlyTappedFoodItems);
 
-            if (foodItemsSelectedForDisplayThatHaveNotYetBeenCorrectlyTapped.size() == 0)
-
-            // ... and all the food items so far selected to be displayed
-            // have previously been correctly tapped ...
-
+            while (Collections.correctlyTappedFoodItems.contains(appropriateFoodItem))
             {
-
-                while (Collections.correctlyTappedFoodItems.contains(appropriateFoodItem))
-                {
-                    appropriateFoodItem = Collections.getAvailableFoodItem();
-                    // ... ensure that the last food item selected to be displayed
-                    // is one which hasn't previously been correctly tapped
-                    // (to ensure that the game is more challenging and fun)
-
-                }
+                appropriateFoodItem = Collections.getAvailableFoodItem();
+                // ... ensure that the last food item selected for display
+                // is one which hasn't previously been correctly tapped,
+                // as per the rules of the game
 
             }
 
-            // Note that calling keySet() on an empty map outputs an empty set,
-            // so no exception would be thrown since the map has been initialised
-            // as an empty map
-
         }
+
+        // Note that calling keySet() on an empty map outputs an empty set,
+        // so no exception would be thrown since the map has been initialised
+        // as an empty map
 
         return appropriateFoodItem;
 
