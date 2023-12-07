@@ -291,19 +291,7 @@ public class AnimationManager extends DisplayManager
 
             if (!aCardHasBeenTappedOnTime)
             {
-                AnimationManager.hideCards(aWhackAWordActivity);
-
-                Collections.mapOfFoodItemsToTheirFoodCards.replaceAll(((foodItem, hiddenFoodCard) -> null));
-                // Keeps all foodItem keys in the map while setting all their hiddenFoodCard values to null
-                // since those food items need to be displayed again
-                // in food cards which are not yet determined
-
-                Selector.selectFoodCardsForDisplay(LevelProperties.numberOfCardsToDisplay, false);
-                AnimationManager.cardsPopUp(aWhackAWordActivity, Collections.mapOfFoodItemsToTheirFoodCards);
-
-                FoodCard correctFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(Selector.correctFoodItem);
-
-                TapManager.setClickListeners(aWhackAWordActivity, correctFoodCard, Selector.correctFoodItem);
+                WhackAWordActivity.tryAgain(aWhackAWordActivity);
             }
 
             AnimationManager.popUpBeingManaged++;

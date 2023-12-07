@@ -123,6 +123,26 @@ public class WhackAWordActivity extends AppCompatActivity
     }
 
     /**
+     * Causes cards to hide and pop up again
+     */
+    public static void tryAgain(WhackAWordActivity aWhackAWordActivity)
+    {
+        AnimationManager.hideCards(aWhackAWordActivity);
+
+        Collections.mapOfFoodItemsToTheirFoodCards.replaceAll(((foodItem, hiddenFoodCard) -> null));
+        // Keeps all FoodItem keys in the map while setting all their FoodCard values to null
+        // since those food items need to be displayed again
+        // on food cards which are not yet determined
+
+        Selector.selectFoodCardsForDisplay(LevelProperties.numberOfCardsToDisplay, false);
+        AnimationManager.cardsPopUp(aWhackAWordActivity, Collections.mapOfFoodItemsToTheirFoodCards);
+
+        FoodCard correctFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(Selector.correctFoodItem);
+
+        TapManager.setClickListeners(aWhackAWordActivity, correctFoodCard, Selector.correctFoodItem);
+    }
+
+    /**
      * Conveys positive feedback by
      * playing a tick sound, displaying an animated tick and
      * continuously changing the colour of aFoodCard
