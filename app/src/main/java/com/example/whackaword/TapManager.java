@@ -16,8 +16,10 @@ public class TapManager
      * Sets the click listeners for
      * all the food cards that are set for display
      */
-    public static void setClickListeners(WhackAWordActivity aWhackAWordActivity, FoodCard correctFoodCard, FoodItem correctFoodItem)
+    public static void setClickListeners(WhackAWordActivity aWhackAWordActivity)
     {
+        FoodCard correctFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(Selector.correctFoodItem);
+
         TapManager.setClickListenerForFoodCard(aWhackAWordActivity, correctFoodCard, true);
 
         if (Collections.mapOfFoodItemsToTheirFoodCards.size() > 1)
@@ -30,7 +32,7 @@ public class TapManager
             for (FoodItem foodItem : Collections.mapOfFoodItemsToTheirFoodCards.keySet())
             {
 
-                if (foodItem != correctFoodItem)
+                if (foodItem != Selector.correctFoodItem)
                 {
                     FoodCard incorrectFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(foodItem);
 

@@ -85,18 +85,16 @@ public class WhackAWordActivity extends AppCompatActivity
      */
     public void playWhackAWord()
     {
-        Selector.selectFoodCardsForDisplay(LevelProperties.numberOfCardsToDisplay);
-        AnimationManager.cardsPopUp(this, Collections.mapOfFoodItemsToTheirFoodCards);
+        Selector.selectFoodCardsForDisplay();
+        AnimationManager.cardsPopUp(this);
 
         if (Selector.thereAreNewFoodItems)
         {
-            Selector.setCorrectFoodItemFromThoseThatAreOnDisplay();
+            Selector.setCorrectFoodItem();
             AudioManager.playAudioSequentially(this, Selector.correctFoodItem.getAudioID());
         }
 
-        FoodCard correctFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(Selector.correctFoodItem);
-
-        TapManager.setClickListeners(this, correctFoodCard, Selector.correctFoodItem);
+        TapManager.setClickListeners(this);
     }
 
     /**

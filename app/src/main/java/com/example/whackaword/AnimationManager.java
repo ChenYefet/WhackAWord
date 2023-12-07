@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * The AnimationManager class is responsible for managing animations
@@ -46,17 +45,17 @@ public class AnimationManager extends DisplayManager
     /**
      * Causes each card set for display to pop up
      */
-    public static void cardsPopUp(WhackAWordActivity aWhackAWordActivity, Map<FoodItem, FoodCard> mapOfFoodItemsToTheirFoodCards)
+    public static void cardsPopUp(WhackAWordActivity aWhackAWordActivity)
     {
         if (AnimationManager.firstCardIsAboutToPopUp)
         {
-            DisplayManager.displayFoodItemsOnCards(aWhackAWordActivity, Collections.mapOfFoodItemsToTheirFoodCards);
+            DisplayManager.displayFoodItemsOnCards(aWhackAWordActivity);
             AnimationManager.firstCardIsAboutToPopUp = false;
         }
 
-        for (FoodItem foodItem : mapOfFoodItemsToTheirFoodCards.keySet())
+        for (FoodItem foodItem : Collections.mapOfFoodItemsToTheirFoodCards.keySet())
         {
-            FoodCard foodCard = mapOfFoodItemsToTheirFoodCards.get(foodItem);
+            FoodCard foodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(foodItem);
             FrameLayout foodCardFrameLayout = aWhackAWordActivity.findViewById(foodCard.getID());
             ObjectAnimator animation = ObjectAnimator.ofFloat(foodCardFrameLayout, "translationY", AnimationManager.getUpwardsTranslation(aWhackAWordActivity));
 
@@ -114,7 +113,7 @@ public class AnimationManager extends DisplayManager
                 @Override
                 public void onAnimationEnd(Animator animation)
                 {
-                    DisplayManager.displayFoodItemsOnCards(aWhackAWordActivity, Collections.mapOfFoodItemsToTheirFoodCards);
+                    DisplayManager.displayFoodItemsOnCards(aWhackAWordActivity);
                 }
                 // When the animation has ended, the cards have gone into their holes,
                 // so the onAnimationEnd method ensures that

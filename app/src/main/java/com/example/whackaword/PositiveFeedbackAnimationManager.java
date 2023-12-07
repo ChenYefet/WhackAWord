@@ -2,7 +2,6 @@ package com.example.whackaword;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -31,32 +30,33 @@ public class PositiveFeedbackAnimationManager extends AnimationManager
     {
         AudioManager.playAudioSequentially(aWhackAWordActivity, R.raw.correct);
         PositiveFeedbackAnimationManager.displayAnimatedTick(aWhackAWordActivity);
-        PositiveFeedbackAnimationManager.continuouslyChangeCardColour(aWhackAWordActivity, aWhackAWordActivity.findViewById(aFoodCard.getID()));
+        PositiveFeedbackAnimationManager.continuouslyChangeCardColour(aWhackAWordActivity, aFoodCard);
     }
 
     /**
      * Causes the card colour to change continuously
      * for as long as the card is up
      */
-    public static void continuouslyChangeCardColour(Context aContext, FrameLayout aCard)
+    private static void continuouslyChangeCardColour(WhackAWordActivity aWhackAWordActivity, FoodCard aFoodCard)
     {
-        Drawable originalDrawable = aCard.getBackground();
+        FrameLayout foodCardFrameLayout = aWhackAWordActivity.findViewById(aFoodCard.getID());
+        Drawable originalDrawable = foodCardFrameLayout.getBackground();
 
         AnimationDrawable animationDrawable = new AnimationDrawable();
 
         if (ScreenProperties.smallScreen)
         {
-            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aContext, R.drawable.first_colour_of_animation_of_correctly_tapped_card_for_small_screens)), 100);
-            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aContext, R.drawable.second_colour_of_animation_of_correctly_tapped_card_for_small_screens)), 100);
-            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aContext, R.drawable.third_colour_of_animation_of_correctly_tapped_card_for_small_screens)), 100);
-            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aContext, R.drawable.fourth_colour_of_animation_of_correctly_tapped_card_for_small_screens)), 100);
+            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.first_colour_of_animation_of_correctly_tapped_card_for_small_screens)), 100);
+            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.second_colour_of_animation_of_correctly_tapped_card_for_small_screens)), 100);
+            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.third_colour_of_animation_of_correctly_tapped_card_for_small_screens)), 100);
+            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.fourth_colour_of_animation_of_correctly_tapped_card_for_small_screens)), 100);
         }
         else
         {
-            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aContext, R.drawable.first_colour_of_animation_of_correctly_tapped_card)), 100);
-            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aContext, R.drawable.second_colour_of_animation_of_correctly_tapped_card)), 100);
-            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aContext, R.drawable.third_colour_of_animation_of_correctly_tapped_card)), 100);
-            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aContext, R.drawable.fourth_colour_of_animation_of_correctly_tapped_card)), 100);
+            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.first_colour_of_animation_of_correctly_tapped_card)), 100);
+            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.second_colour_of_animation_of_correctly_tapped_card)), 100);
+            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.third_colour_of_animation_of_correctly_tapped_card)), 100);
+            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.fourth_colour_of_animation_of_correctly_tapped_card)), 100);
         }
         // The colour changes every tenth of a second (100 milliseconds)
 
@@ -68,7 +68,7 @@ public class PositiveFeedbackAnimationManager extends AnimationManager
         // ... if this is the final tap of the game ...
 
         {
-            new Handler().postDelayed(() -> aCard.setBackground(originalDrawable), 4000);
+            new Handler().postDelayed(() -> foodCardFrameLayout.setBackground(originalDrawable), 4000);
             // ... delay setting the card's background back to normal
             // by four seconds (4000 milliseconds),
             // so that it would be animated for all the time that it is up ...
@@ -76,7 +76,7 @@ public class PositiveFeedbackAnimationManager extends AnimationManager
         }
         else
         {
-            new Handler().postDelayed(() -> aCard.setBackground(originalDrawable), 1000);
+            new Handler().postDelayed(() -> foodCardFrameLayout.setBackground(originalDrawable), 1000);
             // ... otherwise delay setting the card's background back to normal
             // by only one second (1000 milliseconds),
             // so that not only would it be animated for all the time that it is up,
@@ -86,7 +86,7 @@ public class PositiveFeedbackAnimationManager extends AnimationManager
 
         }
 
-        aCard.setBackground(animationDrawable);
+        foodCardFrameLayout.setBackground(animationDrawable);
 
         animationDrawable.start();
     }
@@ -95,7 +95,7 @@ public class PositiveFeedbackAnimationManager extends AnimationManager
      * Displays and animates a tick
      * by scaling, rotating, and translating it
      */
-    public static void displayAnimatedTick(WhackAWordActivity aWhackAWordActivity)
+    private static void displayAnimatedTick(WhackAWordActivity aWhackAWordActivity)
     {
         ImageView tick = aWhackAWordActivity.findViewById(R.id.tick);
         tick.setVisibility(View.VISIBLE);

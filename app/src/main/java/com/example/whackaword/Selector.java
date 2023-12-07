@@ -45,11 +45,11 @@ public class Selector
      * Otherwise, selects the same food items that were most recently displayed
      * to be displayed again on random food cards
      */
-    public static void selectFoodCardsForDisplay(int numberOfCards)
+    public static void selectFoodCardsForDisplay()
     {
         if (Selector.thereAreNewFoodItems)
         {
-            Selector.selectNewFoodCardsForDisplay(numberOfCards);
+            Selector.selectNewFoodCardsForDisplay();
         }
         else
         {
@@ -61,7 +61,7 @@ public class Selector
      * Sets the correct food item to one of the food items on display
      * that have not yet been correctly tapped
      */
-    public static void setCorrectFoodItemFromThoseThatAreOnDisplay()
+    public static void setCorrectFoodItem()
     {
         Set<FoodItem> foodItemsOnDisplay = Collections.mapOfFoodItemsToTheirFoodCards.keySet();
         // The food items would be 'on' display (and not just set 'for' display)
@@ -82,15 +82,22 @@ public class Selector
 
     /**
      * Helper method that selects
-     * a number of food cards equal to numberOfCards
+     * a number of food cards equal to numberOfCardsToDisplay
      * to be displayed,
      * and assigns each one an appropriate food item
      */
-    private static void selectNewFoodCardsForDisplay(int numberOfCards)
+    private static void selectNewFoodCardsForDisplay()
     {
-        for (int cardCount = 1; cardCount <= numberOfCards; cardCount++)
+        for (int cardCount = 1; cardCount <= LevelProperties.numberOfCardsToDisplay; cardCount++)
         {
-            FoodItem foodItemToBeDisplayed = Selector.selectAppropriateFoodItemForDisplay(cardCount, numberOfCards);
+            FoodItem foodItemToBeDisplayed = Selector.selectAppropriateFoodItemForDisplay(cardCount);
+            // Food items are appropriate for display when
+            // they allow for
+            // all of the food cards that are set for display
+            // to display different food items,
+            // including at least one that hasn't yet been correctly tapped,
+            // as per the rules of the game
+
             FoodCard foodCardToBeDisplayed = Collections.getAvailableFoodCard();
 
             foodCardToBeDisplayed.setFoodItem(foodItemToBeDisplayed);
@@ -130,16 +137,17 @@ public class Selector
     /**
      * Helper method that returns a food item that is appropriate to be displayed,
      * i.e. a food item that allows for all of the food cards
-     * (an amount equal to numberOfCardsToBeDisplayed)
+     * (an amount equal to numberOfCardsToDisplay)
      * that are set for display
      * to display different food items,
-     * including at least one that hasn't yet been correctly tapped
+     * including at least one that hasn't yet been correctly tapped,
+     * as per the rules of the game
      */
-    private static FoodItem selectAppropriateFoodItemForDisplay(int cardCount, int numberOfCardsToBeDisplayed)
+    private static FoodItem selectAppropriateFoodItemForDisplay(int cardCount)
     {
         FoodItem appropriateFoodItem = Collections.getAvailableFoodItem();
 
-        if (cardCount == numberOfCardsToBeDisplayed)
+        if (cardCount == LevelProperties.numberOfCardsToDisplay)
 
         // I.e. if the current count of cards has reached the number of cards to be displayed ...
 
