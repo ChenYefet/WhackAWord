@@ -11,10 +11,13 @@ import java.util.Set;
  * It ensures that the chosen food items align with the game's rules
  * as set out in the WhackAWordActivity class
  *
- * The Selector class contains one class variable:
+ * The Selector class contains two class variables:
  *
  * correctFoodItem, which is the food item
  * whose image is on the card that the user is tasked to tap
+ *
+ * newFoodItemsAreToBeDisplayed, which records whether
+ * new food items are to be displayed
  *
  * Note that food cards and food items are modelled as separate from each other,
  * even though the user is meant to understand that they are part of the same card.
@@ -31,6 +34,7 @@ import java.util.Set;
 public class Selector
 {
     public static FoodItem correctFoodItem;
+    public static boolean thereAreNewFoodItems;
 
     /**
      * If new food items are to be displayed,
@@ -41,9 +45,9 @@ public class Selector
      * Otherwise, selects the same food items that were most recently displayed
      * to be displayed again on random food cards
      */
-    public static void selectFoodCardsForDisplay(int numberOfCards, boolean newFoodItemsAreToBeDisplayed)
+    public static void selectFoodCardsForDisplay(int numberOfCards)
     {
-        if (newFoodItemsAreToBeDisplayed)
+        if (Selector.thereAreNewFoodItems)
         {
             Selector.selectNewFoodCardsForDisplay(numberOfCards);
         }

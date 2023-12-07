@@ -69,6 +69,7 @@ public class WhackAWordActivity extends AppCompatActivity
         Collections.initialiseCollections();
         LevelProperties.initialiseLevelProperties();
         AnimationManager.initialiseAnimationProperties();
+        Selector.thereAreNewFoodItems = true;
 
         AnimationManager.animateSky(this);
         AudioManager.playBackgroundMusic(this);
@@ -84,10 +85,14 @@ public class WhackAWordActivity extends AppCompatActivity
      */
     public void playWhackAWord()
     {
-        Selector.selectFoodCardsForDisplay(LevelProperties.numberOfCardsToDisplay, true);
+        Selector.selectFoodCardsForDisplay(LevelProperties.numberOfCardsToDisplay);
         AnimationManager.cardsPopUp(this, Collections.mapOfFoodItemsToTheirFoodCards);
-        Selector.setCorrectFoodItemFromThoseThatAreOnDisplay();
-        AudioManager.playAudioSequentially(this, Selector.correctFoodItem.getAudioID());
+
+        if (Selector.thereAreNewFoodItems)
+        {
+            Selector.setCorrectFoodItemFromThoseThatAreOnDisplay();
+            AudioManager.playAudioSequentially(this, Selector.correctFoodItem.getAudioID());
+        }
 
         FoodCard correctFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(Selector.correctFoodItem);
 
@@ -117,6 +122,7 @@ public class WhackAWordActivity extends AppCompatActivity
             AnimationManager.hideCards(aWhackAWordActivity);
             Collections.availableFoodItems = new ArrayList<>(Collections.foodItems);
             Collections.mapOfFoodItemsToTheirFoodCards = new HashMap<>();
+            Selector.thereAreNewFoodItems = true;
             aWhackAWordActivity.playWhackAWord();
         }
 
@@ -134,12 +140,9 @@ public class WhackAWordActivity extends AppCompatActivity
         // since those food items need to be displayed again
         // on food cards which are not yet determined
 
-        Selector.selectFoodCardsForDisplay(LevelProperties.numberOfCardsToDisplay, false);
-        AnimationManager.cardsPopUp(aWhackAWordActivity, Collections.mapOfFoodItemsToTheirFoodCards);
+        Selector.thereAreNewFoodItems = false;
 
-        FoodCard correctFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(Selector.correctFoodItem);
-
-        TapManager.setClickListeners(aWhackAWordActivity, correctFoodCard, Selector.correctFoodItem);
+        aWhackAWordActivity.playWhackAWord();
     }
 
 }
