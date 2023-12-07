@@ -99,6 +99,7 @@ public class WhackAWordActivity extends AppCompatActivity
         this.setFirstCardIsAboutToPopUpTo(true);
 
         AnimationManager.animateSky(this);
+        AudioManager.playBackgroundMusic(this);
         this.playWhackAWord();
     }
 

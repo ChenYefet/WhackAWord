@@ -1,5 +1,6 @@
 package com.example.whackaword;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 
 import java.util.Queue;
@@ -7,10 +8,15 @@ import java.util.Queue;
 /**
  * The AudioManager class is responsible for managing audio playback in the Whack-A-Word game
  *
- * It contains two class variables:
+ * It contains three class variables:
  *
  * mediaPlayerForSequentialAudio, which maintains a reference to
- * the currently playing MediaPlayer that deals with the playback of audio in sequence
+ * the currently playing MediaPlayer that deals with
+ * the playback of audio in sequence
+ *
+ * mediaPlayerForBackgroundMusic, which maintains a reference to
+ * the currently playing MediaPlayer that deals with
+ * the playback of background music
  *
  * audioQueue, which is used to store audio IDs
  * and allow for the management of audio files
@@ -20,15 +26,27 @@ import java.util.Queue;
 public class AudioManager
 {
     private static MediaPlayer mediaPlayerForSequentialAudio;
+    private static MediaPlayer mediaPlayerForBackgroundMusic;
     public static Queue<Integer> audioQueue;
+
+    /**
+     * Plays background music
+     */
+    public static void playBackgroundMusic(Context aContext)
+    {
+        AudioManager.mediaPlayerForBackgroundMusic = MediaPlayer.create(aContext, R.raw.background_music);
+        mediaPlayerForBackgroundMusic.setLooping(true);
+        mediaPlayerForBackgroundMusic.setVolume(0.4f,0.4f);
+        mediaPlayerForBackgroundMusic.start();
+    }
 
     /**
      * Plays an audio file
      * concurrently with other audio playback
      */
-    public static void playAudioConcurrently(WhackAWordActivity aWhackAWordActivity, int audioID)
+    public static void playAudioConcurrently(Context aContext, int audioID)
     {
-        MediaPlayer mediaPlayerForConcurrentAudio = MediaPlayer.create(aWhackAWordActivity, audioID);
+        MediaPlayer mediaPlayerForConcurrentAudio = MediaPlayer.create(aContext, audioID);
         mediaPlayerForConcurrentAudio.setOnCompletionListener(mp ->
         {
             mediaPlayerForConcurrentAudio.release();
