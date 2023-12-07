@@ -117,7 +117,7 @@ public class WhackAWordActivity extends AppCompatActivity
      *
      * Causes food cards to pop up,
      * plays the correct audio,
-     * and sets click listeners for correct and incorrect food cards
+     * and sets click listeners for the food cards
      */
     public void playWhackAWord()
     {
@@ -147,32 +147,7 @@ public class WhackAWordActivity extends AppCompatActivity
         FoodCard correctFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(correctFoodItem);
 
         AudioManager.playAudioSequentially(this, correctFoodItemAudioID);
-
-        TapManager.setOnClickListenerForFoodCard(this, correctFoodCard, true);
-
-        if (Collections.mapOfFoodItemsToTheirFoodCards.size() > 1)
-
-        // I.e. if there are any incorrect food items that are set for display
-        // in addition to the one correct food item ...
-
-        {
-
-            for (FoodItem foodItem : Collections.mapOfFoodItemsToTheirFoodCards.keySet())
-            {
-
-                if (foodItem != correctFoodItem)
-                {
-                    FoodCard incorrectFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(foodItem);
-
-                    TapManager.setOnClickListenerForFoodCard(this, incorrectFoodCard, false);
-                    // ... set a click listener for each of their corresponding food cards
-
-                }
-
-            }
-
-        }
-
+        TapManager.setClickListeners(this, correctFoodCard, correctFoodItem);
     }
 
     /**

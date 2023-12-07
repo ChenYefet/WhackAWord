@@ -15,6 +15,51 @@ import java.util.HashSet;
 public class TapManager
 {
     /**
+     * Sets the click listeners for
+     * all the food cards that are set for display
+     */
+    public static void setClickListeners(WhackAWordActivity aWhackAWordActivity, FoodCard correctFoodCard, FoodItem correctFoodItem)
+    {
+        TapManager.setClickListenerForFoodCard(aWhackAWordActivity, correctFoodCard, true);
+
+        if (Collections.mapOfFoodItemsToTheirFoodCards.size() > 1)
+
+        // I.e. if there are any incorrect food items that are set for display
+        // in addition to the one correct food item ...
+
+        {
+
+            for (FoodItem foodItem : Collections.mapOfFoodItemsToTheirFoodCards.keySet())
+            {
+
+                if (foodItem != correctFoodItem)
+                {
+                    FoodCard incorrectFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(foodItem);
+
+                    TapManager.setClickListenerForFoodCard(aWhackAWordActivity, incorrectFoodCard, false);
+                    // ... set a click listener for each of their corresponding food cards
+                }
+
+            }
+
+        }
+
+    }
+
+    /**
+     * Clears click listeners from each food card
+     */
+    public static void clearClickListeners()
+    {
+        for (FrameLayout foodCardFrameLayout: Collections.foodCardFrameLayoutsWithClickListeners)
+        {
+            foodCardFrameLayout.setOnClickListener(null);
+        }
+
+        Collections.foodCardFrameLayoutsWithClickListeners = new HashSet<>();
+    }
+
+    /**
      * When the correct food card is tapped,
      * plays the tick sound,
      * displays an animated tick,
@@ -27,7 +72,7 @@ public class TapManager
      * then displays random cards again with the same food items,
      * setting click listeners for the correct and incorrect food cards
      */
-    public static void setOnClickListenerForFoodCard(WhackAWordActivity aWhackAWordActivity, FoodCard aFoodCard, boolean isCorrectFoodCard)
+    private static void setClickListenerForFoodCard(WhackAWordActivity aWhackAWordActivity, FoodCard aFoodCard, boolean isCorrectFoodCard)
     {
         FrameLayout foodCardFrameLayout = aWhackAWordActivity.findViewById(aFoodCard.getID());
         foodCardFrameLayout.setOnClickListener(v ->
@@ -65,20 +110,7 @@ public class TapManager
                 FoodItem correctFoodItem = aWhackAWordActivity.getCorrectFoodItem();
                 FoodCard correctFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(correctFoodItem);
 
-                TapManager.setOnClickListenerForFoodCard(aWhackAWordActivity, correctFoodCard, true);
-
-                for (FoodItem foodItem : Collections.mapOfFoodItemsToTheirFoodCards.keySet())
-                {
-
-                    if (foodItem != correctFoodItem)
-                    {
-                        FoodCard incorrectFoodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(foodItem);
-
-                        TapManager.setOnClickListenerForFoodCard(aWhackAWordActivity, incorrectFoodCard, false);
-                    }
-
-                }
-
+                TapManager.setClickListeners(aWhackAWordActivity, correctFoodCard, correctFoodItem);
             }
 
         });
@@ -96,19 +128,6 @@ public class TapManager
         Collections.availableFoodItems = new ArrayList<>(Collections.foodItems);
         Collections.mapOfFoodItemsToTheirFoodCards = new HashMap<>();
         aWhackAWordActivity.playWhackAWord();
-    }
-
-    /**
-     * Clears click listeners from each card
-     */
-    public static void clearClickListeners()
-    {
-        for (FrameLayout foodCardFrameLayout: Collections.foodCardFrameLayoutsWithClickListeners)
-        {
-            foodCardFrameLayout.setOnClickListener(null);
-        }
-
-        Collections.foodCardFrameLayoutsWithClickListeners = new HashSet<>();
     }
 
 }
