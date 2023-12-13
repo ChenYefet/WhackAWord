@@ -196,7 +196,7 @@ public class AnimationManager extends DisplayManager
         DisplayMetrics displayMetrics = aContext.getResources().getDisplayMetrics();
         // Gets the display metrics (such as screen density, width and height) of the Android device
 
-        if (ScreenProperties.smallScreen)
+        if (ScreenProperties.screenIsSmall)
         {
             amountTranslatedFromInitialPositionInPixels = -178; // For small screens
         }

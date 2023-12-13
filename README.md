@@ -50,7 +50,7 @@ The <span style ="font-family: Courier New">`Collections`</span> class is respon
 The <span style ="font-family: Courier New">`LevelProperties`</span> class is responsible for managing the properties of levels, such as the current level, the number of cards to display, and the count of successful taps. It contains constant class variables for the last level of the game, the required number of successful taps per level, and the number of cards to display for each of the levels.
 
 ### The <span style ="font-family: Courier New">`ScreenProperties`</span> class
-The <span style ="font-family: Courier New">`ScreenProperties`</span> class is responsible for managing the properties of the screen. It contains a class variable for whether the screen is small, which is necessary for some animations.
+The <span style ="font-family: Courier New">`ScreenProperties`</span> class is responsible for managing the properties of the screen. It contains a constant class variable for the width of a small screen in dp (density-independent pixels), and a class variable for whether the screen is small, which influences the app's layout.
 
 ### The <span style ="font-family: Courier New">`Selector`</span> class
 The <span style ="font-family: Courier New">`Selector`</span> class is responsible for selecting which food items belong to which food cards during gameplay. It ensures that the chosen food items align with the game's rules as described above.

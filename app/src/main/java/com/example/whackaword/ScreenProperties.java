@@ -4,24 +4,30 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 
 /**
- * The ScreenProperties class is responsible for managing the properties of the screen.
- * It contains a class variable for whether the screen is small
+ * The ScreenProperties class is responsible for managing the properties of the screen
+ *
+ * The ScreenProperties class contains a class variable for
+ * whether the screen is small,
+ * as well as a constant class variable for
+ * the width of large screens
+ * in dp (density-independent pixels)
  */
 public class ScreenProperties
 {
-    public static boolean smallScreen;
+    private static final int LARGE_SCREEN_WIDTH = 1200;
+    public static boolean screenIsSmall;
 
     /**
      * Setter for whether the screen is small
      */
-    public static void setSmallScreenTo(boolean smallScreen)
+    public static void setScreenIsSmallTo(boolean isScreenSmall)
     {
-        ScreenProperties.smallScreen = smallScreen;
+        ScreenProperties.screenIsSmall = isScreenSmall;
     }
 
     /**
      * Returns true if the screen is small,
-     * i.e. has a width of less than 1200dp.
+     * i.e. has a width less than LARGE_SCREEN_WIDTH.
      * Otherwise, returns false
      */
     public static boolean isScreenSmall(Context aContext)
@@ -30,9 +36,8 @@ public class ScreenProperties
         // Gets the display metrics (such as screen density, width and height) of the Android device
 
         float screenWidthInDP = displayMetrics.widthPixels / displayMetrics.density;
-        // DP refers to density-independent pixels
 
-        return screenWidthInDP < 1200;
+        return screenWidthInDP < LARGE_SCREEN_WIDTH;
     }
 
 }

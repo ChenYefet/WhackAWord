@@ -65,7 +65,7 @@ public class WhackAWordActivity extends AppCompatActivity
         this.setContentView(R.layout.activity_whack_a_word);
         // Sets up the layout of the activity
 
-        ScreenProperties.setSmallScreenTo(ScreenProperties.isScreenSmall(this));
+        ScreenProperties.setScreenIsSmallTo(ScreenProperties.isScreenSmall(this));
         Collections.initialiseCollections();
         LevelProperties.initialiseLevelProperties();
         AnimationManager.initialiseAnimationProperties();
