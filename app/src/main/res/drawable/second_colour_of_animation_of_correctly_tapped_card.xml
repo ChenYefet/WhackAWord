@@ -8,7 +8,7 @@
                 android:startColor="#ED6AB8"
                 android:endColor="#FBFEAA"/>
             <stroke
-                android:width="5sp"
+                android:width="2.5sp"
                 android:color="@color/black"/>
             <size android:height="100dp"/>
         </shape>

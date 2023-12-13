@@ -76,7 +76,7 @@
     <FrameLayout
         android:id="@+id/card1"
         android:contentDescription="@string/card"
-        android:background="@drawable/card_for_small_screens"
+        android:background="@drawable/card"
         tools:showIn="@layout/activity_whack_a_word"
         android:layout_width="150dp"
         android:layout_height="200dp"
@@ -118,7 +118,7 @@
     <FrameLayout
         android:id="@+id/card2"
         android:contentDescription="@string/card"
-        android:background="@drawable/card_for_small_screens"
+        android:background="@drawable/card"
         tools:showIn="@layout/activity_whack_a_word"
         android:layout_width="150dp"
         android:layout_height="200dp"
@@ -160,7 +160,7 @@
     <FrameLayout
         android:id="@+id/card3"
         android:contentDescription="@string/card"
-        android:background="@drawable/card_for_small_screens"
+        android:background="@drawable/card"
         tools:showIn="@layout/activity_whack_a_word"
         android:layout_width="150dp"
         android:layout_height="200dp"
@@ -203,7 +203,7 @@
     <FrameLayout
         android:id="@+id/card4"
         android:contentDescription="@string/card"
-        android:background="@drawable/card_for_small_screens"
+        android:background="@drawable/card"
         tools:showIn="@layout/activity_whack_a_word"
         android:layout_width="150dp"
         android:layout_height="200dp"
@@ -246,7 +246,7 @@
     <FrameLayout
         android:id="@+id/card5"
         android:contentDescription="@string/card"
-        android:background="@drawable/card_for_small_screens"
+        android:background="@drawable/card"
         tools:showIn="@layout/activity_whack_a_word"
         android:layout_width="150dp"
         android:layout_height="200dp"

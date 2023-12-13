@@ -41,23 +41,12 @@ public class PositiveFeedbackAnimationManager extends AnimationManager
     {
         FrameLayout foodCardFrameLayout = aWhackAWordActivity.findViewById(aFoodCard.getID());
         Drawable originalDrawable = foodCardFrameLayout.getBackground();
-
         AnimationDrawable animationDrawable = new AnimationDrawable();
 
-        if (ScreenProperties.smallScreen)
-        {
-            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.first_colour_of_animation_of_correctly_tapped_card_for_small_screens)), 100);
-            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.second_colour_of_animation_of_correctly_tapped_card_for_small_screens)), 100);
-            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.third_colour_of_animation_of_correctly_tapped_card_for_small_screens)), 100);
-            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.fourth_colour_of_animation_of_correctly_tapped_card_for_small_screens)), 100);
-        }
-        else
-        {
-            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.first_colour_of_animation_of_correctly_tapped_card)), 100);
-            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.second_colour_of_animation_of_correctly_tapped_card)), 100);
-            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.third_colour_of_animation_of_correctly_tapped_card)), 100);
-            animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.fourth_colour_of_animation_of_correctly_tapped_card)), 100);
-        }
+        animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.first_colour_of_animation_of_correctly_tapped_card)), 100);
+        animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.second_colour_of_animation_of_correctly_tapped_card)), 100);
+        animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.third_colour_of_animation_of_correctly_tapped_card)), 100);
+        animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.fourth_colour_of_animation_of_correctly_tapped_card)), 100);
         // The colour changes every tenth of a second (100 milliseconds)
 
         // After the final tap of the game, the cards remain up for longer

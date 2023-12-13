@@ -21,7 +21,7 @@ public class ScreenProperties
 
     /**
      * Returns true if the screen is small,
-     * i.e. has a width of less than 1000dp.
+     * i.e. has a width of less than 1200dp.
      * Otherwise, returns false
      */
     public static boolean isScreenSmall(Context aContext)
@@ -32,7 +32,7 @@ public class ScreenProperties
         float screenWidthInDP = displayMetrics.widthPixels / displayMetrics.density;
         // DP refers to density-independent pixels
 
-        return screenWidthInDP < 1000;
+        return screenWidthInDP < 1200;
     }
 
 }

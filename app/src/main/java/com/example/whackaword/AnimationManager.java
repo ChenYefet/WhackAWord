@@ -205,8 +205,8 @@ public class AnimationManager extends DisplayManager
             amountTranslatedFromInitialPositionInPixels = -278; // For large screens
         }
         // Determines the translation amount based on screen width,
-        // since screens of width 1000dp and above have a different layout,
-        // as shown in app/src/main/res/layout-w1000dp/activity_whack_a_word.xml
+        // since screens of width 1200dp and above have a different layout,
+        // as shown in app/src/main/res/layout-w1200dp/activity_whack_a_word.xml
 
         amountTranslatedFromInitialPositionInDP = amountTranslatedFromInitialPositionInPixels * displayMetrics.density;
         // DP refers to density-independent pixels

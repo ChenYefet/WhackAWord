@@ -5,10 +5,10 @@
             <corners android:radius="16dp"/>
             <gradient
                 android:angle="270"
-                android:startColor="#ED6AB8"
-                android:endColor="#FBFEAA"/>
+                android:startColor="#A2DDFF"
+                android:endColor="#E2EAE6"/>
             <stroke
-                android:width="2.5sp"
+                android:width="5sp"
                 android:color="@color/black"/>
             <size android:height="100dp"/>
         </shape>
