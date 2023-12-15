@@ -75,6 +75,7 @@ public class TapManager
     private static void setClickListenerForFoodCard(WhackAWordActivity aWhackAWordActivity, FoodCard aFoodCard, boolean isCorrectFoodCard)
     {
         FrameLayout foodCardFrameLayout = aWhackAWordActivity.findViewById(aFoodCard.getID());
+
         foodCardFrameLayout.setOnClickListener(v ->
         {
             Collections.mapOfPopUpTimesToWhetherACardHasBeenTappedOnTime.put(AnimationManager.numberOfPopUpTimes, true);

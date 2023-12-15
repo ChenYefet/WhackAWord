@@ -17,9 +17,19 @@ import java.util.Objects;
  * The PositiveFeedbackAnimationManager class is responsible for
  * managing animations that provide positive feedback
  * in the Whack-A-Word game
+ *
+ * It contains two constant class variables:
+ * one for the duration of the card colours,
+ * and one for the degrees in a rotation (360),
+ * used for the rotation of the tick
  */
 public class PositiveFeedbackAnimationManager extends AnimationManager
 {
+    private static final int CARD_COLOUR_DURATION = 100;
+    // The card colour changes every tenth of a second (100 milliseconds)
+
+    public static final int DEGREES_IN_A_ROTATION = 360;
+
     /**
      * Conveys positive feedback by
      * playing a tick sound,
@@ -43,11 +53,13 @@ public class PositiveFeedbackAnimationManager extends AnimationManager
         Drawable originalDrawable = foodCardFrameLayout.getBackground();
         AnimationDrawable animationDrawable = new AnimationDrawable();
 
-        animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.first_colour_of_animation_of_correctly_tapped_card)), 100);
-        animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.second_colour_of_animation_of_correctly_tapped_card)), 100);
-        animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.third_colour_of_animation_of_correctly_tapped_card)), 100);
-        animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.fourth_colour_of_animation_of_correctly_tapped_card)), 100);
-        // The colour changes every tenth of a second (100 milliseconds)
+        animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.first_colour_of_animation_of_correctly_tapped_card)), CARD_COLOUR_DURATION);
+        animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.second_colour_of_animation_of_correctly_tapped_card)), CARD_COLOUR_DURATION);
+        animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.third_colour_of_animation_of_correctly_tapped_card)), CARD_COLOUR_DURATION);
+        animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.fourth_colour_of_animation_of_correctly_tapped_card)), CARD_COLOUR_DURATION);
+
+        int delayForNormalBackground = 1000;
+        int delayForNormalBackgroundAfterFinalTap = 4500;
 
         // After the final tap of the game, the cards remain up for longer
         // than after previous taps of the game, so ...
@@ -57,15 +69,15 @@ public class PositiveFeedbackAnimationManager extends AnimationManager
         // ... if this is the final tap of the game ...
 
         {
-            new Handler().postDelayed(() -> foodCardFrameLayout.setBackground(originalDrawable), 4000);
+            new Handler().postDelayed(() -> foodCardFrameLayout.setBackground(originalDrawable), delayForNormalBackgroundAfterFinalTap);
             // ... delay setting the card's background back to normal
-            // by four seconds (4000 milliseconds),
+            // by four and a half seconds (4500 milliseconds),
             // so that it would be animated for all the time that it is up ...
 
         }
         else
         {
-            new Handler().postDelayed(() -> foodCardFrameLayout.setBackground(originalDrawable), 1000);
+            new Handler().postDelayed(() -> foodCardFrameLayout.setBackground(originalDrawable), delayForNormalBackground);
             // ... otherwise delay setting the card's background back to normal
             // by only one second (1000 milliseconds),
             // so that not only would it be animated for all the time that it is up,
@@ -87,6 +99,10 @@ public class PositiveFeedbackAnimationManager extends AnimationManager
     private static void displayAnimatedTick(WhackAWordActivity aWhackAWordActivity)
     {
         ImageView tick = aWhackAWordActivity.findViewById(R.id.tick);
+        int originalSize = 1;
+        int numberOfRotations = 10;
+        int translationDistanceInPixels = 1000;
+
         tick.setVisibility(View.VISIBLE);
 
         tick.setRotation(0);
@@ -119,22 +135,36 @@ public class PositiveFeedbackAnimationManager extends AnimationManager
         // so that the tick is horizontally and vertically stretched
         // upon the first time this method is called
 
-        ObjectAnimator horizontalStretch = ObjectAnimator.ofFloat(tick, "scaleX", 1);
-        ObjectAnimator verticalStretch = ObjectAnimator.ofFloat(tick, "scaleY", 1);
+        ObjectAnimator horizontalStretch = ObjectAnimator.ofFloat(tick, "scaleX", originalSize);
+        ObjectAnimator verticalStretch = ObjectAnimator.ofFloat(tick, "scaleY", originalSize);
         ObjectAnimator horizontalShrinkage = ObjectAnimator.ofFloat(tick, "scaleX", 0);
         ObjectAnimator verticalShrinkage = ObjectAnimator.ofFloat(tick, "scaleY", 0);
-        ObjectAnimator rotation = ObjectAnimator.ofFloat(tick, "rotation", 3600);
-        ObjectAnimator translation = ObjectAnimator.ofFloat(tick, "translationY", 1000);
+        ObjectAnimator rotation = ObjectAnimator.ofFloat(tick, "rotation", DEGREES_IN_A_ROTATION * numberOfRotations);
+        ObjectAnimator translation = ObjectAnimator.ofFloat(tick, "translationY", translationDistanceInPixels);
 
         AnimatorSet firstTwoAnimations = new AnimatorSet();
         AnimatorSet lastFourAnimations = new AnimatorSet();
         AnimatorSet wholeAnimation = new AnimatorSet();
 
+        int durationOfFirstTwoAnimations = 500;
+        // The first two animations last for half a second (500 milliseconds)
+
+        int durationOfLastFourAnimations = 1000;
+        // The last four animations last for one second (1000 milliseconds)
+
+        int durationOfEnlargedTick = 500;
+        // An enlarged tick is shown for half a second (500 milliseconds)
+        // at the conclusion of the first two animations,
+        // right before the last four animations start playing,
+        // due to the delay of this duration
+        // that is set on the last four animations
+        // via the setStartDelay method
+
         firstTwoAnimations.playTogether(horizontalStretch, verticalStretch);
-        firstTwoAnimations.setDuration(500);
+        firstTwoAnimations.setDuration(durationOfFirstTwoAnimations);
         lastFourAnimations.playTogether(rotation, translation, horizontalShrinkage, verticalShrinkage);
-        lastFourAnimations.setDuration(1000); // The animations last for one second (1000 milliseconds)
-        lastFourAnimations.setStartDelay(500);
+        lastFourAnimations.setDuration(durationOfLastFourAnimations);
+        lastFourAnimations.setStartDelay(durationOfEnlargedTick);
 
         wholeAnimation.playSequentially(firstTwoAnimations, lastFourAnimations);
         wholeAnimation.start();

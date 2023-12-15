@@ -117,7 +117,7 @@ public class WhackAWordActivity extends AppCompatActivity
         }
         else
         {
-            AnimationManager.hideCards(aWhackAWordActivity);
+            AnimationManager.hideCards(aWhackAWordActivity, true);
             Collections.availableFoodItems = new ArrayList<>(Collections.foodItems);
             Collections.mapOfFoodItemsToTheirFoodCards = new HashMap<>();
             Selector.thereAreNewFoodItems = true;
@@ -131,7 +131,7 @@ public class WhackAWordActivity extends AppCompatActivity
      */
     public static void tryAgain(WhackAWordActivity aWhackAWordActivity)
     {
-        AnimationManager.hideCards(aWhackAWordActivity);
+        AnimationManager.hideCards(aWhackAWordActivity, false);
 
         Collections.mapOfFoodItemsToTheirFoodCards.replaceAll(((foodItem, hiddenFoodCard) -> null));
         // Keeps all FoodItem keys in the map while setting all their FoodCard values to null

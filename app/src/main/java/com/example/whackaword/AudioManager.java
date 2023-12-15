@@ -7,7 +7,8 @@ import android.os.Handler;
 /**
  * The AudioManager class is responsible for managing audio playback in the Whack-A-Word game
  *
- * It contains two class variables:
+ * It contains a constant class variable for the background music volume,
+ * as well as two other class variables:
  *
  * mediaPlayerForSequentialAudio, which maintains a reference to
  * the currently playing MediaPlayer that deals with
@@ -19,6 +20,8 @@ import android.os.Handler;
  */
 public class AudioManager
 {
+    private static final float BACKGROUND_MUSIC_VOLUME = 0.4f;
+
     private static MediaPlayer mediaPlayerForSequentialAudio;
     private static MediaPlayer mediaPlayerForBackgroundMusic;
 
@@ -29,7 +32,7 @@ public class AudioManager
     {
         AudioManager.mediaPlayerForBackgroundMusic = MediaPlayer.create(aContext, R.raw.background_music);
         mediaPlayerForBackgroundMusic.setLooping(true);
-        mediaPlayerForBackgroundMusic.setVolume(0.4f,0.4f);
+        mediaPlayerForBackgroundMusic.setVolume(BACKGROUND_MUSIC_VOLUME,BACKGROUND_MUSIC_VOLUME);
         mediaPlayerForBackgroundMusic.start();
     }
 
@@ -40,6 +43,7 @@ public class AudioManager
     public static void playAudioConcurrently(Context aContext, int audioID)
     {
         MediaPlayer mediaPlayerForConcurrentAudio = MediaPlayer.create(aContext, audioID);
+
         mediaPlayerForConcurrentAudio.setOnCompletionListener(mp ->
         {
             mediaPlayerForConcurrentAudio.release();
@@ -68,9 +72,9 @@ public class AudioManager
      */
     public static void playPopUpSoundEffect(WhackAWordActivity aWhackAWordActivity)
     {
-        long audioDelayForFirstCard = 550;
-        // A delay of eleven twentieths of a second (550 milliseconds)
-        // allows for best synchronisation with the 'pop up' animation for the first card
+        long audioDelayForFirstCard = 10;
+        // There is a bug. If the delay is 9, the pop-up sound effect plays too fast,
+        // while if the delay is 10, it plays too slow. To be fixed.
 
         long audioDelayForSecondCardOnwards = 800;
         // A delay of four fifths of a second (800 milliseconds)
@@ -120,6 +124,7 @@ public class AudioManager
         {
             int audioID = Collections.audioQueue.poll();
             AudioManager.mediaPlayerForSequentialAudio = MediaPlayer.create(aWhackAWordActivity, audioID);
+
             AudioManager.mediaPlayerForSequentialAudio.setOnCompletionListener(mp ->
             {
                 AudioManager.mediaPlayerForSequentialAudio.release();
@@ -132,11 +137,28 @@ public class AudioManager
 
                 if (LevelProperties.userWins() && audioID == R.raw.well_done)
                 {
-                    AnimationManager.hideCards(aWhackAWordActivity);
+                    AnimationManager.hideCards(aWhackAWordActivity, true);
                 }
 
             });
 
+            AudioManager.startSequentialPlayback(audioID);
+        }
+
+    }
+
+    /**
+     * Helper method that starts playing an audio file
+     * using mediaPlayerForSequentialAudio.
+     * Creates a Runnable for audio playback
+     * and schedules it with a delay if the first card is about to pop up.
+     * If the audio ID is that of a food item,
+     * adjusts the background music during playback
+     */
+    private static void startSequentialPlayback(int audioID)
+    {
+        Runnable audioPlaybackRunnable = () ->
+        {
             AudioManager.mediaPlayerForSequentialAudio.start();
 
             if (Collections.foodItemAudioIDs.contains(audioID))
@@ -145,6 +167,19 @@ public class AudioManager
             }
             // Lowers the volume of the background music during audio playback of a correct food item
 
+        };
+
+        if (AnimationManager.firstCardIsAboutToPopUp)
+        {
+            int audioDelayForFirstCorrectFoodItem = 2000;
+            // The delay before playing the audio of the first correct food item
+            // is two seconds (2000 milliseconds)
+
+            new Handler().postDelayed(audioPlaybackRunnable, audioDelayForFirstCorrectFoodItem);
+        }
+        else
+        {
+            audioPlaybackRunnable.run();
         }
 
     }
@@ -159,20 +194,18 @@ public class AudioManager
 
     /**
      * Lowers background music after a delay of three tenths of a second (300 milliseconds),
-     * and heightens background music after a further delay of half a second (500 milliseconds)
+     * and sets it back to normal
+     * after a further delay of half a second (500 milliseconds)
      */
     private static void adjustBackgroundMusicVolume()
     {
         float lowVolumeLevel = 0.1f;
-        float highVolumeLevel = 0.4f;
-
         int delayForVolumeDecrease = 300;
         int durationOfVolumeDecrease = 500;
-
         int delayForVolumeIncrease = delayForVolumeDecrease + durationOfVolumeDecrease;
 
         new Handler().postDelayed(() -> AudioManager.mediaPlayerForBackgroundMusic.setVolume(lowVolumeLevel, lowVolumeLevel), delayForVolumeDecrease);
-        new Handler().postDelayed(() -> AudioManager.mediaPlayerForBackgroundMusic.setVolume(highVolumeLevel, highVolumeLevel), delayForVolumeIncrease);
+        new Handler().postDelayed(() -> AudioManager.mediaPlayerForBackgroundMusic.setVolume(BACKGROUND_MUSIC_VOLUME, BACKGROUND_MUSIC_VOLUME), delayForVolumeIncrease);
     }
 
 }

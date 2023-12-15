@@ -44,7 +44,7 @@ The abstract class <span style ="font-family: Courier New">`VocabularyItem`</spa
 The <span style ="font-family: Courier New">`FoodItem`</span> class is a subclass of <span style ="font-family: Courier New">`VocabularyItem`</span> with a constant instance variable for the ID of its image, as objects of the <span style ="font-family: Courier New">`FoodItem`</span> class are modelled as having an image.
 
 ### The <span style ="font-family: Courier New">`Collections`</span> class
-The <span style ="font-family: Courier New">`Collections`</span> class is responsible for managing collections, containing class variables for the available food items, the available food cards, the food items that have been correctly tapped, a map of food items that are set for display to the food cards upon which they are set to be displayed, and more.
+The <span style ="font-family: Courier New">`Collections`</span> class is responsible for managing collections, containing class variables for the available food items, the available food cards, the food items that have been correctly tapped, an audio queue which is used to store audio IDs and allow for the management of audio files in a 'first-in, first-out' (FIFO) manner so that they are played in a sequential order (rather than concurrently), and more.
 
 ### The <span style ="font-family: Courier New">`LevelProperties`</span> class
 The <span style ="font-family: Courier New">`LevelProperties`</span> class is responsible for managing the properties of levels, such as the current level, the number of cards to display, and the count of successful taps. It contains constant class variables for the last level of the game, the required number of successful taps per level, and the number of cards to display for each of the levels.
@@ -56,7 +56,7 @@ The <span style ="font-family: Courier New">`ScreenProperties`</span> class is r
 The <span style ="font-family: Courier New">`Selector`</span> class is responsible for selecting which food items belong to which food cards during gameplay. It ensures that the chosen food items align with the game's rules as described above.
 
 ### The <span style ="font-family: Courier New">`AudioManager`</span> class
-The <span style ="font-family: Courier New">`AudioManager`</span> class is responsible for managing audio playback. It contains a class variable for the currently playing media player, which is necessary to control the playback of audio across different method calls; and a class variable for the audio queue, which is used to store audio IDs and allow for the management of audio files in a 'first-in, first-out' (FIFO) manner so that they are played in a sequential order (rather than concurrently).
+The <span style ="font-family: Courier New">`AudioManager`</span> class is responsible for managing audio playback. It contains a constant class variable for the background music volume, as well as two other class variables: one that deals with the playback of audio in sequence, and another that deals with the playback of background music.
 
 ### The <span style ="font-family: Courier New">`TapManager`</span> class
 The <span style ="font-family: Courier New">`TapManager`</span> class is responsible for handling user interactions during gameplay. It allows the user to receive appropriate feedback upon tapping correct or incorrect food cards.
@@ -65,10 +65,10 @@ The <span style ="font-family: Courier New">`TapManager`</span> class is respons
 The <span style ="font-family: Courier New">`DisplayManager`</span> class is responsible for displaying food items on food cards.
 
 ### The <span style ="font-family: Courier New">`AnimationManager`</span> class
-The <span style ="font-family: Courier New">`AnimationManager`</span> class is responsible for managing animations.
+The <span style ="font-family: Courier New">`AnimationManager`</span> class is responsible for managing animations. It contains constant class variables for managing time- and space-related animation properties, such as durations, delays, and translations, as well as other class variables for keeping track of animation properties that allow for an enhanced visual experience.
 
 ### The <span style ="font-family: Courier New">`PositiveFeedbackAnimationManager`</span> class
-The <span style ="font-family: Courier New">`PositiveFeedbackAnimationManager`</span> class is responsible for managing animations that provide positive feedback.
+The <span style ="font-family: Courier New">`PositiveFeedbackAnimationManager`</span> class is responsible for managing animations that provide positive feedback. It contains a constant class variable for the duration of the card colours which continuously change as positive feedback is being conveyed upon the tap of a correct food card. It also contains a constant class variable for the degrees in a rotation (360), created for the sake of clarity and used for the tick's rotation.
 
 ## Illustrations
 ### Tablet
