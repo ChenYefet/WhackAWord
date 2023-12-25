@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * The AnimationManager class is responsible for managing animations
@@ -122,12 +123,15 @@ public class AnimationManager extends DisplayManager
      * Causes each card on display to hide,
      * with a delay for when a correct card was tapped,
      * and clears their click listeners.
-     * While the cards are hidden, displays food items on them
+     * While the cards are hidden, displays food items on them,
+     * using a CountDownLatch to ensure that this happens only after the last card has been hidden
      */
     public static void hideCards(WhackAWordActivity aWhackAWordActivity, boolean correctFoodCardWasTapped)
     {
         float amountTranslatedFromInitialPosition = 0;
         // 'Initial position' refers to the position of the card before runtime
+
+        CountDownLatch countDownLatch = new CountDownLatch(Collections.mapOfFoodItemsToTheirFoodCards.size());
 
         for (FoodItem foodItem : Collections.mapOfFoodItemsToTheirFoodCards.keySet())
         {
@@ -147,9 +151,15 @@ public class AnimationManager extends DisplayManager
                 @Override
                 public void onAnimationEnd(Animator animation)
                 {
-                    DisplayManager.displayFoodItemsOnCards(aWhackAWordActivity);
+                    countDownLatch.countDown();
+
+                    if (countDownLatch.getCount() == 0) // I.e. If there are no more cards to be hidden
+                    {
+                        DisplayManager.displayFoodItemsOnCards(aWhackAWordActivity);
+                    }
+
                 }
-                // When the animation has ended, the cards have gone into their holes,
+                // When the animations have ended, the cards have gone into their holes,
                 // so the onAnimationEnd method ensures that
                 // when the food cards change their food items,
                 // this change happens out of sight of the user
