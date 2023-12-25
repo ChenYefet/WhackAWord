@@ -169,19 +169,12 @@ public class AudioManager
 
         };
 
-        if (AnimationManager.firstCardIsAboutToPopUp)
-        {
-            int audioDelayForFirstCorrectFoodItem = 2000;
-            // The delay before playing the audio of the first correct food item
-            // is two seconds (2000 milliseconds)
+        int audioDelay = AnimationManager.firstCardIsAboutToPopUp ? 2000 : 0;
+        // The delay before playing the audio of the first correct food item
+        // is two seconds (2000 milliseconds),
+        // otherwise there is no delay
 
-            new Handler().postDelayed(audioPlaybackRunnable, audioDelayForFirstCorrectFoodItem);
-        }
-        else
-        {
-            audioPlaybackRunnable.run();
-        }
-
+        new Handler().postDelayed(audioPlaybackRunnable, audioDelay);
     }
 
     /**
