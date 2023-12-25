@@ -46,50 +46,62 @@ public class PositiveFeedbackAnimationManager extends AnimationManager
     /**
      * Causes the card colour to change continuously
      * for as long as the card is up
+     *
+     * Since cards remain up for longer
+     * after the final tap of the game,
+     * delays setting the card's background back to normal
+     * by four and a half seconds (4500 milliseconds)
+     * in that instance
+     * so that it would be animated for all the time that it is up;
+     * otherwise (if it's not the final tap of the game),
+     * delays setting the card's background back to normal
+     * by only one second (1000 milliseconds)
+     * so that not only would it be animated for all the time that it is up,
+     * but the next card coming out of that hole
+     * would not show an animated background
+     * for any amount of time
      */
     private static void continuouslyChangeCardColour(WhackAWordActivity aWhackAWordActivity, FoodCard aFoodCard)
     {
         FrameLayout foodCardFrameLayout = aWhackAWordActivity.findViewById(aFoodCard.getID());
         Drawable originalDrawable = foodCardFrameLayout.getBackground();
+        AnimationDrawable animationDrawableForContinuouslyChangingCardColour = PositiveFeedbackAnimationManager.createAnimationDrawableForContinuouslyChangingCardColour(aWhackAWordActivity);
+
+        int delayAfterFinalTap = 4500;
+        int delayAfterNonFinalTap = 1000;
+
+        int delayForNormalBackground = LevelProperties.userWins() ? delayAfterFinalTap : delayAfterNonFinalTap;
+
+        new Handler().postDelayed(() -> foodCardFrameLayout.setBackground(originalDrawable), delayForNormalBackground);
+
+        foodCardFrameLayout.setBackground(animationDrawableForContinuouslyChangingCardColour);
+        animationDrawableForContinuouslyChangingCardColour.start();
+    }
+
+    /**
+     * Creates and returns an AnimationDrawable
+     * with frames of different colours
+     * that last for CARD_COLOUR_DURATION milliseconds
+     */
+    private static AnimationDrawable createAnimationDrawableForContinuouslyChangingCardColour(WhackAWordActivity aWhackAWordActivity)
+    {
         AnimationDrawable animationDrawable = new AnimationDrawable();
 
-        animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.first_colour_of_animation_of_correctly_tapped_card)), CARD_COLOUR_DURATION);
-        animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.second_colour_of_animation_of_correctly_tapped_card)), CARD_COLOUR_DURATION);
-        animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.third_colour_of_animation_of_correctly_tapped_card)), CARD_COLOUR_DURATION);
-        animationDrawable.addFrame(Objects.requireNonNull(ContextCompat.getDrawable(aWhackAWordActivity, R.drawable.fourth_colour_of_animation_of_correctly_tapped_card)), CARD_COLOUR_DURATION);
+        int[] drawableIDs =
+                {
+                        R.drawable.first_colour_of_animation_of_correctly_tapped_card,
+                        R.drawable.second_colour_of_animation_of_correctly_tapped_card,
+                        R.drawable.third_colour_of_animation_of_correctly_tapped_card,
+                        R.drawable.fourth_colour_of_animation_of_correctly_tapped_card
+                };
 
-        int delayForNormalBackground = 1000;
-        int delayForNormalBackgroundAfterFinalTap = 4500;
-
-        // After the final tap of the game, the cards remain up for longer
-        // than after previous taps of the game, so ...
-
-        if (LevelProperties.userWins())
-
-        // ... if this is the final tap of the game ...
-
+        for (int ID : drawableIDs)
         {
-            new Handler().postDelayed(() -> foodCardFrameLayout.setBackground(originalDrawable), delayForNormalBackgroundAfterFinalTap);
-            // ... delay setting the card's background back to normal
-            // by four and a half seconds (4500 milliseconds),
-            // so that it would be animated for all the time that it is up ...
-
-        }
-        else
-        {
-            new Handler().postDelayed(() -> foodCardFrameLayout.setBackground(originalDrawable), delayForNormalBackground);
-            // ... otherwise delay setting the card's background back to normal
-            // by only one second (1000 milliseconds),
-            // so that not only would it be animated for all the time that it is up,
-            // but the next card coming out of that hole
-            // would not show an animated background
-            // for any amount of time
-
+            Drawable drawable = ContextCompat.getDrawable(aWhackAWordActivity, ID);
+            animationDrawable.addFrame(Objects.requireNonNull(drawable), CARD_COLOUR_DURATION);
         }
 
-        foodCardFrameLayout.setBackground(animationDrawable);
-
-        animationDrawable.start();
+        return animationDrawable;
     }
 
     /**
