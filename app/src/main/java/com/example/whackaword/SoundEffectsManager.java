@@ -81,9 +81,12 @@ public class SoundEffectsManager
      */
     public static void playTickSoundEffect()
     {
-        long delayForTickSoundEffect = PositiveFeedbackAnimationManager.DURATION_OF_TICK_ENLARGEMENT;
-        // A delay of DURATION_OF_TICK_ENLARGEMENT allows the tick sound effect
-        // to play while the tick is enlarged
+        int offsetForTickEnlargementDelay = 100;
+
+        long delayForTickSoundEffect = PositiveFeedbackAnimationManager.DURATION_OF_TICK_ENLARGEMENT - offsetForTickEnlargementDelay;
+        // This delay allows the tick sound effect
+        // to play at the perfect time,
+        // just as the tick has just become enlarged
 
         SoundEffectsManager.playSoundEffect(SoundEffectsManager.tickSoundID, delayForTickSoundEffect);
     }
