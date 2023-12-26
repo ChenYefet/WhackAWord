@@ -59,7 +59,7 @@ The <span style ="font-family: Courier New">`Selector`</span> class is responsib
 The <span style ="font-family: Courier New">`AudioManager`</span> class is responsible for managing audio playback. It contains a constant class variable for the background music volume, as well as two other class variables: one that deals with the playback of audio in sequence, and another that deals with the playback of background music.
 
 ### The <span style ="font-family: Courier New">`TapManager`</span> class
-The <span style ="font-family: Courier New">`TapManager`</span> class is responsible for handling user interactions during gameplay. It allows the user to receive appropriate feedback upon tapping correct or incorrect food cards.
+The <span style ="font-family: Courier New">`TapManager`</span> class is responsible for handling user interactions during gameplay. It allows the user to receive appropriate feedback upon tapping correct or incorrect food cards, and contains a class variable to keep track of when a correct food card was just tapped.
 
 ### The <span style ="font-family: Courier New">`DisplayManager`</span> class
 The <span style ="font-family: Courier New">`DisplayManager`</span> class is responsible for displaying food items on food cards.
@@ -68,7 +68,7 @@ The <span style ="font-family: Courier New">`DisplayManager`</span> class is res
 The <span style ="font-family: Courier New">`AnimationManager`</span> class is responsible for managing animations. It contains constant class variables for managing time- and space-related animation properties, such as durations, delays, and translations, as well as other class variables for keeping track of animation properties that allow for an enhanced visual experience.
 
 ### The <span style ="font-family: Courier New">`PositiveFeedbackAnimationManager`</span> class
-The <span style ="font-family: Courier New">`PositiveFeedbackAnimationManager`</span> class is responsible for managing animations that provide positive feedback. It contains a constant class variable for the duration of the card colours which continuously change as positive feedback is being conveyed upon the tap of a correct food card. It also contains a constant class variable for the degrees in a rotation (360), created for the sake of clarity and used for the tick's rotation.
+The <span style ="font-family: Courier New">`PositiveFeedbackAnimationManager`</span> class is responsible for managing animations that provide positive feedback. It contains constant class variables for durations within positive feedback animations, as well as a constant class variable for the degrees in a rotation (360), created for the sake of clarity and used for the tick's rotation.
 
 ## Illustrations
 ### Tablet

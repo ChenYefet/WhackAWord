@@ -69,6 +69,7 @@ public class WhackAWordActivity extends AppCompatActivity
         Collections.initialiseCollections();
         LevelProperties.initialiseLevelProperties();
         AnimationManager.initialiseAnimationProperties();
+        SoundEffectsManager.initialiseSoundPool(this);
         Selector.thereAreNewFoodItems = true;
 
         AnimationManager.animateSky(this);
@@ -117,7 +118,7 @@ public class WhackAWordActivity extends AppCompatActivity
         }
         else
         {
-            AnimationManager.hideCards(aWhackAWordActivity, true);
+            AnimationManager.hideCards(aWhackAWordActivity);
             Collections.availableFoodItems = new ArrayList<>(Collections.foodItems);
             Collections.mapOfFoodItemsToTheirFoodCards = new HashMap<>();
             Selector.thereAreNewFoodItems = true;
@@ -131,7 +132,7 @@ public class WhackAWordActivity extends AppCompatActivity
      */
     public static void tryAgain(WhackAWordActivity aWhackAWordActivity)
     {
-        AnimationManager.hideCards(aWhackAWordActivity, false);
+        AnimationManager.hideCards(aWhackAWordActivity);
 
         Collections.mapOfFoodItemsToTheirFoodCards.replaceAll(((foodItem, hiddenFoodCard) -> null));
         // Keeps all FoodItem keys in the map while setting all their FoodCard values to null

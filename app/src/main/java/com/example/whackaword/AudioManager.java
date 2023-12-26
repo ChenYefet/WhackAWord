@@ -20,8 +20,7 @@ import android.os.Handler;
  */
 public class AudioManager
 {
-    private static final float BACKGROUND_MUSIC_VOLUME = 0.4f;
-
+    private static final float BACKGROUND_MUSIC_VOLUME = 0.3f;
     private static MediaPlayer mediaPlayerForSequentialAudio;
     private static MediaPlayer mediaPlayerForBackgroundMusic;
 
@@ -37,24 +36,6 @@ public class AudioManager
     }
 
     /**
-     * Plays an audio file
-     * concurrently with other audio playback
-     */
-    public static void playAudioConcurrently(Context aContext, int audioID)
-    {
-        MediaPlayer mediaPlayerForConcurrentAudio = MediaPlayer.create(aContext, audioID);
-
-        mediaPlayerForConcurrentAudio.setOnCompletionListener(mp ->
-        {
-            mediaPlayerForConcurrentAudio.release();
-            // Releases the media player to free up resources
-
-        });
-
-        mediaPlayerForConcurrentAudio.start();
-    }
-
-    /**
      * Adds an audio file to the audio queue
      * and implements sequential playback
      */
@@ -62,33 +43,6 @@ public class AudioManager
     {
         Collections.audioQueue.add(audioID);
         AudioManager.implementSequentialPlayback(aWhackAWordActivity);
-    }
-
-    /**
-     * Plays the cards pop up sound effect
-     * concurrently with other audio playback,
-     * after a delay that causes the audio to
-     * synchronise with the cards pop up animation
-     */
-    public static void playPopUpSoundEffect(WhackAWordActivity aWhackAWordActivity)
-    {
-        long audioDelayForFirstCard = 10;
-        // There is a bug. If the delay is 9, the pop-up sound effect plays too fast,
-        // while if the delay is 10, it plays too slow. To be fixed.
-
-        long audioDelayForSecondCardOnwards = 800;
-        // A delay of four fifths of a second (800 milliseconds)
-        // allows for best synchronisation with the 'pop up' animation for the second card onwards
-
-        if (AnimationManager.firstCardIsAboutToPopUp)
-        {
-            AudioManager.playAudioAfterDelay(aWhackAWordActivity, R.raw.cards_pop_up, audioDelayForFirstCard);
-        }
-        else
-        {
-            AudioManager.playAudioAfterDelay(aWhackAWordActivity, R.raw.cards_pop_up, audioDelayForSecondCardOnwards);
-        }
-
     }
 
     /**
@@ -137,7 +91,7 @@ public class AudioManager
 
                 if (LevelProperties.userWins() && audioID == R.raw.well_done)
                 {
-                    AnimationManager.hideCards(aWhackAWordActivity, true);
+                    AnimationManager.hideCards(aWhackAWordActivity);
                 }
 
             });
@@ -169,20 +123,12 @@ public class AudioManager
 
         };
 
-        int audioDelay = AnimationManager.firstCardIsAboutToPopUp ? 2000 : 0;
+        int audioDelay = AnimationManager.firstCardIsAboutToPopUp ? 2000 : 800;
         // The delay before playing the audio of the first correct food item
         // is two seconds (2000 milliseconds),
-        // otherwise there is no delay
+        // otherwise it is four fifths of a second (800 milliseconds)
 
         new Handler().postDelayed(audioPlaybackRunnable, audioDelay);
-    }
-
-    /**
-     * Helper method that plays an audio file after a delay
-     */
-    private static void playAudioAfterDelay(WhackAWordActivity aWhackAWordActivity, int anAudioID, long delay)
-    {
-        new Handler().postDelayed(() -> AudioManager.playAudioConcurrently(aWhackAWordActivity, anAudioID), delay);
     }
 
     /**

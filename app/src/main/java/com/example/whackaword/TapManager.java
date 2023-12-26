@@ -9,9 +9,18 @@ import java.util.HashSet;
  * during gameplay in the Whack-A-Word game.
  * It allows the user to receive appropriate feedback
  * upon tapping a correct or incorrect food cards
+ *
+ * It contains one class variable:
+ *
+ * correctFoodCardWasJustTapped, which keeps track of
+ * when a correct food card was just tapped.
+ * This variable is set to false when cards are about to pop up,
+ * but set to true when a correct food card was just tapped
  */
 public class TapManager
 {
+    public static boolean correctFoodCardWasJustTapped;
+
     /**
      * Sets the click listeners for
      * all the food cards that are set for display
@@ -82,6 +91,7 @@ public class TapManager
 
             if (isCorrectFoodCard)
             {
+                TapManager.correctFoodCardWasJustTapped = true;
                 LevelProperties.countOfSuccessfulTaps++;
                 Collections.correctlyTappedFoodItems.add(aFoodCard.getFoodItem());
 

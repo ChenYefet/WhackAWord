@@ -18,13 +18,18 @@ import java.util.Objects;
  * managing animations that provide positive feedback
  * in the Whack-A-Word game
  *
- * It contains two constant class variables:
- * one for the duration of the card colours,
- * and one for the degrees in a rotation (360),
+ * It contains constant class variables for durations within positive feedback animations,
+ * as well as a constant class variable for the degrees in a rotation (360),
  * used for the rotation of the tick
  */
 public class PositiveFeedbackAnimationManager extends AnimationManager
 {
+    public static final int DURATION_OF_TICK_ENLARGEMENT = 500;
+    // The tick takes half a second (500 milliseconds) to fully enlarge
+
+    public static final int DURATION_OF_TICK_DISAPPEARANCE = 1000;
+    // The tick takes a second (1000 milliseconds) to fully disappear
+
     private static final int CARD_COLOUR_DURATION = 100;
     // The card colour changes every tenth of a second (100 milliseconds)
 
@@ -38,7 +43,6 @@ public class PositiveFeedbackAnimationManager extends AnimationManager
      */
     public static void conveyPositiveFeedback(WhackAWordActivity aWhackAWordActivity, FoodCard aFoodCard)
     {
-        AudioManager.playAudioSequentially(aWhackAWordActivity, R.raw.correct);
         PositiveFeedbackAnimationManager.displayAnimatedTick(aWhackAWordActivity);
         PositiveFeedbackAnimationManager.continuouslyChangeCardColour(aWhackAWordActivity, aFoodCard);
     }
@@ -158,12 +162,6 @@ public class PositiveFeedbackAnimationManager extends AnimationManager
         AnimatorSet lastFourAnimations = new AnimatorSet();
         AnimatorSet wholeAnimation = new AnimatorSet();
 
-        int durationOfFirstTwoAnimations = 500;
-        // The first two animations last for half a second (500 milliseconds)
-
-        int durationOfLastFourAnimations = 1000;
-        // The last four animations last for one second (1000 milliseconds)
-
         int durationOfEnlargedTick = 500;
         // An enlarged tick is shown for half a second (500 milliseconds)
         // at the conclusion of the first two animations,
@@ -173,13 +171,14 @@ public class PositiveFeedbackAnimationManager extends AnimationManager
         // via the setStartDelay method
 
         firstTwoAnimations.playTogether(horizontalStretch, verticalStretch);
-        firstTwoAnimations.setDuration(durationOfFirstTwoAnimations);
+        firstTwoAnimations.setDuration(DURATION_OF_TICK_ENLARGEMENT);
         lastFourAnimations.playTogether(rotation, translation, horizontalShrinkage, verticalShrinkage);
-        lastFourAnimations.setDuration(durationOfLastFourAnimations);
+        lastFourAnimations.setDuration(DURATION_OF_TICK_DISAPPEARANCE);
         lastFourAnimations.setStartDelay(durationOfEnlargedTick);
 
         wholeAnimation.playSequentially(firstTwoAnimations, lastFourAnimations);
         wholeAnimation.start();
+        SoundEffectsManager.playTickSoundEffect();
     }
 
 }

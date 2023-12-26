@@ -38,7 +38,7 @@ public class AnimationManager extends DisplayManager
     // The animation for cards popping up or hiding lasts for half a second (500 milliseconds)
 
     private static final int POP_UP_ANIMATION_DELAY = 1450;
-    private static final int HIDE_CARDS_ANIMATION_DELAY = 400;
+    public static final int HIDE_CARDS_ANIMATION_DELAY_WHEN_CORRECT_FOOD_CARD_IS_TAPPED = 400;
     // The delay before starting the pop-up animation (after the start() method is called)
     // is one and nine twentieths seconds (1450 milliseconds),
     // while the delay before starting the hide cards animation (after the start() method is called)
@@ -108,7 +108,9 @@ public class AnimationManager extends DisplayManager
             animation.start();
         }
 
-        AudioManager.playPopUpSoundEffect(aWhackAWordActivity);
+        TapManager.correctFoodCardWasJustTapped = false;
+
+        SoundEffectsManager.playPopUpSoundEffect();
 
         AnimationManager.numberOfPopUpTimes++;
 
@@ -120,13 +122,14 @@ public class AnimationManager extends DisplayManager
     }
 
     /**
-     * Causes each card on display to hide,
+     * Causes each card on display to hide
+     * while playing the hide cards sound effect,
      * with a delay for when a correct card was tapped,
      * and clears their click listeners.
      * While the cards are hidden, displays food items on them,
      * using a CountDownLatch to ensure that this happens only after the last card has been hidden
      */
-    public static void hideCards(WhackAWordActivity aWhackAWordActivity, boolean correctFoodCardWasTapped)
+    public static void hideCards(WhackAWordActivity aWhackAWordActivity)
     {
         float amountTranslatedFromInitialPosition = 0;
         // 'Initial position' refers to the position of the card before runtime
@@ -141,9 +144,9 @@ public class AnimationManager extends DisplayManager
 
             animation.setDuration(HIDE_CARDS_ANIMATION_DURATION);
 
-            if (correctFoodCardWasTapped)
+            if (TapManager.correctFoodCardWasJustTapped)
             {
-                animation.setStartDelay(HIDE_CARDS_ANIMATION_DELAY);
+                animation.setStartDelay(HIDE_CARDS_ANIMATION_DELAY_WHEN_CORRECT_FOOD_CARD_IS_TAPPED);
             }
 
             animation.addListener(new AnimatorListenerAdapter()
@@ -169,7 +172,7 @@ public class AnimationManager extends DisplayManager
             animation.start();
         }
 
-        AudioManager.playAudioConcurrently(aWhackAWordActivity, R.raw.hide_cards);
+        SoundEffectsManager.playHideCardsSoundEffect();
 
         Collections.availableFoodCards = new ArrayList<>(Collections.foodCards);
 
