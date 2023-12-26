@@ -89,23 +89,7 @@ public class AnimationManager extends DisplayManager
 
         for (FoodItem foodItem : Collections.mapOfFoodItemsToTheirFoodCards.keySet())
         {
-            FoodCard foodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(foodItem);
-            FrameLayout foodCardFrameLayout = aWhackAWordActivity.findViewById(foodCard.getID());
-            ObjectAnimator animation = ObjectAnimator.ofFloat(foodCardFrameLayout, "translationY", AnimationManager.getUpwardsTranslation(aWhackAWordActivity));
-
-            animation.setDuration(POP_UP_ANIMATION_DURATION);
-            animation.setStartDelay(POP_UP_ANIMATION_DELAY);
-
-            animation.addListener(new AnimatorListenerAdapter()
-            {
-                @Override
-                public void onAnimationEnd(Animator animation)
-                {
-                    AnimationManager.firstCardIsAboutToPopUp = false;
-                }
-            });
-
-            animation.start();
+            AnimationManager.startPopUpAnimation(aWhackAWordActivity, foodItem);
         }
 
         TapManager.correctFoodCardWasJustTapped = false;
@@ -124,52 +108,15 @@ public class AnimationManager extends DisplayManager
     /**
      * Causes each card on display to hide
      * while playing the hide cards sound effect,
-     * with a delay for when a correct card was tapped,
-     * and clears their click listeners.
-     * While the cards are hidden, displays food items on them,
-     * using a CountDownLatch to ensure that this happens only after the last card has been hidden
+     * and clears their click listeners
      */
     public static void hideCards(WhackAWordActivity aWhackAWordActivity)
     {
-        float amountTranslatedFromInitialPosition = 0;
-        // 'Initial position' refers to the position of the card before runtime
-
         CountDownLatch countDownLatch = new CountDownLatch(Collections.mapOfFoodItemsToTheirFoodCards.size());
 
         for (FoodItem foodItem : Collections.mapOfFoodItemsToTheirFoodCards.keySet())
         {
-            FoodCard foodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(foodItem);
-            FrameLayout foodCardFrameLayout = aWhackAWordActivity.findViewById(foodCard.getID());
-            ObjectAnimator animation = ObjectAnimator.ofFloat(foodCardFrameLayout, "translationY", amountTranslatedFromInitialPosition);
-
-            animation.setDuration(HIDE_CARDS_ANIMATION_DURATION);
-
-            if (TapManager.correctFoodCardWasJustTapped)
-            {
-                animation.setStartDelay(HIDE_CARDS_ANIMATION_DELAY_WHEN_CORRECT_FOOD_CARD_IS_TAPPED);
-            }
-
-            animation.addListener(new AnimatorListenerAdapter()
-            {
-                @Override
-                public void onAnimationEnd(Animator animation)
-                {
-                    countDownLatch.countDown();
-
-                    if (countDownLatch.getCount() == 0) // I.e. If there are no more cards to be hidden
-                    {
-                        DisplayManager.displayFoodItemsOnCards(aWhackAWordActivity);
-                    }
-
-                }
-                // When the animations have ended, the cards have gone into their holes,
-                // so the onAnimationEnd method ensures that
-                // when the food cards change their food items,
-                // this change happens out of sight of the user
-
-            });
-
-            animation.start();
+            AnimationManager.startHideCardsAnimation(aWhackAWordActivity, foodItem, countDownLatch);
         }
 
         SoundEffectsManager.playHideCardsSoundEffect();
@@ -224,6 +171,89 @@ public class AnimationManager extends DisplayManager
 
         }, POP_UP_DURATION_LIMIT);
 
+    }
+
+    /**
+     * Helper method that starts the pop-up animation
+     * after having set its duration to POP_UP_ANIMATION_DURATION milliseconds
+     * and after a delay of POP_UP_ANIMATION_DELAY milliseconds.
+     * Sets firstCardIsAboutToPopUp to false upon the end of the animation
+     */
+    private static void startPopUpAnimation(WhackAWordActivity aWhackAWordActivity, FoodItem foodItem)
+    {
+        float upwardsTranslation = AnimationManager.getUpwardsTranslation(aWhackAWordActivity);
+
+        ObjectAnimator popUpAnimation = AnimationManager.createCardTranslation(aWhackAWordActivity, foodItem, upwardsTranslation, POP_UP_ANIMATION_DURATION, POP_UP_ANIMATION_DELAY);
+
+        popUpAnimation.addListener(new AnimatorListenerAdapter()
+        {
+            @Override
+            public void onAnimationEnd(Animator animation)
+            {
+                AnimationManager.firstCardIsAboutToPopUp = false;
+            }
+        });
+
+        popUpAnimation.start();
+    }
+
+    /**
+     * Helper method that starts the hide cards animation
+     * after having set its duration to HIDE_CARDS_ANIMATION_DURATION milliseconds
+     * and after a delay of HIDE_CARDS_ANIMATION_DELAY_WHEN_CORRECT_FOOD_CARD_IS_TAPPED milliseconds
+     * upon the tap of a correct food card.
+     * While the cards are hidden, displays food items on them,
+     * using a CountDownLatch to ensure that this happens only after the last card has been hidden
+     */
+    private static void startHideCardsAnimation(WhackAWordActivity aWhackAWordActivity, FoodItem foodItem, CountDownLatch countDownLatch)
+    {
+        float amountTranslatedFromInitialPosition = 0;
+        // 'Initial position' refers to the position of the card before runtime
+
+        int startDelay = TapManager.correctFoodCardWasJustTapped ? HIDE_CARDS_ANIMATION_DELAY_WHEN_CORRECT_FOOD_CARD_IS_TAPPED : 0;
+
+        ObjectAnimator hideCardsAnimation = AnimationManager.createCardTranslation(aWhackAWordActivity, foodItem, amountTranslatedFromInitialPosition, HIDE_CARDS_ANIMATION_DURATION, startDelay);
+
+        hideCardsAnimation.addListener(new AnimatorListenerAdapter()
+        {
+            @Override
+            public void onAnimationEnd(Animator animation)
+            {
+                countDownLatch.countDown();
+
+                if (countDownLatch.getCount() == 0) // I.e. If there are no more cards to be hidden
+                {
+                    DisplayManager.displayFoodItemsOnCards(aWhackAWordActivity);
+                }
+
+            }
+            // When the animations have ended, the cards have gone into their holes,
+            // so the onAnimationEnd method ensures that
+            // when the food cards change their food items,
+            // this change happens out of sight of the user
+
+        });
+
+        hideCardsAnimation.start();
+    }
+
+    /**
+     * Creates and returns an ObjectAnimator for vertically translating a food card.
+     * The animation moves the card to its specified final position
+     * relative to its initial position (that was defined before runtime).
+     * Additional parameters control the duration of the animation
+     * and the delay before it starts
+     */
+    private static ObjectAnimator createCardTranslation(WhackAWordActivity aWhackAWordActivity, FoodItem foodItem, float finalPositionRelativeToInitialPosition, int duration, int startDelay)
+    {
+        FoodCard foodCard = Collections.mapOfFoodItemsToTheirFoodCards.get(foodItem);
+        FrameLayout foodCardFrameLayout = aWhackAWordActivity.findViewById(foodCard.getID());
+        ObjectAnimator cardTranslation = ObjectAnimator.ofFloat(foodCardFrameLayout, "translationY", finalPositionRelativeToInitialPosition);
+
+        cardTranslation.setDuration(duration);
+        cardTranslation.setStartDelay(startDelay);
+
+        return cardTranslation;
     }
 
     /**
