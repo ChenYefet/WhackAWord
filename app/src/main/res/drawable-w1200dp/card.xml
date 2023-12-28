@@ -6,7 +6,7 @@
             <gradient
                 android:angle="270"
                 android:startColor="@color/white"
-                android:endColor="#C3C3C3"/>
+                android:endColor="@color/card_shadow"/>
             <stroke
                 android:width="5sp"
                 android:color="@color/black"/>

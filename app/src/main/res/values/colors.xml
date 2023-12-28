@@ -2,4 +2,20 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="hole_light_brown">#C18A4B</color>
+    <color name="hole_dark_brown">#46321E</color>
+
+    <color name="card_shadow">#C3C3C3</color>
+
+    <color name="ground">#F4D4AD</color>
+
+    <color name="daytime_blue">#A2DDFF</color>
+    <color name="daytime_white">#E2EAE6</color>
+    <color name="sunset_pink">#ED6AB8</color>
+    <color name="sunset_yellow">#FBFEAA</color>
+    <color name="northern_lights_green">#76F694</color>
+    <color name="northern_lights_blue">#2A0A56</color>
+    <color name="dawn_dark_blue">#230847</color>
+    <color name="dawn_light_blue">#A2DDFF</color>
 </resources>
