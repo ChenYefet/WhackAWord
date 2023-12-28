@@ -99,11 +99,9 @@ public class WhackAWordActivity extends AppCompatActivity
     }
 
     /**
-     * Initialises the properties of the next level if the user has reached it
-     * and plays the 'well done' audio if the user has won
-     *
-     * Hides cards and plays Whack-A-Word again
-     * if the user hasn't won
+     * Initialises the properties of the next level if the user has reached it.
+     * If the user has won, plays the 'well done' audio and hides the cards upon audio completion.
+     * If the user hasn't won, hides the cards and plays Whack-A-Word again
      */
     public static void continuePlaying(WhackAWordActivity aWhackAWordActivity)
     {
@@ -114,7 +112,9 @@ public class WhackAWordActivity extends AppCompatActivity
 
         if (LevelProperties.userWins())
         {
-            AudioManager.playAudioSequentially(aWhackAWordActivity, R.raw.well_done);
+            AudioCompletionListener audioCompletionListener = () -> AnimationManager.hideCards(aWhackAWordActivity);
+
+            AudioManager.playAudioSequentially(aWhackAWordActivity, R.raw.well_done, audioCompletionListener);
         }
         else
         {

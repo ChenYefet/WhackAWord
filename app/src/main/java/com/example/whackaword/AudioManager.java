@@ -38,11 +38,22 @@ public class AudioManager
     /**
      * Adds an audio file to the audio queue
      * and implements sequential playback
+     * with an audio completion listener
+     * to determine what happens upon completion of the audio playback
+     */
+    public static void playAudioSequentially(WhackAWordActivity aWhackAWordActivity, int audioID, AudioCompletionListener audioCompletionListener)
+    {
+        Collections.audioQueue.add(audioID);
+        AudioManager.implementSequentialPlayback(aWhackAWordActivity, audioCompletionListener);
+    }
+
+    /**
+     * Implements the playAudioSequentially method
+     * while audioCompletionListener holds a null reference
      */
     public static void playAudioSequentially(WhackAWordActivity aWhackAWordActivity, int audioID)
     {
-        Collections.audioQueue.add(audioID);
-        AudioManager.implementSequentialPlayback(aWhackAWordActivity);
+        AudioManager.playAudioSequentially(aWhackAWordActivity, audioID, null);
     }
 
     /**
@@ -60,14 +71,14 @@ public class AudioManager
      *   to both play the next audio file in the queue and call itself recursively,
      *   ensuring that all audio files are played in sequence
      *
-     * - and hides cards after the 'well done' audio playback if the user has won
+     * - and completes any task that was passed in via the audioCompletionListener parameter
      *
      * If there is audio currently playing, does nothing.
      * This does not cause a problem of skipped audio files
      * since this method would be set to be called again recursively
      * upon completion of the audio
      */
-    private static void implementSequentialPlayback(WhackAWordActivity aWhackAWordActivity)
+    private static void implementSequentialPlayback(WhackAWordActivity aWhackAWordActivity, AudioCompletionListener audioCompletionListener)
     {
         if (AudioManager.mediaPlayerForSequentialAudio != null && AudioManager.mediaPlayerForSequentialAudio.isPlaying())
         {
@@ -87,11 +98,11 @@ public class AudioManager
                 AudioManager.mediaPlayerForSequentialAudio = null;
                 // Removes the reference to the MediaPlayer
 
-                AudioManager.implementSequentialPlayback(aWhackAWordActivity);
+                AudioManager.implementSequentialPlayback(aWhackAWordActivity, audioCompletionListener);
 
-                if (LevelProperties.userWins() && audioID == R.raw.well_done)
+                if (audioCompletionListener != null)
                 {
-                    AnimationManager.hideCards(aWhackAWordActivity);
+                    audioCompletionListener.onAudioCompletion();
                 }
 
             });

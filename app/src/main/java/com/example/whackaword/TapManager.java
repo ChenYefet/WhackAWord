@@ -77,7 +77,7 @@ public class TapManager
      * If the user has won, plays the 'well done' audio.
      * If the user hasn't won, continues playing the game
      *
-     * Hides cards when an incorrect food card is tapped,
+     * Hides the cards when an incorrect food card is tapped,
      * then displays random cards again with the same food items,
      * setting click listeners for the correct and incorrect food cards
      */
