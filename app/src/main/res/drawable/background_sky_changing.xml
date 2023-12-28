@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:drawable="@drawable/daytime_sky"
+        android:drawable="@drawable/background_sky_daytime"
         android:duration="6000"/>
     <item
-        android:drawable="@drawable/sunset_sky"
+        android:drawable="@drawable/background_sky_sunset"
         android:duration="6000"/>
     <item
-        android:drawable="@drawable/northern_lights_sky"
+        android:drawable="@drawable/background_sky_northern_lights"
         android:duration="6000"/>
     <item
-        android:drawable="@drawable/dawn_sky"
+        android:drawable="@drawable/background_sky_dawn"
         android:duration="6000"/>
 </animation-list>

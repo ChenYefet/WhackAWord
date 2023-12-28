@@ -186,15 +186,15 @@ public class Collections
      */
     private static void fillFoodItemsSet()
     {
-        FoodItem apple = new FoodItem("Apple", R.raw.fc_apple, R.drawable.fc_apple);
-        FoodItem banana = new FoodItem("Banana", R.raw.fc_banana, R.drawable.fc_banana);
-        FoodItem bread = new FoodItem("Bread", R.raw.fc_bread, R.drawable.fc_bread);
-        FoodItem cake = new FoodItem("Cake", R.raw.fc_cake, R.drawable.fc_cake);
-        FoodItem carrot = new FoodItem("Carrot", R.raw.fc_carrot, R.drawable.fc_carrot);
-        FoodItem egg = new FoodItem("Egg", R.raw.fc_egg, R.drawable.fc_egg);
-        FoodItem orange = new FoodItem("Orange", R.raw.fc_orange, R.drawable.fc_orange);
-        FoodItem potato = new FoodItem("Potato", R.raw.fc_potato, R.drawable.fc_potato);
-        FoodItem tomato = new FoodItem("Tomato", R.raw.fc_tomato, R.drawable.fc_tomato);
+        FoodItem apple = new FoodItem("Apple", R.raw.food_item_apple, R.drawable.food_item_apple);
+        FoodItem banana = new FoodItem("Banana", R.raw.food_item_banana, R.drawable.food_item_banana);
+        FoodItem bread = new FoodItem("Bread", R.raw.food_item_bread, R.drawable.food_item_bread);
+        FoodItem cake = new FoodItem("Cake", R.raw.food_item_cake, R.drawable.food_item_cake);
+        FoodItem carrot = new FoodItem("Carrot", R.raw.food_item_carrot, R.drawable.food_item_carrot);
+        FoodItem egg = new FoodItem("Egg", R.raw.food_item_egg, R.drawable.food_item_egg);
+        FoodItem orange = new FoodItem("Orange", R.raw.food_item_orange, R.drawable.food_item_orange);
+        FoodItem potato = new FoodItem("Potato", R.raw.food_item_potato, R.drawable.food_item_potato);
+        FoodItem tomato = new FoodItem("Tomato", R.raw.food_item_tomato, R.drawable.food_item_tomato);
 
         Collections.foodItems.add(apple);
         Collections.foodItems.add(banana);

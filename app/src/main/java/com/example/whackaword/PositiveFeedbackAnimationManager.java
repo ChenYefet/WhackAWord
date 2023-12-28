@@ -93,10 +93,10 @@ public class PositiveFeedbackAnimationManager extends AnimationManager
 
         int[] drawableIDs =
                 {
-                        R.drawable.first_colour_of_animation_of_correctly_tapped_card,
-                        R.drawable.second_colour_of_animation_of_correctly_tapped_card,
-                        R.drawable.third_colour_of_animation_of_correctly_tapped_card,
-                        R.drawable.fourth_colour_of_animation_of_correctly_tapped_card
+                        R.drawable.animation_colour_of_correctly_tapped_card_1,
+                        R.drawable.animation_colour_of_correctly_tapped_card_2,
+                        R.drawable.animation_colour_of_correctly_tapped_card_3,
+                        R.drawable.animation_colour_of_correctly_tapped_card_4
                 };
 
         for (int ID : drawableIDs)

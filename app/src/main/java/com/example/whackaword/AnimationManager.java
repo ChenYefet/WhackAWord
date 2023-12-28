@@ -128,7 +128,7 @@ public class AnimationManager extends DisplayManager
 
     /**
      * Causes the sky to change colour every six seconds
-     * (as set out in changing_sky.xml
+     * (as set out in background_sky_changing.xml
      * which is set as the background of the sky_view View element
      * in activity_whack_a_word.xml)
      */
